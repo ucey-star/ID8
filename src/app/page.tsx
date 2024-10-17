@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { Button } from "@geist-ui/core";
+import Button from '@mui/material/Button';
 import Header from "./_components/Header";
 
 export default function HomePage() {
