@@ -1,29 +1,64 @@
-# Create T3 App
+# ID8 Project README
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This README provides essential information for setting up, running, and understanding the structure of this Next.js project.
 
-## What's next? How do I make an app with this?
+## Getting Started
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Installation
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+After cloning the repository, install the necessary dependencies:
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```bash
+npm install
+```
 
-## Learn More
+If you encounter any errors about missing packages, run `npm install` again or install the specific package that's missing.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Development Server
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+To start the development server:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+npm run dev
+```
 
-## How do I deploy this?
+This will start the server, typically on `http://localhost:3000`.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Production Build
+
+To create a production build of the app:
+
+```bash
+npm run build
+```
+
+This command will generate an optimized version of your app for production deployment.
+
+## Project Structure
+
+This project follows the Next.js App Router structure. Here's an overview of the key directories and files:
+
+### Components
+
+- `_components/`: This folder contains reusable React components.
+- Component names should be capitalized, e.g., `Header.tsx`.
+
+### Pages and Routing
+
+- `app/page.tsx`: This is the home page of your application.
+- To create a new route, follow this structure:
+  - Create a new folder in the `app` directory with the route name (e.g., `about`).
+  - Inside that folder, create a `page.tsx` file.
+  - For example, `app/about/page.tsx` will be accessible at `/about`.
+
+### Layout
+
+- `app/layout.tsx`: This file contains the main layout structure and metadata for your application.
+
+## Additional Information
+
+- The `app` directory is the root of your application in the App Router structure.
+- Each `page.tsx` file automatically becomes a route.
+- The `layout.tsx` file can be used to create shared layouts for multiple pages.
+
+For more detailed information about Next.js and the App Router, refer to the [official Next.js documentation](https://nextjs.org/docs).
