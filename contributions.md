@@ -9,8 +9,9 @@ This guide outlines the steps for contributing, including setting up your enviro
   - [Step 1: Create a New Branch](#step-1-create-a-new-branch)
   - [Step 2: Implement Your Feature or Fix](#step-2-implement-your-feature-or-fix)
   - [Step 3: Pull Latest Changes from `main`](#step-3-pull-latest-changes-from-main)
-  - [Step 4: Commit and Push](#step-4-commit-and-push)
-  - [Step 5: Submit a Pull Request](#step-5-submit-a-pull-request)
+  - [Step 4: Linting and Formatting](#step-4-linting-and-formatting)
+  - [Step 5: Commit and Push](#step-4-commit-and-push)
+  - [Step 6: Submit a Pull Request](#step-5-submit-a-pull-request)
 - [Code Review Process](#code-review-process)
 - [Best Practices](#best-practices)
 
@@ -21,6 +22,7 @@ When creating a new branch, please use the following naming convention:
 `<your-username>/<feature-or-task>`
 
 **Example:**
+
 - flavia/login-page
 
 ## How to Contribute
@@ -46,7 +48,7 @@ Before you start working, create a new branch off of the `main` branch using the
 
 ### Step 2: Implement Your Feature or Fix
 
-Now that you’re in your own branch, make the necessary changes or implement your feature. 
+Now that you’re in your own branch, make the necessary changes or implement your feature.
 
 ### Step 3: Pull Latest Changes from `main`
 
@@ -58,7 +60,15 @@ git pull origin main
 
 Resolve any merge conflicts if necessary.
 
-### Step 4: Commit and Push
+
+### Step 4: Linting and Formatting
+
+Before committing and pushing your changes, run: 
+
+- `npm run lint` to fix formatting 
+- `npm run format` to fix formatting issues  
+
+### Step 5: Commit and Push
 
 Once your feature is ready and your branch is up to date, commit your changes with a descriptive message:
 
@@ -73,13 +83,13 @@ Then push your branch to your remote repository:
 git push origin <your-username>/<feature-or-task>
 ```
 
-### Step 5: Submit a Pull Request
+### Step 6: Submit a Pull Request
 
 Once your changes are pushed, open a pull request (PR) from your branch to the main repository's `main` branch.
 
 1. Go to the repository on GitHub.
 2. Click the "Compare & pull request" button.
-3. There should be an automatic template that you have to fill out. 
+3. There should be an automatic template that you have to fill out.
 
 ## Code Review Process
 

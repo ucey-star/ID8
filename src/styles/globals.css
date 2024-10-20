@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap");
 
 .custom-next-button {
-    background: linear-gradient(90deg, #4E1EC1, #A958F1);
-    color: #FFFFFF;
-    font-weight: bold;
-    font-size: 16px;
-    border-radius: 10px;
-    width: 300px;
-    height: 48px;
-    padding: 14px 117px;
-    font-family: 'Outfit', sans-serif;
-  }
+	background: linear-gradient(90deg, #4e1ec1, #a958f1);
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 16px;
+	border-radius: 10px;
+	width: 300px;
+	height: 48px;
+	padding: 14px 117px;
+	font-family: "Outfit", sans-serif;
+}
 
 .custom-next-button:hover {
-    background: linear-gradient(90deg, #3E0FB8, #9450E0);
-  }
+	background: linear-gradient(90deg, #3e0fb8, #9450e0);
+}
 
 @tailwind base;
 @tailwind components;
