@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Header from "./_components/Header";
+import Link from "next/link";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 
@@ -45,12 +46,25 @@ export default function HomePage() {
       <div className="flex flex-col items-center justify-center rounded-2xl bg-slate-500 px-16 py-8">
         {counter}
         <ul>
-			{fetchedText.map((item)=>(
-				<li key ={item.id}>
-					Test:{item.Test?? "No Test data"}
-				</li>
-			))}
-		</ul>
+          {fetchedText.map((item) => (
+            <li key={item.id}>Test:{item.Test ?? "No Test data"}</li>
+          ))}
+        </ul>
+      </div>
+      {/* New Section for Routing. Only added this to facilitate development while we don't have a main page and we want to see the other pages in a easy way. We will remove it later*/}
+      <div className="mt-4 flex flex-col items-center justify-center gap-4">
+        {/* Link to Guidelines Page */}
+        <Link href="/guidelines" passHref>
+          <Button variant="contained" color="primary">
+            Go to Guidelines
+          </Button>
+        </Link>
+        {/* Link to Personal Details Page */}
+        <Link href="/personal-details" passHref>
+          <Button variant="contained" color="primary">
+            Go to Personal Details
+          </Button>
+        </Link>
       </div>
     </main>
   );

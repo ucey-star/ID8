@@ -6,6 +6,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
+        outfit: ['Outfit', 'sans-serif'],
 				sans: ["var(--font-geist-sans)", ...fontFamily.sans],
 			},
 		},
