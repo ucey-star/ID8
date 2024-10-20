@@ -60,13 +60,12 @@ git pull origin main
 
 Resolve any merge conflicts if necessary.
 
-
 ### Step 4: Linting and Formatting
 
-Before committing and pushing your changes, run: 
+Before committing and pushing your changes, run:
 
-- `npm run lint` to fix formatting 
-- `npm run format` to fix formatting issues  
+- `npm run lint` to fix formatting
+- `npm run format` to fix formatting issues
 
 ### Step 5: Commit and Push
 
