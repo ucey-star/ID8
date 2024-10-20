@@ -32,6 +32,7 @@ const PersonalDetailsScreen: React.FC = () => {
 				justifyContent: "center",
 				alignItems: "center",
 				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+				padding:"70px",
 			}}
 		>
 			<Container

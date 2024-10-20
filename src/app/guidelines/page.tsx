@@ -11,6 +11,7 @@ const GuidelinesScreen: React.FC = () => {
 				alignItems: "center",
 				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
 				fontFamily: "Outfit, sans-serif",
+				padding:"70px",
 			}}
 		>
 			<Container
