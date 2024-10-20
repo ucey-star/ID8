@@ -14,7 +14,7 @@ const GuidelinesScreen: React.FC = () => {
       }}
     >
       <Container
-        maxWidth={false}
+        maxWidth="md"
         sx={{
           width: "1500px",
           backgroundColor: '#FFFFFF',
