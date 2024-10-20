@@ -1,4 +1,4 @@
-# Contributing to Yank
+# Contributing to IDE
 
 Here is a simple guide to contributing to ID8. Please read it before making a pull request.
 
