@@ -16,7 +16,12 @@ jobs:
         id: select-reviewer
 
       - name: Assign the Reviewer
-        uses: kentaro-m/auto-assign-action@v1
+        uses: actions/github-script@v6
         with:
-          reviewers: ${{ steps.select-reviewer.outputs.reviewer }}
-          assign: reviewers
+          script: |
+            github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              reviewers: ["${{ steps.select-reviewer.outputs.reviewer }}"]
+            })
