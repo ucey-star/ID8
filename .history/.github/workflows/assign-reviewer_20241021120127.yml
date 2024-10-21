@@ -1,0 +1,21 @@
+name: Assign Random Reviewer
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose Random Reviewer
+        run: |
+          REVIEWERS=("avalucianelson" "FlaIespa" "katyaivaniuk" "lewiskyron" "matviikotolyk" "Mykhailo-Chudyk" "nnnour")
+          SELECTED_REVIEWER=${REVIEWERS[$RANDOM % ${#REVIEWERS[@]}]}
+          echo "reviewer=$SELECTED_REVIEWER" >> $GITHUB_ENV
+        id: select-reviewer
+
+      - name: Assign the Reviewer
+        uses: peter-evans/assign-reviewer@v1
+        with:
+          reviewers: ${{ steps.select-reviewer.outputs.reviewer }}
