@@ -1,0 +1,21 @@
+name: Assign Random Reviewer
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose Random Reviewer
+        run: |
+          REVIEWERS=("user1" "user2" "user3")
+          SELECTED_REVIEWER=${REVIEWERS[$RANDOM % ${#REVIEWERS[@]}]}
+          echo "::set-output name=reviewer::$SELECTED_REVIEWER"
+        id: select-reviewer
+
+      - name: Assign the Reviewer
+        uses: peter-evans/assign-reviewer@v1
+        with:
+          reviewers: ${{ steps.select-reviewer.outputs.reviewer }}
