@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Choose Random Reviewer
         run: |
-          REVIEWERS=("avalucianelson" "FlaIespa" "katyaivaniuk" "lewiskyron" "matviikotolyk" "Mykhailo-Chudyk" "nnnour")
+          REVIEWERS=("ucey-star" "avalucianelson" "FlaIespa" "katyaivaniuk" "lewiskyron" "matviikotolyk" "Mykhailo-Chudyk" "nnnour")
           SELECTED_REVIEWER=${REVIEWERS[$RANDOM % ${#REVIEWERS[@]}]}
           echo "reviewer=$SELECTED_REVIEWER" >> $GITHUB_ENV
         id: select-reviewer
