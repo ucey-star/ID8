@@ -1,20 +1,11 @@
-"use client";
-
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
 import GoogleButton from "../_components/GoogleButton";
 import InputField from "../_components/InputField";
 import GradientButton from "../_components/GradientButton";
-import PasswordField from "../_components/PasswordField";
-import Link from "next/link";
 
-function SignUp() {
+function Email() {
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
-	const handlePasswordClick = () => {
-		setShowPassword(!showPassword);
-	};
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
@@ -25,10 +16,10 @@ function SignUp() {
 				</div>
 
 				<h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
-					Create Account
+					Enter your email
 				</h2>
 
-				<GoogleButton content="Sign up with Google" />
+				<GoogleButton content="Continue with Google" />
 
 				<div className="mb-6 flex items-center">
 					<div className="flex-grow border-t border-gray-300"></div>
@@ -43,30 +34,10 @@ function SignUp() {
 					value={email}
 					handleChange={(e) => setEmail(e.target.value)}
 				/>
-				<PasswordField
-					content="●●●●●●●●"
-					label="Password"
-					showPassword={showPassword}
-					onTogglePassword={handlePasswordClick}
-					value={password}
-					handleChange={(e) => setPassword(e.target.value)}
-				/>
-
-				<GradientButton content="Create Account" />
-				<div className="flex justify-center">
-					<span className="mx-auto text-center text-sm text-[#808080]">
-						Already have an account?{" "}
-						<Link
-							className="font-semibold text-[#5370F7] underline"
-							href="/login"
-						>
-							Sign in
-						</Link>
-					</span>
-				</div>
+				<GradientButton content="Continue" />
 			</div>
 		</div>
 	);
 }
 
-export default SignUp;
+export default Email;

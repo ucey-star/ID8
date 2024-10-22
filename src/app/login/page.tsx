@@ -25,10 +25,10 @@ function SignUp() {
 				</div>
 
 				<h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
-					Create Account
+					Sign in to ID8
 				</h2>
 
-				<GoogleButton content="Sign up with Google" />
+				<GoogleButton content="Sign in with Google" />
 
 				<div className="mb-6 flex items-center">
 					<div className="flex-grow border-t border-gray-300"></div>
@@ -52,15 +52,15 @@ function SignUp() {
 					handleChange={(e) => setPassword(e.target.value)}
 				/>
 
-				<GradientButton content="Create Account" />
+				<GradientButton content="Sign in with Email" />
 				<div className="flex justify-center">
 					<span className="mx-auto text-center text-sm text-[#808080]">
-						Already have an account?{" "}
+						Don't have an account?{" "}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
-							href="/login"
+							href="/signup"
 						>
-							Sign in
+							Sign up
 						</Link>
 					</span>
 				</div>
