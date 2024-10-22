@@ -19,9 +19,20 @@ const PersonalDetailsScreen: React.FC = () => {
 	const [bio, setBio] = useState("");
 	const [linkedin, setLinkedin] = useState("");
 	const [aboutMe, setAboutMe] = useState("");
+	const [avatar, setAvatar] = useState<File | null>(null); // New state for avatar
+
+	// New function to handle file upload
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			setAvatar(e.target.files[0]);
+			// Optional: you can add code to preview the image or upload it to a server here
+			console.log("Selected file:", e.target.files[0]);
+		}
+	};
 
 	const handleNext = () => {
 		// Form submission logic here
+		console.log("Form submitted with avatar:", avatar);
 	};
 
 	return (
@@ -87,22 +98,33 @@ const PersonalDetailsScreen: React.FC = () => {
 						marginBottom: "32px",
 					}}
 				>
-					<IconButton
-						sx={{
-							width: "64px",
-							height: "64px",
-							borderRadius: "50%",
-							backgroundColor: "#F0F0F5",
-							border: "2px dashed #D6D6E7",
-							"&:hover": {
-								backgroundColor: "#E8E8F0",
-							},
-						}}
-					>
-						<AddPhotoAlternateIcon
-							sx={{ fontSize: "32px", color: "#6C6C80" }}
-						/>
-					</IconButton>
+					{/* Hidden file input */}
+					<input
+						type="file"
+						accept="image/*"
+						style={{ display: "none" }} // Keep the input hidden
+						id="upload-avatar"
+						onChange={handleFileChange} // Trigger when the user selects a file
+					/>
+					<label htmlFor="upload-avatar">
+						<IconButton
+							component="span"
+							sx={{
+								width: "64px",
+								height: "64px",
+								borderRadius: "50%",
+								backgroundColor: "#F0F0F5",
+								border: "2px dashed #D6D6E7",
+								"&:hover": {
+									backgroundColor: "#E8E8F0",
+								},
+							}}
+						>
+							<AddPhotoAlternateIcon
+								sx={{ fontSize: "32px", color: "#6C6C80" }}
+							/>
+						</IconButton>
+					</label>
 					<Button
 						variant="outlined"
 						sx={{
@@ -118,6 +140,7 @@ const PersonalDetailsScreen: React.FC = () => {
 							fontWeight: 400,
 							lineHeight: "20.16px",
 						}}
+						onClick={() => document.getElementById('upload-avatar')?.click()} // Trigger the file input click
 					>
 						Upload Photo or Avatar
 					</Button>
@@ -249,7 +272,7 @@ const PersonalDetailsScreen: React.FC = () => {
 
 				{/* Next Button */}
 				<Box sx={{ textAlign: "center" }}>
-					<Button variant="contained" className="custom-next-button">
+					<Button variant="contained" className="custom-next-button" onClick={handleNext}>
 						Next
 					</Button>
 				</Box>
