@@ -6,6 +6,9 @@ import GradientButton from "../_components/GradientButton";
 
 function Email() {
 	const [email, setEmail] = useState("");
+	const handleEmail = () => {
+		// supabase func for recognizing existing email
+	};
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
@@ -34,7 +37,7 @@ function Email() {
 					value={email}
 					handleChange={(e) => setEmail(e.target.value)}
 				/>
-				<GradientButton content="Continue" />
+				<GradientButton content="Continue" onClick={handleEmail} />
 			</div>
 		</div>
 	);

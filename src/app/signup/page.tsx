@@ -15,6 +15,9 @@ function SignUp() {
 	const handlePasswordClick = () => {
 		setShowPassword(!showPassword);
 	};
+	const handleSignup = () => {
+		// supabase func for signup
+	};
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
@@ -52,7 +55,7 @@ function SignUp() {
 					handleChange={(e) => setPassword(e.target.value)}
 				/>
 
-				<GradientButton content="Create Account" />
+				<GradientButton content="Create Account" onClick={handleSignup} />
 				<div className="flex justify-center">
 					<span className="mx-auto text-center text-sm text-[#808080]">
 						Already have an account?{" "}

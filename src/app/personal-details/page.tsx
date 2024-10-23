@@ -10,6 +10,7 @@ import {
 	IconButton,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import GradientButton from "../_components/GradientButton";
 
 const PersonalDetailsScreen: React.FC = () => {
 	const [name, setName] = useState("");
@@ -248,10 +249,18 @@ const PersonalDetailsScreen: React.FC = () => {
 				</Box>
 
 				{/* Next Button */}
-				<Box sx={{ textAlign: "center" }}>
-					<Button variant="contained" className="custom-next-button">
-						Next
-					</Button>
+				<Box
+					style={{
+						textAlign: "center",
+						display: "flex",
+						justifyContent: "center",
+					}}
+				>
+					<GradientButton
+						onClick={handleNext}
+						className="w-1/2"
+						content="Next"
+					/>
 				</Box>
 			</Container>
 		</Box>
