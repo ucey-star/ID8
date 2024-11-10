@@ -10,7 +10,6 @@ created_at (Timestamp): Date and time the user account was created.
 last_login (Timestamp): Date and time of the last login.
 google_auth (Boolean): If true, indicates Google authentication is enabled.
 
-
 User_Profile
 
 profile_id (PK, UUID): Unique identifier for each user profile.
@@ -20,7 +19,6 @@ bio (Text): Short biography or description of the user.
 linkedin_url (String): Link to LinkedIn profile.
 about_me (Text): Additional information about the user.
 created_at (Timestamp): Date and time the profile was created.
-
 
 Projects
 
@@ -42,7 +40,6 @@ attachment_url (String): Link to any uploaded attachments for the project.
 created_at (Timestamp): Date and time the project was created.
 updated_at (Timestamp): Date and time of the last update.
 
-
 Project_Engagement
 
 engagement_id (PK, UUID): Unique identifier for each engagement metric.
@@ -54,7 +51,6 @@ shares (Integer): Count of shares.
 created_at (Timestamp): Date and time the engagement metrics were created.
 updated_at (Timestamp): Date and time of the last update.
 
-
 Comments
 
 comment_id (PK, UUID): Unique identifier for each comment.
@@ -62,7 +58,6 @@ project_id (FK -> Projects.project_id): References the project.
 user_id (FK -> Users.user_id): References the user who made the comment.
 content (Text): Content of the comment.
 created_at (Timestamp): Date and time the comment was posted.
-
 
 Project_Attachments
 
