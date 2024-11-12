@@ -93,9 +93,21 @@ const Card = () => {
 				}}
 			>
 				<Views views={views} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Comments comments={comments} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Likes likes={likes} />
 			</Box>
 

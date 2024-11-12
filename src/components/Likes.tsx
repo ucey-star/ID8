@@ -13,7 +13,9 @@ const Likes = ({ likes }: { likes: number }) => {
 				gap: "var(--spacing-small)",
 			}}
 		>
-			<FavoriteBorderOutlinedIcon sx={{ color: "var(--color-text-primary)", fontSize: "36px" }} />
+			<FavoriteBorderOutlinedIcon
+				sx={{ color: "var(--color-text-primary)", fontSize: "36px" }}
+			/>
 			<Typography
 				sx={{
 					fontSize: "14px",

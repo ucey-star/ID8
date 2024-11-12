@@ -20,24 +20,23 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-	--font-family-outfit: 'Outfit', sans-serif;
+	--font-family-outfit: "Outfit", sans-serif;
 	--font-size-body: 16px;
 	--font-size-heading: 20px;
 	--font-weight-regular: 400;
 	--font-weight-medium: 500;
 	--font-weight-bold: 600;
-  
+
 	--color-text-primary: #333;
-	--color-text-secondary: #6C6C80;
-	--color-background-primary: #F7F7F8;
-	--color-background-paper: #FFFFFF;
-	--color-border: #D6D6E7;
-  
+	--color-text-secondary: #6c6c80;
+	--color-background-primary: #f7f7f8;
+	--color-background-paper: #ffffff;
+	--color-border: #d6d6e7;
+
 	--spacing-small: 8px;
 	--spacing-medium: 16px;
 	--spacing-large: 32px;
-  
+
 	--box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
+}

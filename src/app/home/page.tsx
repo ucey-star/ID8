@@ -11,7 +11,8 @@ export default function Home() {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				background: "linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
+				background:
+					"linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
 				fontFamily: "var(--font-family-outfit)",
 				padding: "var(--spacing-large)",
 			}}

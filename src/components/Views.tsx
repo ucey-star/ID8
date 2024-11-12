@@ -13,7 +13,9 @@ const Views = ({ views }: { views: number }) => {
 				gap: "var(--spacing-small)",
 			}}
 		>
-			<VisibilityOutlinedIcon sx={{ color: "var(--color-text-primary)", fontSize: "36px" }} />
+			<VisibilityOutlinedIcon
+				sx={{ color: "var(--color-text-primary)", fontSize: "36px" }}
+			/>
 			<Typography
 				sx={{
 					fontSize: "14px",
