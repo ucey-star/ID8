@@ -10,15 +10,15 @@ const Comments = ({ comments }: { comments: number }) => {
 				textAlign: "center",
 				display: "flex",
 				alignItems: "center",
-				gap: "8px",
+				gap: "var(--spacing-small)",
 			}}
 		>
-			<ModeCommentOutlinedIcon sx={{ color: "#000000", fontSize: "36px" }} />
+			<ModeCommentOutlinedIcon sx={{ color: "var(--color-text-primary)", fontSize: "36px" }} />
 			<Typography
 				sx={{
 					fontSize: "14px",
-					color: "#333",
-					fontFamily: "Outfit, sans-serif",
+					color: "var(--color-text-primary)",
+					fontFamily: "var(--font-family-outfit)",
 				}}
 			>
 				{comments}

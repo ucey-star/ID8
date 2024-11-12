@@ -21,15 +21,16 @@ const Card = () => {
 			sx={{
 				width: "100%",
 				maxWidth: "500px",
-				backgroundColor: "#FFFFFF",
-				padding: "32px",
+				backgroundColor: "var(--color-background-paper)",
+				padding: "var(--spacing-large)",
 				borderRadius: "16px",
-				border: "1px solid #D6D6E7",
-				boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+				border: `1px solid var(--color-border)`,
+				boxShadow: "var(--box-shadow)",
 				display: "flex",
 				flexDirection: "column",
-				gap: "24px",
+				gap: "var(--spacing-medium)",
 				alignItems: "center",
+				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
 			<Box
@@ -43,9 +44,8 @@ const Card = () => {
 				<Typography
 					variant="h6"
 					sx={{
-						fontWeight: 600,
-						color: "#333",
-						fontFamily: "Outfit, sans-serif",
+						fontWeight: "var(--font-weight-bold)",
+						color: "var(--color-text-primary)",
 					}}
 				>
 					{name}
@@ -53,10 +53,9 @@ const Card = () => {
 				<Typography
 					variant="body2"
 					sx={{
-						color: "#6C6C80",
-						fontSize: "16px",
+						color: "var(--color-text-secondary)",
+						fontSize: "var(--font-size-body)",
 						lineHeight: "20.16px",
-						fontFamily: "Outfit, sans-serif",
 					}}
 				>
 					{date}
@@ -76,10 +75,9 @@ const Card = () => {
 			>
 				<Typography
 					sx={{
-						color: "#6C6C80",
-						fontSize: "16px",
-						fontWeight: 400,
-						fontFamily: "Outfit, sans-serif",
+						color: "var(--color-text-secondary)",
+						fontSize: "var(--font-size-body)",
+						fontWeight: "var(--font-weight-regular)",
 					}}
 				>
 					Name or Logo or Demo
@@ -95,13 +93,9 @@ const Card = () => {
 				}}
 			>
 				<Views views={views} />
-				<Box
-					sx={{ width: "1px", backgroundColor: "#D6D6E7", height: "48px" }}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Comments comments={comments} />
-				<Box
-					sx={{ width: "1px", backgroundColor: "#D6D6E7", height: "48px" }}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Likes likes={likes} />
 			</Box>
 
@@ -110,11 +104,11 @@ const Card = () => {
 				className="custom-next-button"
 				sx={{
 					width: "fit-content",
-					minWidth: 120,
-					padding: "8px 16px",
+					minWidth: "120px",
+					padding: "var(--spacing-small) var(--spacing-medium)",
 					whiteSpace: "nowrap",
 					flexShrink: 0,
-					fontFamily: "Outfit, sans-serif",
+					fontFamily: "var(--font-family-outfit)",
 				}}
 				onClick={handleExplainMore}
 			>

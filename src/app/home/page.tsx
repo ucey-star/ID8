@@ -11,16 +11,16 @@ export default function Home() {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
-				fontFamily: "Outfit, sans-serif",
-				padding: "40px",
+				background: "linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
+				fontFamily: "var(--font-family-outfit)",
+				padding: "var(--spacing-large)",
 			}}
 		>
-			<Box sx={{ position: "absolute", top: 20, left: 20 }}>
-				{/* todo: Insetr the logo here */}
+			<Box sx={{ position: "absolute", top: "20px", left: "20px" }}>
+				{/* todo: Insert the logo here */}
 			</Box>
 
-			<Box sx={{ width: "100%", mb: 4 }}>
+			<Box sx={{ width: "100%", mb: "var(--spacing-medium)" }}>
 				{/* Placeholder for the Navigation component 
             todo: Insert the Navigation component here
         */}
@@ -31,7 +31,7 @@ export default function Home() {
 				sx={{
 					display: "flex",
 					flexDirection: "column",
-					gap: "24px",
+					gap: "var(--spacing-medium)",
 					alignItems: "center",
 				}}
 			>
