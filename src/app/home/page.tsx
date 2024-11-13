@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
 import Card from "../../components/Card";
+import ExploreMore from "../../components/ExploreMore";
 
 export default function Home() {
 	return (
@@ -34,10 +35,12 @@ export default function Home() {
 					flexDirection: "column",
 					gap: "var(--spacing-medium)",
 					alignItems: "center",
+					padding: "var(--spacing-medium)",
 				}}
 			>
 				<Card />
 				<Card />
+				<ExploreMore />
 			</Container>
 		</Box>
 	);
