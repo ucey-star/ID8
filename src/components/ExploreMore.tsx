@@ -4,7 +4,21 @@ import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TitleResponse from "./TitleResponse";
 
-const ExploreMore = ({ data, onBack }) => {
+interface ExploreMoreData {
+	headline: string;
+	startupName: string;
+	descriptionShort: string;
+	productLink: string;
+	demoLink: string;
+	descriptionLong: string;
+}
+
+interface ExploreMoreProps {
+	data: ExploreMoreData;
+	onBack: () => void;
+}
+
+const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 	return (
 		<Box
 			sx={{

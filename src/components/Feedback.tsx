@@ -6,7 +6,20 @@ import Comments from "./Comments";
 import Likes from "./Likes";
 import FeedbackItem from "./FeedbackItem";
 
-const Feedback = ({ views, comments, likes, data }) => {
+interface FeedbackData {
+	name: string;
+	timeAgo: string;
+	feedback: string;
+}
+
+interface FeedbackProps {
+	views: number;
+	comments: number;
+	likes: number;
+	data: FeedbackData[];
+}
+
+const Feedback: React.FC<FeedbackProps> = ({ views, comments, likes, data }) => {
 	return (
 		<Box
 			sx={{
