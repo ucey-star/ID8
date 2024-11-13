@@ -22,7 +22,15 @@ const ExploreMore = ({ data, onBack }) => {
 				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
-			<Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					position: "relative",
+				}}
+			>
 				<ArrowBackIosNewIcon
 					onClick={onBack}
 					sx={{
@@ -47,12 +55,33 @@ const ExploreMore = ({ data, onBack }) => {
 				</Typography>
 			</Box>
 
-			<Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "var(--spacing-medium)" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					flexDirection: "column",
+					gap: "var(--spacing-medium)",
+				}}
+			>
 				<TitleResponse title="Startup name" response={data.startupName} />
-				<TitleResponse title="Describe what your company does in 50 characters or less.*" response={data.descriptionShort} />
-				<TitleResponse title="Please provide a link to the product, if any." response={data.productLink} link />
-				<TitleResponse title="If you have a demo, attach it below." response={data.demoLink} link />
-				<TitleResponse title="What is your company going to make? Please describe your product and what it does or will do." response={data.descriptionLong} />
+				<TitleResponse
+					title="Describe what your company does in 50 characters or less.*"
+					response={data.descriptionShort}
+				/>
+				<TitleResponse
+					title="Please provide a link to the product, if any."
+					response={data.productLink}
+					link
+				/>
+				<TitleResponse
+					title="If you have a demo, attach it below."
+					response={data.demoLink}
+					link
+				/>
+				<TitleResponse
+					title="What is your company going to make? Please describe your product and what it does or will do."
+					response={data.descriptionLong}
+				/>
 			</Box>
 
 			<Button

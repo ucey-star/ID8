@@ -23,7 +23,14 @@ const Card = ({ name, date, views, comments, likes, onExploreMore }) => {
 				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
-			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}
+			>
 				<Typography
 					variant="h6"
 					sx={{
@@ -56,16 +63,40 @@ const Card = ({ name, date, views, comments, likes, onExploreMore }) => {
 					borderRadius: "8px",
 				}}
 			>
-				<Typography sx={{ color: "var(--color-text-secondary)", fontSize: "var(--font-size-body)" }}>
+				<Typography
+					sx={{
+						color: "var(--color-text-secondary)",
+						fontSize: "var(--font-size-body)",
+					}}
+				>
 					Name or Logo or Demo
 				</Typography>
 			</Box>
 
-			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					justifyContent: "space-around",
+					alignItems: "center",
+				}}
+			>
 				<Views views={views} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Comments comments={comments} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Likes likes={likes} />
 			</Box>
 

@@ -8,7 +8,11 @@ interface TitleResponseProps {
 	link?: boolean;
 }
 
-const TitleResponse: React.FC<TitleResponseProps> = ({ title, response, link = false }) => {
+const TitleResponse: React.FC<TitleResponseProps> = ({
+	title,
+	response,
+	link = false,
+}) => {
 	return (
 		<Box sx={{ marginBottom: "var(--spacing-medium)" }}>
 			<Typography
@@ -17,7 +21,7 @@ const TitleResponse: React.FC<TitleResponseProps> = ({ title, response, link = f
 					fontWeight: 400,
 					fontSize: "20px",
 					fontFamily: "var(--font-family-outfit)",
-					marginBottom: "4px", 
+					marginBottom: "4px",
 				}}
 			>
 				{title}
@@ -29,7 +33,7 @@ const TitleResponse: React.FC<TitleResponseProps> = ({ title, response, link = f
 					target="_blank"
 					rel="noopener noreferrer"
 					sx={{
-                        wordBreak: "break-all",
+						wordBreak: "break-all",
 						color: "#807F7F",
 						textDecoration: "underline",
 						fontSize: "20px",
