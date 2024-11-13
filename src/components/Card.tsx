@@ -5,7 +5,16 @@ import Likes from "./Likes";
 import Comments from "./Comments";
 import Views from "./Views";
 
-const Card = ({ name, date, views, comments, likes, onExploreMore }) => {
+interface CardProps {
+	name: string;
+	date: string;
+	views: number;
+	comments: number;
+	likes: number;
+	onExploreMore: () => void;
+}
+
+const Card: React.FC<CardProps> = ({ name, date, views, comments, likes, onExploreMore }) => {
 	return (
 		<Box
 			sx={{
