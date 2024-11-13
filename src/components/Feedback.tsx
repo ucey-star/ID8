@@ -6,34 +6,7 @@ import Comments from "./Comments";
 import Likes from "./Likes";
 import FeedbackItem from "./FeedbackItem";
 
-const Feedback = () => {
-	// Hardcoded data
-	const views = 123;
-	const comments = 456;
-	const likes = 789;
-
-	const feedbackData = [
-		{
-			name: "Muhammad Saleh",
-			timeAgo: "2 weeks ago",
-			feedback: "Great user problem focus—make sure it addresses a significant pain point.",
-		},
-		{
-			name: "Ava Nelson",
-			timeAgo: "5 weeks ago",
-			feedback: "Unique approach! Validate with real users to gauge genuine demand and usability.",
-		},
-		{
-			name: "Mykhailo Chudyk",
-			timeAgo: "7 weeks ago",
-			feedback: "User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
-		},
-		{
-			name: "Matviy Kotolyk",
-			timeAgo: "9 weeks ago",
-			feedback: "Scalability is key. How will you handle growth if user demand spikes?",
-		},
-	];
+const Feedback = ({ views, comments, likes, data }) => {
 
 	return (
 		<Box
@@ -66,36 +39,16 @@ const Feedback = () => {
 				Feedback
 			</Typography>
 
-			<Box
-				sx={{
-					width: "100%",
-					display: "flex",
-					justifyContent: "space-around",
-					alignItems: "center",
-					marginBottom: "var(--spacing-large)",
-				}}
-			>
+			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-around", alignItems: "center", marginBottom: "var(--spacing-large)" }}>
 				<Views views={views} />
-				<Box
-					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
-					}}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Comments comments={comments} />
-				<Box
-					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
-					}}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Likes likes={likes} />
 			</Box>
 
 			<Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "var(--spacing-small)" }}>
-				{feedbackData.map((item, index) => (
+				{data.map((item, index) => (
 					<FeedbackItem key={index} name={item.name} timeAgo={item.timeAgo} feedback={item.feedback} />
 				))}
 			</Box>
@@ -122,6 +75,7 @@ const Feedback = () => {
 					flexShrink: 0,
 					fontFamily: "var(--font-family-outfit)",
 					fontSize: "14px",
+					color: "#FFFFFF",
 				}}
 			>
 				Send

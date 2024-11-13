@@ -5,17 +5,7 @@ import Likes from "./Likes";
 import Comments from "./Comments";
 import Views from "./Views";
 
-const Card = () => {
-	const name = "Muhammad Saleh";
-	const date = "December 06, 2024";
-	const views = 123;
-	const comments = 456;
-	const likes = 789;
-
-	const handleExplainMore = () => {
-		// Code to display more project information
-	};
-
+const Card = ({ name, date, views, comments, likes, onExploreMore }) => {
 	return (
 		<Box
 			sx={{
@@ -33,14 +23,7 @@ const Card = () => {
 				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
-			<Box
-				sx={{
-					width: "100%",
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center",
-				}}
-			>
+			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<Typography
 					variant="h6"
 					sx={{
@@ -73,41 +56,16 @@ const Card = () => {
 					borderRadius: "8px",
 				}}
 			>
-				<Typography
-					sx={{
-						color: "var(--color-text-secondary)",
-						fontSize: "var(--font-size-body)",
-						fontWeight: "var(--font-weight-regular)",
-					}}
-				>
+				<Typography sx={{ color: "var(--color-text-secondary)", fontSize: "var(--font-size-body)" }}>
 					Name or Logo or Demo
 				</Typography>
 			</Box>
 
-			<Box
-				sx={{
-					width: "100%",
-					display: "flex",
-					justifyContent: "space-around",
-					alignItems: "center",
-				}}
-			>
+			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
 				<Views views={views} />
-				<Box
-					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
-					}}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Comments comments={comments} />
-				<Box
-					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
-					}}
-				/>
+				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
 				<Likes likes={likes} />
 			</Box>
 
@@ -122,7 +80,7 @@ const Card = () => {
 					flexShrink: 0,
 					fontFamily: "var(--font-family-outfit)",
 				}}
-				onClick={handleExplainMore}
+				onClick={onExploreMore}
 			>
 				Explore More
 			</Button>

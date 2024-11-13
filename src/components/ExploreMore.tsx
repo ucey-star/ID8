@@ -4,36 +4,7 @@ import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TitleResponse from "./TitleResponse";
 
-const ExploreMore = () => {
-	// Hardcoded data (for now)
-	const data = {
-		headline: "Saleh’s Startup Idea",
-		startupName: "Matchstick",
-		descriptionShort: "Mobile App for Matchmakers",
-		productLink: "https://www.facebook.com/groups/2689639201174278/",
-		demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
-		descriptionLong:
-			"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work.\n\n" +
-			"Matchmaking is growing all around the world as put by a NYT article, 'With television shows like " +
-			"'Million Dollar Matchmaker' and 'Indian Matchmaking,' and a pandemic that has made it harder for singles " +
-			"to meet organically, matchmaking is hot again.' For our company, we plan to build an app for matchmakers " +
-			"in Pakistan, aka Rishta Aunties, and expand internationally in the future.\n\n" +
-			"Based on a survey by BBC, 90% of marriages in the region are arranged marriages, and the majority of " +
-			"them are done through matchmakers. Over the years, the matchmaking business in South Asia has evolved " +
-			"into a US$292 million industry. Despite this growth, matchmakers continue to rely on outdated pen-and-paper " +
-			"methods, leading to challenges and inefficiencies. Our objective is to understand these challenges and " +
-			"propose a customer-centric solution that leverages technology to enhance matchmaking efficiency and " +
-			"effectiveness in connecting families and enable matchmakers to create meaningful, long-lasting relationships.",
-	};
-
-	const handleArrowClick = () => {
-		// Define arrow click action here
-	};
-
-	const handleLikeClick = () => {
-		// Define like button action here
-	};
-
+const ExploreMore = ({ data, onBack }) => {
 	return (
 		<Box
 			sx={{
@@ -51,17 +22,9 @@ const ExploreMore = () => {
 				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
-			<Box
-				sx={{
-					width: "100%",
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					position: "relative",
-				}}
-			>
+			<Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
 				<ArrowBackIosNewIcon
-					onClick={handleArrowClick}
+					onClick={onBack}
 					sx={{
 						position: "absolute",
 						left: 0,
@@ -103,7 +66,6 @@ const ExploreMore = () => {
 					flexShrink: 0,
 					fontFamily: "var(--font-family-outfit)",
 				}}
-				onClick={handleLikeClick}
 			>
 				Like
 			</Button>
