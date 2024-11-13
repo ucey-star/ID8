@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container } from "@mui/material";
 import Card from "../../components/Card";
 import ExploreMore from "../../components/ExploreMore";
+import Feedback from "../../components/Feedback";
 
 export default function Home() {
 	return (
@@ -41,6 +42,8 @@ export default function Home() {
 				<Card />
 				<Card />
 				<ExploreMore />
+				<Feedback />
+
 			</Container>
 		</Box>
 	);
