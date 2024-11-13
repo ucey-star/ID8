@@ -42,27 +42,32 @@ export default function Home() {
 			descriptionShort: "Mobile App for Matchmakers",
 			productLink: "https://www.facebook.com/groups/2689639201174278/",
 			demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
-			descriptionLong: "Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
+			descriptionLong:
+				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
-					feedback: "Great user problem focus—make sure it addresses a significant pain point.",
+					feedback:
+						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
-					feedback: "Unique approach! Validate with real users to gauge genuine demand and usability.",
+					feedback:
+						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
-					feedback: "User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
+					feedback:
+						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
-					feedback: "Scalability is key. How will you handle growth if user demand spikes?",
+					feedback:
+						"Scalability is key. How will you handle growth if user demand spikes?",
 				},
 			],
 		},
@@ -77,27 +82,32 @@ export default function Home() {
 			descriptionShort: "Mobile App for Matchmakers",
 			productLink: "https://www.facebook.com/groups/2689639201174278/",
 			demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
-			descriptionLong: "Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
+			descriptionLong:
+				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
-					feedback: "Great user problem focus—make sure it addresses a significant pain point.",
+					feedback:
+						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
-					feedback: "Unique approach! Validate with real users to gauge genuine demand and usability.",
+					feedback:
+						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
-					feedback: "User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
+					feedback:
+						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
-					feedback: "Scalability is key. How will you handle growth if user demand spikes?",
+					feedback:
+						"Scalability is key. How will you handle growth if user demand spikes?",
 				},
 			],
 		},
@@ -121,7 +131,8 @@ export default function Home() {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				background: "linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
+				background:
+					"linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
 				fontFamily: "var(--font-family-outfit)",
 				padding: "var(--spacing-large)",
 			}}

@@ -14,7 +14,14 @@ interface CardProps {
 	onExploreMore: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ name, date, views, comments, likes, onExploreMore }) => {
+const Card: React.FC<CardProps> = ({
+	name,
+	date,
+	views,
+	comments,
+	likes,
+	onExploreMore,
+}) => {
 	return (
 		<Box
 			sx={{

@@ -19,7 +19,12 @@ interface FeedbackProps {
 	data: FeedbackData[];
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ views, comments, likes, data }) => {
+const Feedback: React.FC<FeedbackProps> = ({
+	views,
+	comments,
+	likes,
+	data,
+}) => {
 	return (
 		<Box
 			sx={{
