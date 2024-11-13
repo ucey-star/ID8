@@ -7,7 +7,6 @@ import Likes from "./Likes";
 import FeedbackItem from "./FeedbackItem";
 
 const Feedback = ({ views, comments, likes, data }) => {
-
 	return (
 		<Box
 			sx={{
@@ -39,17 +38,49 @@ const Feedback = ({ views, comments, likes, data }) => {
 				Feedback
 			</Typography>
 
-			<Box sx={{ width: "100%", display: "flex", justifyContent: "space-around", alignItems: "center", marginBottom: "var(--spacing-large)" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					justifyContent: "space-around",
+					alignItems: "center",
+					marginBottom: "var(--spacing-large)",
+				}}
+			>
 				<Views views={views} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Comments comments={comments} />
-				<Box sx={{ width: "1px", backgroundColor: "var(--color-border)", height: "48px" }} />
+				<Box
+					sx={{
+						width: "1px",
+						backgroundColor: "var(--color-border)",
+						height: "48px",
+					}}
+				/>
 				<Likes likes={likes} />
 			</Box>
 
-			<Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "var(--spacing-small)" }}>
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					flexDirection: "column",
+					gap: "var(--spacing-small)",
+				}}
+			>
 				{data.map((item, index) => (
-					<FeedbackItem key={index} name={item.name} timeAgo={item.timeAgo} feedback={item.feedback} />
+					<FeedbackItem
+						key={index}
+						name={item.name}
+						timeAgo={item.timeAgo}
+						feedback={item.feedback}
+					/>
 				))}
 			</Box>
 

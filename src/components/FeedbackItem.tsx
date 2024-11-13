@@ -8,10 +8,20 @@ interface FeedbackItemProps {
 	feedback: string;
 }
 
-const FeedbackItem: React.FC<FeedbackItemProps> = ({ name, timeAgo, feedback }) => {
+const FeedbackItem: React.FC<FeedbackItemProps> = ({
+	name,
+	timeAgo,
+	feedback,
+}) => {
 	return (
 		<Box sx={{ width: "100%", marginBottom: "var(--spacing-small)" }}>
-			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}
+			>
 				<Typography
 					sx={{
 						fontWeight: "var(--font-weight-bold)",
