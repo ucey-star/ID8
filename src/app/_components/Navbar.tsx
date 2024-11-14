@@ -36,7 +36,10 @@ const Navbar: React.FC = () => {
 				</div>
 				<p>Notifications</p>
 			</Link>
-			<Link href="/personal-details" className={linkClasses("/personal-details")}>
+			<Link
+				href="/personal-details"
+				className={linkClasses("/personal-details")}
+			>
 				<div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-600">
 					<User className="h-8 w-8 text-indigo-600" aria-label="Profile" />
 				</div>
