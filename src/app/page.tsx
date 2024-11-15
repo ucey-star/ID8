@@ -51,31 +51,16 @@ export default function HomePage() {
 			</div>
 			{/* New Section for Routing. Only added this to facilitate development while we don't have a main page and we want to see the other pages in a easy way. We will remove it later*/}
 			<div className="mt-4 flex flex-col items-center justify-center gap-4">
-				{/* Link to Guidelines Page */}
-				<Link href="/guidelines" passHref>
-					<Button variant="contained" color="primary">
-						Go to Guidelines
-					</Button>
-				</Link>
 				{/* Link to Personal Details Page */}
 				<Link href="/personal-details" passHref>
 					<Button variant="contained" color="primary">
 						Go to Personal Details
 					</Button>
 				</Link>
-			</div>
-			{/* New Section for Routing. Only added this to facilitate development while we don't have a main page and we want to see the other pages in a easy way. We will remove it later*/}
-			<div className="mt-4 flex flex-col items-center justify-center gap-4">
-				{/* Link to Guidelines Page */}
-				<Link href="/guidelines" passHref>
+				{/* Link to Project Idea Page */}
+				<Link href="/project_idea" passHref>
 					<Button variant="contained" color="primary">
-						Go to Guidelines
-					</Button>
-				</Link>
-				{/* Link to Personal Details Page */}
-				<Link href="/personal-details" passHref>
-					<Button variant="contained" color="primary">
-						Go to Personal Details
+						Go to Project Idea
 					</Button>
 				</Link>
 			</div>
