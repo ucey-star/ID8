@@ -5,14 +5,15 @@ import Card from "../../components/Card";
 import ExploreMore from "../../components/ExploreMore";
 import Feedback from "../../components/Feedback";
 
-// FeedbackData interface - ensure alignment with backend feedback schema
+// FeedbackData interface 
 interface FeedbackData {
+	id: number; // Unique identifier 
 	name: string; // Feedback author
 	timeAgo: string; // Time since feedback
 	feedback: string; // Feedback content
 }
 
-// CardData interface - ensure fields match backend schema for consistency
+// CardData interface
 interface CardData {
 	id: number; // Unique card ID
 	name: string; // Associated name
@@ -26,7 +27,6 @@ interface CardData {
 	demoLink: string; // Demo URL
 	descriptionLong: string; // Full description
 	feedbackData: FeedbackData[]; // Array of feedback items
-}
 }
 
 export default function Home() {
@@ -49,24 +49,28 @@ export default function Home() {
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
+					id : 1,
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
 					feedback:
 						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
+					id : 2,
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
 					feedback:
 						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
+					id : 3,
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
 					feedback:
 						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
+					id : 4,
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
 					feedback:
@@ -89,24 +93,28 @@ export default function Home() {
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
+					id : 5,
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
 					feedback:
 						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
+					id : 6,
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
 					feedback:
 						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
+					id : 7,
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
 					feedback:
 						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
+					id : 8,
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
 					feedback:
@@ -141,11 +149,11 @@ export default function Home() {
 			}}
 		>
 			<Box sx={{ position: "absolute", top: "20px", left: "20px" }}>
-				{/* Insert the logo here */}
+				{/* todo: Insert the logo here */}
 			</Box>
 
 			<Box sx={{ width: "100%", mb: "var(--spacing-medium)" }}>
-				{/* Placeholder for the Navigation component */}
+				{/* todo: Insert the Navigation component */}
 			</Box>
 
 			<Container
