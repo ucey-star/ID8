@@ -65,4 +65,4 @@ For more detailed information about Next.js and the App Router, refer to the [of
 
 ## Formatting and Linting
 
-Run `npx prettier --write` for appropriate formatting check. 
+Run `npx prettier --write` for appropriate formatting check.
