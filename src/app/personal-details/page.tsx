@@ -10,7 +10,7 @@ import {
 	IconButton,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import GradientButton from "../_components/GradientButton";
+import GradientButton from "../../components/GradientButton";
 
 const PersonalDetailsScreen: React.FC = () => {
 	const [name, setName] = useState("");

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import Header from "./_components/Header";
+import Header from "../components/Header";
 import Link from "next/link";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
