@@ -10,16 +10,17 @@ import {
 	IconButton,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import GradientButton from "../_components/GradientButton";
+import GradientButton from "../../components/GradientButton";
 
 const PersonalDetailsScreen: React.FC = () => {
 	const [name, setName] = useState("");
-	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
-	const [jobTitle, setJobTitle] = useState("");
-	const [bio, setBio] = useState("");
+	const [age, setAge] = useState("");
+	const [gender, setGender] = useState("");
+	const [address, setAddress] = useState("");
+	const [description, setDescription] = useState("");
+	const [workplace, setWorkplace] = useState("");
 	const [linkedin, setLinkedin] = useState("");
-	const [aboutMe, setAboutMe] = useState("");
 
 	const handleNext = () => {
 		// Form submission logic here
@@ -37,13 +38,14 @@ const PersonalDetailsScreen: React.FC = () => {
 			}}
 		>
 			<Container
-				maxWidth="md"
+				maxWidth="sm"
 				sx={{
 					backgroundColor: "#FFFFFF",
 					padding: "48px",
 					borderRadius: "16px",
 					border: "1px solid #D6D6E7",
 					boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+					textAlign: "center",
 				}}
 			>
 				{/* Header */}
@@ -51,211 +53,160 @@ const PersonalDetailsScreen: React.FC = () => {
 					variant="h5"
 					component="h1"
 					sx={{
-						textAlign: "center",
 						color: "#000000",
 						fontWeight: 600,
 						fontSize: "32px",
 						lineHeight: "40.32px",
-						marginBottom: "24px",
+						marginBottom: "32px",
 						fontFamily: "'Outfit', sans-serif",
 					}}
 				>
-					Tell Us About Yourself
+					My Profile
 				</Typography>
 				<Typography
 					variant="body2"
 					sx={{
-						textAlign: "center",
-						color: "#000000",
-						marginBottom: "32px",
-						fontSize: "24px",
-						lineHeight: "30.24px",
+						color: "#6C6C80",
+						marginBottom: "46px",
+						fontSize: "20px",
+						lineHeight: "28px",
 						fontFamily: "'Outfit', sans-serif",
-						fontWeight: 200,
 					}}
 				>
-					This helps other founders understand who you are when reviewing your
-					ideas.
+					This helps others understand who you are when reviewing your ideas.
 				</Typography>
 
 				{/* Avatar Upload */}
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						gap: "32px",
-						marginBottom: "32px",
-					}}
-				>
-					<IconButton
-						sx={{
-							width: "64px",
-							height: "64px",
-							borderRadius: "50%",
-							backgroundColor: "#F0F0F5",
-							border: "2px dashed #D6D6E7",
-							"&:hover": {
-								backgroundColor: "#E8E8F0",
-							},
-						}}
-					>
-						<AddPhotoAlternateIcon
-							sx={{ fontSize: "32px", color: "#6C6C80" }}
-						/>
-					</IconButton>
-					<Button
-						variant="outlined"
-						sx={{
-							textTransform: "none",
-							padding: "12px 36px",
-							fontSize: "16px",
-							borderColor: "#D6D6E7",
-							color: "#6C6C80",
-							"&:hover": {
-								borderColor: "#C0C0D8",
-							},
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							lineHeight: "20.16px",
-						}}
-					>
-						Upload Photo or Avatar
-					</Button>
-				</Box>
+				{/* <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "32px",
+            marginBottom: "32px",
+          }}
+        >
+          <IconButton
+            sx={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              backgroundColor: "#F0F0F5",
+              border: "2px dashed #D6D6E7",
+              "&:hover": {
+                backgroundColor: "#E8E8F0",
+              },
+            }}
+          >
+            <AddPhotoAlternateIcon
+              sx={{ fontSize: "40px", color: "#6C6C80" }}
+            />
+          </IconButton>
+          <Button
+            variant="outlined"
+            sx={{
+              textTransform: "none",
+              padding: "12px 36px",
+              fontSize: "16px",
+              borderColor: "#D6D6E7",
+              color: "#6C6C80",
+              "&:hover": {
+                borderColor: "#C0C0D8",
+              },
+              fontFamily: "'Outfit', sans-serif",
+              fontWeight: 400,
+              lineHeight: "20.16px",
+            }}
+          >
+            Upload Photo or Avatar
+          </Button>
+        </Box> */}
 
 				{/* Form Fields */}
 				<Box
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						gap: "24px",
+						gap: "40px",
 						marginBottom: "32px",
+						padding: "8px",
 					}}
 				>
 					{/* Name Field */}
 					<TextField
 						fullWidth
-						label="Name"
+						label="Name*"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
-					/>
-
-					{/* Username Field */}
-					<TextField
-						fullWidth
-						label="Username"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
 					/>
 
 					{/* Email Field */}
 					<TextField
 						fullWidth
-						label="Email"
+						label="Email*"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
 					/>
 
-					{/* Job Title Field */}
+					{/* Age Field */}
 					<TextField
 						fullWidth
-						label="Job Title"
-						value={jobTitle}
-						onChange={(e) => setJobTitle(e.target.value)}
+						label="Age"
+						value={age}
+						onChange={(e) => setAge(e.target.value)}
 						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
 					/>
 
-					{/* Bio Field */}
+					{/* Gender Field */}
 					<TextField
 						fullWidth
-						label="Bio"
-						value={bio}
-						onChange={(e) => setBio(e.target.value)}
+						label="Gender"
+						value={gender}
+						onChange={(e) => setGender(e.target.value)}
 						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
 					/>
 
-					{/* LinkedIn Field */}
+					{/* Address Field */}
 					<TextField
 						fullWidth
-						label="LinkedIn URL"
+						label="Address"
+						value={address}
+						onChange={(e) => setAddress(e.target.value)}
+						variant="outlined"
+					/>
+
+					{/* Description Field */}
+					<TextField
+						fullWidth
+						label="What best describes you?"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						variant="outlined"
+					/>
+
+					{/* Workplace Field */}
+					<TextField
+						fullWidth
+						label="Where do you work?"
+						value={workplace}
+						onChange={(e) => setWorkplace(e.target.value)}
+						variant="outlined"
+					/>
+
+					{/* LinkedIn URL Field */}
+					<TextField
+						fullWidth
+						label="LinkedIn URL*"
 						value={linkedin}
 						onChange={(e) => setLinkedin(e.target.value)}
 						variant="outlined"
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
-					/>
-
-					{/* About Me Field */}
-					<TextField
-						fullWidth
-						label="About me"
-						value={aboutMe}
-						onChange={(e) => setAboutMe(e.target.value)}
-						variant="outlined"
-						multiline
-						rows={3}
-						inputProps={{ maxLength: 600 }}
-						sx={{
-							fontFamily: "'Outfit', sans-serif",
-							fontWeight: 400,
-							fontSize: "24px",
-							lineHeight: "30.24px",
-						}}
 					/>
 				</Box>
 
 				{/* Next Button */}
-				<Box
-					style={{
-						textAlign: "center",
-						display: "flex",
-						justifyContent: "center",
-					}}
-				>
+				<Box sx={{ display: "flex", justifyContent: "center" }}>
 					<GradientButton
 						onClick={handleNext}
 						className="w-1/2"

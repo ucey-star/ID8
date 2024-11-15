@@ -1,26 +1,30 @@
 "use client";
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
-import Likes from "./Likes";
-import Comments from "./Comments";
+import { Box, Button, Typography, TextField } from "@mui/material";
 import Views from "./Views";
+import Comments from "./Comments";
+import Likes from "./Likes";
+import FeedbackItem from "./FeedbackItem";
 
-interface CardProps {
+interface FeedbackData {
+	id: number;
 	name: string;
-	date: string;
+	timeAgo: string;
+	feedback: string;
+}
+
+interface FeedbackProps {
 	views: number;
 	comments: number;
 	likes: number;
-	onExploreMore: () => void;
+	data: FeedbackData[];
 }
 
-const Card: React.FC<CardProps> = ({
-	name,
-	date,
+const Feedback: React.FC<FeedbackProps> = ({
 	views,
 	comments,
 	likes,
-	onExploreMore,
+	data,
 }) => {
 	return (
 		<Box
@@ -39,55 +43,19 @@ const Card: React.FC<CardProps> = ({
 				fontFamily: "var(--font-family-outfit)",
 			}}
 		>
-			<Box
+			<Typography
 				sx={{
-					width: "100%",
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center",
+					fontFamily: "var(--font-family-outfit)",
+					fontSize: "28px",
+					fontWeight: 600,
+					lineHeight: "36px",
+					textAlign: "center",
+					color: "var(--color-text-primary)",
+					marginBottom: "var(--spacing-large)",
 				}}
 			>
-				<Typography
-					variant="h6"
-					sx={{
-						fontWeight: "var(--font-weight-bold)",
-						color: "var(--color-text-primary)",
-					}}
-				>
-					{name}
-				</Typography>
-				<Typography
-					variant="body2"
-					sx={{
-						color: "var(--color-text-secondary)",
-						fontSize: "var(--font-size-body)",
-						lineHeight: "20.16px",
-					}}
-				>
-					{date}
-				</Typography>
-			</Box>
-
-			<Box
-				sx={{
-					width: "400px",
-					height: "400px",
-					backgroundColor: "#F0F0F5",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					borderRadius: "8px",
-				}}
-			>
-				<Typography
-					sx={{
-						color: "var(--color-text-secondary)",
-						fontSize: "var(--font-size-body)",
-					}}
-				>
-					Name or Logo or Demo
-				</Typography>
-			</Box>
+				Feedback
+			</Typography>
 
 			<Box
 				sx={{
@@ -95,6 +63,7 @@ const Card: React.FC<CardProps> = ({
 					display: "flex",
 					justifyContent: "space-around",
 					alignItems: "center",
+					marginBottom: "var(--spacing-large)",
 				}}
 			>
 				<Views views={views} />
@@ -116,6 +85,35 @@ const Card: React.FC<CardProps> = ({
 				<Likes likes={likes} />
 			</Box>
 
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					flexDirection: "column",
+					gap: "var(--spacing-small)",
+				}}
+			>
+				{data.map((item) => (
+					<FeedbackItem
+						key={item.id}
+						name={item.name}
+						timeAgo={item.timeAgo}
+						feedback={item.feedback}
+					/>
+				))}
+			</Box>
+
+			<TextField
+				placeholder="Add a comment"
+				variant="outlined"
+				fullWidth
+				sx={{
+					fontFamily: "var(--font-family-outfit)",
+					fontSize: "16px",
+					marginBottom: "var(--spacing-small)",
+				}}
+			/>
+
 			<Button
 				variant="contained"
 				className="custom-next-button"
@@ -126,13 +124,14 @@ const Card: React.FC<CardProps> = ({
 					whiteSpace: "nowrap",
 					flexShrink: 0,
 					fontFamily: "var(--font-family-outfit)",
+					fontSize: "14px",
+					color: "#FFFFFF",
 				}}
-				onClick={onExploreMore}
 			>
-				Explore More
+				Send
 			</Button>
 		</Box>
 	);
 };
 
-export default Card;
+export default Feedback;

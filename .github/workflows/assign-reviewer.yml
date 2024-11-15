@@ -12,8 +12,8 @@ jobs:
         run: |
           REVIEWERS=("ucey-star" "avalucianelson" "FlaIespa" "katyaivaniuk" "lewiskyron" "matviikotolyk" "Mykhailo-Chudyk" "nnnour")
           SELECTED_REVIEWER=${REVIEWERS[$RANDOM % ${#REVIEWERS[@]}]}
+          echo "Selected reviewer: $SELECTED_REVIEWER"
           echo "reviewer=$SELECTED_REVIEWER" >> $GITHUB_ENV
-        id: select-reviewer
 
       - name: Assign the Reviewer
         uses: actions/github-script@v6
@@ -23,5 +23,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number,
-              reviewers: ["${{ steps.select-reviewer.outputs.reviewer }}"]
+              reviewers: [process.env.reviewer]
             })
+        env:
+          reviewer: ${{ env.reviewer }}
