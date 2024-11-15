@@ -82,20 +82,20 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					title="Describe what your company does in 50 characters or less.*"
 					response={data.descriptionShort}
 				/>
-				<TitleResponse
+				{data.productLink && <TitleResponse
 					title="Please provide a link to the product, if any."
 					response={data.productLink}
 					link
-				/>
-				<TitleResponse
+				/>}
+				{data.demoLink && <TitleResponse
 					title="If you have a demo, attach it below."
 					response={data.demoLink}
 					link
-				/>
-				<TitleResponse
+				/>}
+				{data.descriptionLong && <TitleResponse
 					title="What is your company going to make? Please describe your product and what it does or will do."
 					response={data.descriptionLong}
-				/>
+				/>}
 			</Box>
 
 			<Button

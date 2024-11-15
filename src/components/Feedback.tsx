@@ -94,7 +94,7 @@ const Feedback: React.FC<FeedbackProps> = ({
 			>
 				{data.map((item, index) => (
 					<FeedbackItem
-						key={index}
+						key={item.id}
 						name={item.name}
 						timeAgo={item.timeAgo}
 						feedback={item.feedback}
