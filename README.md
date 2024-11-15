@@ -40,7 +40,7 @@ This project follows the Next.js App Router structure. Here's an overview of the
 
 ### Components
 
-- `_components/`: This folder contains reusable React components.
+- `components/`: This folder contains reusable React components.
 - Component names should be capitalized, e.g., `Header.tsx`.
 
 ### Pages and Routing

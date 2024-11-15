@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
-import GoogleButton from "../_components/GoogleButton";
-import InputField from "../_components/InputField";
-import GradientButton from "../_components/GradientButton";
+import GoogleButton from "../../components/GoogleButton";
+import InputField from "../../components/InputField";
+import GradientButton from "../../components/GradientButton";
 
 function Email() {
 	const [email, setEmail] = useState("");
