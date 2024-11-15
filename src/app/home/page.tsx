@@ -5,9 +5,9 @@ import Card from "../../components/Card";
 import ExploreMore from "../../components/ExploreMore";
 import Feedback from "../../components/Feedback";
 
-// FeedbackData interface 
+// FeedbackData interface
 interface FeedbackData {
-	id: number; // Unique identifier 
+	id: number; // Unique identifier
 	name: string; // Feedback author
 	timeAgo: string; // Time since feedback
 	feedback: string; // Feedback content
@@ -49,28 +49,28 @@ export default function Home() {
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
-					id : 1,
+					id: 1,
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
 					feedback:
 						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
-					id : 2,
+					id: 2,
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
 					feedback:
 						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
-					id : 3,
+					id: 3,
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
 					feedback:
 						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
-					id : 4,
+					id: 4,
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
 					feedback:
@@ -93,28 +93,28 @@ export default function Home() {
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
 				{
-					id : 5,
+					id: 5,
 					name: "Muhammad Saleh",
 					timeAgo: "2 weeks ago",
 					feedback:
 						"Great user problem focus—make sure it addresses a significant pain point.",
 				},
 				{
-					id : 6,
+					id: 6,
 					name: "Ava Nelson",
 					timeAgo: "5 weeks ago",
 					feedback:
 						"Unique approach! Validate with real users to gauge genuine demand and usability.",
 				},
 				{
-					id : 7,
+					id: 7,
 					name: "Mykhailo Chudyk",
 					timeAgo: "7 weeks ago",
 					feedback:
 						"User onboarding flow will be crucial—ensure simplicity and engagement from the start.",
 				},
 				{
-					id : 8,
+					id: 8,
 					name: "Matviy Kotolyk",
 					timeAgo: "9 weeks ago",
 					feedback:
