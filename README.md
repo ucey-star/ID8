@@ -62,7 +62,3 @@ This project follows the Next.js App Router structure. Here's an overview of the
 - The `layout.tsx` file can be used to create shared layouts for multiple pages.
 
 For more detailed information about Next.js and the App Router, refer to the [official Next.js documentation](https://nextjs.org/docs).
-
-## Formatting and Linting
-
-Run `npx prettier --write` for appropriate formatting check.
