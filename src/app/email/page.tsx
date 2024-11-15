@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import GoogleButton from "../_components/GoogleButton";
-import InputField from "../_components/InputField";
-import GradientButton from "../_components/GradientButton";
+import GoogleButton from "~/components/GoogleButton";
+import InputField from "~/components/InputField";
+import GradientButton from "~/components/GradientButton";
 import Image from "next/image";
 import id8Logo from "../../../public/logo/id8.png";
 

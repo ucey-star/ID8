@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import GoogleButton from "../_components/GoogleButton";
-import InputField from "../_components/InputField";
-import GradientButton from "../_components/GradientButton";
-import PasswordField from "../_components/PasswordField";
-import Link from "next/link";
+import GoogleButton from "~/components/GoogleButton";
+import InputField from "~/components/InputField";
+import GradientButton from "~/components/GradientButton";
+import PasswordField from "~/components/PasswordField";
 import Image from "next/image";
-import id8Logo from "../../../public/logo/id8.png";
+import id8Logo from "~/assets/id8-logo.png";
+import Link from "next/link";
 import useMobile from "~/utils/useMobile";
 
 function SignUp() {
