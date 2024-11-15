@@ -7,6 +7,7 @@ import Likes from "./Likes";
 import FeedbackItem from "./FeedbackItem";
 
 interface FeedbackData {
+	id: number;
 	name: string;
 	timeAgo: string;
 	feedback: string;
@@ -92,7 +93,7 @@ const Feedback: React.FC<FeedbackProps> = ({
 					gap: "var(--spacing-small)",
 				}}
 			>
-				{data.map((item, index) => (
+				{data.map((item) => (
 					<FeedbackItem
 						key={item.id}
 						name={item.name}
