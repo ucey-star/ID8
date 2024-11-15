@@ -5,25 +5,28 @@ import Card from "../../components/Card";
 import ExploreMore from "../../components/ExploreMore";
 import Feedback from "../../components/Feedback";
 
+// FeedbackData interface - ensure alignment with backend feedback schema
 interface FeedbackData {
-	name: string;
-	timeAgo: string;
-	feedback: string;
+	name: string; // Feedback author
+	timeAgo: string; // Time since feedback
+	feedback: string; // Feedback content
 }
 
+// CardData interface - ensure fields match backend schema for consistency
 interface CardData {
-	id: number;
-	name: string;
-	date: string;
-	views: number;
-	comments: number;
-	likes: number;
-	headline: string;
-	descriptionShort: string;
-	productLink: string;
-	demoLink: string;
-	descriptionLong: string;
-	feedbackData: FeedbackData[];
+	id: number; // Unique card ID
+	name: string; // Associated name
+	date: string; // Creation date
+	views: number; // View count
+	comments: number; // Comment count
+	likes: number; // Like count
+	headline: string; // Card headline
+	descriptionShort: string; // Short description
+	productLink: string; // Product URL
+	demoLink: string; // Demo URL
+	descriptionLong: string; // Full description
+	feedbackData: FeedbackData[]; // Array of feedback items
+}
 }
 
 export default function Home() {
