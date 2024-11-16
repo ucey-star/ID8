@@ -46,7 +46,9 @@ export async function signInWIthGoogle() {
 	const supabase = createClient();
 	const origin = headers().get("origin");
 
-	const { data, error } = await(await supabase).auth.signInWithOAuth({
+	const { data, error } = await (
+		await supabase
+	).auth.signInWithOAuth({
 		provider: "google",
 		options: {
 			queryParams: {
@@ -58,7 +60,6 @@ export async function signInWIthGoogle() {
 	});
 
 	if (data?.url) {
-
 		return redirect(data.url);
 	}
 

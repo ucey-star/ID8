@@ -1,9 +1,6 @@
-
-/* eslint-disable @typescript-eslint/no-explicit-any */  
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-
-
 
 export async function createClient() {
 	// eslint-disable-next-line @typescript-eslint/await-thenable
