@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
-import GoogleButton from "../../components/GoogleButton";
-import InputField from "../../components/InputField";
-import GradientButton from "../../components/GradientButton";
-import PasswordField from "../../components/PasswordField";
+import GoogleButton from "../../../components/GoogleButton";
+import InputField from "../../../components/InputField";
+import GradientButton from "../../../components/GradientButton";
+import PasswordField from "../../../components/PasswordField";
 import Link from "next/link";
 
 function SignUp() {
@@ -61,7 +61,7 @@ function SignUp() {
 						Already have an account?{" "}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
-							href="/login"
+							href="/auth/login"
 						>
 							Sign in
 						</Link>

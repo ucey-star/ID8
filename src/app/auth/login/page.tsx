@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
-import GoogleButton from "../../components/GoogleButton";
-import InputField from "../../components/InputField";
-import GradientButton from "../../components/GradientButton";
-import PasswordField from "../../components/PasswordField";
+import GoogleButton from "../../../components/GoogleButton";
+import InputField from "../../../components/InputField";
+import GradientButton from "../../../components/GradientButton";
+import PasswordField from "../../../components/PasswordField";
+
 import Link from "next/link";
 
 function SignUp() {
@@ -15,10 +16,10 @@ function SignUp() {
 	const handlePasswordClick = () => {
 		setShowPassword(!showPassword);
 	};
-	const handleLogin = () => {
-		// supabase func for login
-	};
 
+	const handleLogin = async () => {
+		console.log("login");
+	};
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
 			<div className="w-full max-w-md rounded-lg border border-solid border-[#5370F7] bg-white px-20 py-12 shadow-xl">
@@ -61,7 +62,7 @@ function SignUp() {
 						Don&apos;t have an account?{" "}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
-							href="/signup"
+							href="/auth/signup"
 						>
 							Sign up
 						</Link>
