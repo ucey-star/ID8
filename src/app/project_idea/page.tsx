@@ -15,7 +15,7 @@ import {
 	ListItemText,
 	SelectChangeEvent,
 } from "@mui/material";
-import GradientButton from "../_components/GradientButton";
+import GradientButton from "../../components/GradientButton";
 
 const ProjectIdeaScreen: React.FC = () => {
 	const [projectName, setProjectName] = useState("");
