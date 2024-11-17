@@ -5,11 +5,10 @@ import { createClient } from "~/api/supabaseServerClient";
 
 export default async function PersonalDetailsScreen() {
 	const supabaseServer = createClient();
-	
+
 	const {
 		data: { user },
-	} = await(await supabaseServer).auth.getUser();
-
+	} = await (await supabaseServer).auth.getUser();
 
 	return (
 		<Box
@@ -62,10 +61,8 @@ export default async function PersonalDetailsScreen() {
 				</Typography>
 
 				{/* Personal Details Form */}
-				<PersonalDetailsForm  user={user} />
+				<PersonalDetailsForm user={user} />
 			</Container>
 		</Box>
 	);
-};
-
-
+}

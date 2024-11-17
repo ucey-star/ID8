@@ -10,21 +10,19 @@ import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 import { useRouter } from "next/navigation";
 
-
-
 interface PersonalDetailsFormProps {
 	user: User | null;
 }
 
 const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
-    const router = useRouter();
-	const [dateOfBirth, setDateOfBirth] = useState<Date | null >(null);
+	const router = useRouter();
+	const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
 	const [gender, setGender] = useState("");
 	const [address, setAddress] = useState("");
 	const [description, setDescription] = useState("");
 	const [workplace, setWorkplace] = useState("");
 	const [linkedin, setLinkedin] = useState("");
-    const [username, setUsername] = useState("")
+	const [username, setUsername] = useState("");
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -46,11 +44,10 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 				.insert([formData]);
 
 			if (error) throw error;
-            else{
-                console.log("Data inserted successfully:", data);
-                router.push("/home");
-            }
-
+			else {
+				console.log("Data inserted successfully:", data);
+				router.push("/home");
+			}
 		} catch (error) {
 			console.error("Error inserting data:", error);
 			alert("Error saving personal details. Please try again.");

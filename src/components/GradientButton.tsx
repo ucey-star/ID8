@@ -6,7 +6,7 @@ const GradientButton: React.FC<{
 	type?: "button" | "submit" | "reset";
 	className?: string;
 	onClick?: () => void;
-}> = ({ content, className, onClick, type = "button"  }) => {
+}> = ({ content, className, onClick, type = "button" }) => {
 	return (
 		<Button
 			onClick={onClick}
