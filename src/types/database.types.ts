@@ -32,15 +32,7 @@ export type Database = {
 					project_id?: string | null;
 					user_id?: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "Comments_project_id_fkey";
-						columns: ["project_id"];
-						isOneToOne: false;
-						referencedRelation: "Projects";
-						referencedColumns: ["project_id"];
-					},
-				];
+				Relationships: [];
 			};
 			Project_Attachments: {
 				Row: {
@@ -64,15 +56,7 @@ export type Database = {
 					project_id?: string | null;
 					uploaded_at?: string | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "Project_Attachments_project_id_fkey";
-						columns: ["project_id"];
-						isOneToOne: false;
-						referencedRelation: "Projects";
-						referencedColumns: ["project_id"];
-					},
-				];
+				Relationships: [];
 			};
 			Project_Engagement: {
 				Row: {
@@ -105,73 +89,50 @@ export type Database = {
 					updated_at?: string | null;
 					views?: number | null;
 				};
-				Relationships: [
-					{
-						foreignKeyName: "Project_Engagement_project_id_fkey";
-						columns: ["project_id"];
-						isOneToOne: false;
-						referencedRelation: "Projects";
-						referencedColumns: ["project_id"];
-					},
-				];
+				Relationships: [];
 			};
 			Projects: {
 				Row: {
-					achievements: string | null;
-					attachment_url: string | null;
-					competitors: string | null;
 					created_at: string;
-					market_size: string | null;
-					problem_statement: string | null;
+					demo_link: string | null;
+					feedback_question: string | null;
+					project_description: string | null;
 					project_id: string;
 					project_name: string | null;
-					revenue_model: string | null;
-					solution: string | null;
-					stage_of_development: string | null;
+					project_url: string | null;
 					tagline: string | null;
+					tags: string[] | null;
 					target_audience: string | null;
-					team: string | null;
 					updated_at: string | null;
-					user_id: string | null;
-					uvp: string | null;
+					user_id: string;
 				};
 				Insert: {
-					achievements?: string | null;
-					attachment_url?: string | null;
-					competitors?: string | null;
 					created_at?: string;
-					market_size?: string | null;
-					problem_statement?: string | null;
+					demo_link?: string | null;
+					feedback_question?: string | null;
+					project_description?: string | null;
 					project_id?: string;
 					project_name?: string | null;
-					revenue_model?: string | null;
-					solution?: string | null;
-					stage_of_development?: string | null;
+					project_url?: string | null;
 					tagline?: string | null;
+					tags?: string[] | null;
 					target_audience?: string | null;
-					team?: string | null;
 					updated_at?: string | null;
-					user_id?: string | null;
-					uvp?: string | null;
+					user_id?: string;
 				};
 				Update: {
-					achievements?: string | null;
-					attachment_url?: string | null;
-					competitors?: string | null;
 					created_at?: string;
-					market_size?: string | null;
-					problem_statement?: string | null;
+					demo_link?: string | null;
+					feedback_question?: string | null;
+					project_description?: string | null;
 					project_id?: string;
 					project_name?: string | null;
-					revenue_model?: string | null;
-					solution?: string | null;
-					stage_of_development?: string | null;
+					project_url?: string | null;
 					tagline?: string | null;
+					tags?: string[] | null;
 					target_audience?: string | null;
-					team?: string | null;
 					updated_at?: string | null;
-					user_id?: string | null;
-					uvp?: string | null;
+					user_id?: string;
 				};
 				Relationships: [];
 			};
