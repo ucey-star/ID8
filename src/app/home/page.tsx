@@ -18,7 +18,7 @@ interface FeedbackData {
 export interface CardData {
 	id: number; // Unique card ID
 	name: string; // Associated name
-	startup: string; // Startup name
+	companyName: string; // Startup name
 	date: string; // Creation date
 	views: number; // View count
 	comments: number; // Comment count
@@ -39,7 +39,7 @@ export default function Home() {
 		{
 			id: 1,
 			name: "Muhammad Saleh",
-			startup: "Matchstick",
+			companyName: "Matchstick",
 			date: "December 06, 2024",
 			views: 123,
 			comments: 456,
@@ -84,7 +84,7 @@ export default function Home() {
 		{
 			id: 2,
 			name: "Muhammad Saleh",
-			startup: "Matchstick",
+			companyName: "Matchstick",
 			date: "December 06, 2024",
 			views: 123,
 			comments: 456,

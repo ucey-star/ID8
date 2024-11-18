@@ -69,7 +69,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					gap: "var(--spacing-medium)",
 				}}
 			>
-				<TitleResponse title="Startup name" response={data.startup} />
+				<TitleResponse title="Startup name" response={data.companyName} />
 				<TitleResponse
 					title="Describe what your company does in 50 characters or less.*"
 					response={data.descriptionShort}
