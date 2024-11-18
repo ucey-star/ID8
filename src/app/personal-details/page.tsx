@@ -1,15 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-	Box,
-	Button,
-	TextField,
-	Container,
-	Typography,
-	IconButton,
-} from "@mui/material";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { Box, TextField, Container, Typography } from "@mui/material";
+// import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import GradientButton from "../../components/GradientButton";
 
 const PersonalDetailsScreen: React.FC = () => {
