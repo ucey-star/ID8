@@ -2,25 +2,24 @@ import React from "react";
 import { Box, Container, Typography } from "@mui/material";
 import PersonalDetailsForm from "../../components/PersonalDetailsForm";
 import { createClient } from "~/api/supabaseServerClient";
-import GradientButton from "../../components/GradientButton";
 
 export default async function PersonalDetailsScreen() {
-  const supabaseServer = createClient();
-  const {
-    data: { user },
-  } = await (await supabaseServer).auth.getUser();
+	const supabaseServer = createClient();
+	const {
+		data: { user },
+	} = await (await supabaseServer).auth.getUser();
 
-  return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
-        padding: "70px",
-      }}
-    >
+	return (
+		<Box
+			sx={{
+				minHeight: "100vh",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+				padding: "70px",
+			}}
+		>
 			<Container
 				maxWidth="sm"
 				sx={{
