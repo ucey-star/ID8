@@ -29,6 +29,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 	const [projectLink, setProjectLink] = useState("");
 	const [demoLink, setDemoLink] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
+	const [feedbackQuestion, setFeedbackQuestion ] = useState("");
 	const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
@@ -52,6 +53,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 			demo_link: demoLink,
 			project_description: projectDescription,
 			tags: selectedMajors,
+			feedback_question: feedbackQuestion,
 			created_at: new Date().toISOString().split("T")[0],
 		};
 
@@ -131,6 +133,14 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 				variant="outlined"
 				multiline
 				rows={3}
+			/>
+
+			<TextField
+				fullWidth
+				label="Feedback Question: What aspect of the project idea needs feedback?"
+				value={feedbackQuestion}
+				onChange={(e) => setFeedbackQuestion(e.target.value)}
+				variant="outlined"
 			/>
 
 			<FormControl fullWidth>
