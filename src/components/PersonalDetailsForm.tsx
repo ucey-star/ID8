@@ -95,7 +95,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 				>
 					<TextField
 						fullWidth
-						label="username"
+						label="Username"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 						variant="outlined"
@@ -139,11 +139,10 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 					/>
 					<TextField
 						fullWidth
-						label="LinkedIn URL*"
+						label="LinkedIn URL"
 						value={linkedin}
 						onChange={(e) => setLinkedin(e.target.value)}
 						variant="outlined"
-						required
 					/>
 				</Box>
 				<Box sx={{ display: "flex", justifyContent: "center" }}>
