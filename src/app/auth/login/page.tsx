@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail } from "lucide-react";
 import GoogleButton from "../../../components/GoogleButton";
 import InputField from "../../../components/InputField";
 import GradientButton from "../../../components/GradientButton";
 import PasswordField from "../../../components/PasswordField";
-
 import Link from "next/link";
+import Image from "next/image";
+import id8Logo from "../../../../public/logo/id8.png";
+import useMobile from "~/utils/useMobile";
 
 function SignUp() {
 	const [email, setEmail] = useState("");
@@ -17,15 +18,17 @@ function SignUp() {
 		setShowPassword(!showPassword);
 	};
 
+	const isMobile = useMobile();
+
 	const handleLogin = async () => {
 		console.log("login");
 	};
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
-			<div className="w-full max-w-md rounded-lg border border-solid border-[#5370F7] bg-white px-20 py-12 shadow-xl">
+			<div className="w-full max-w-md rounded-lg border border-solid border-[#5370F7] bg-white px-16 py-12 shadow-xl md:px-20">
 				<div className="mb-8 flex justify-center">
 					{/* placeholder for the logo icon*/}
-					<Mail className="h-12 w-12 text-indigo-600" />
+					<Image src={id8Logo} alt="ID8 Logo" width={90} height={90} />
 				</div>
 
 				<h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
@@ -59,7 +62,7 @@ function SignUp() {
 				<GradientButton content="Sign in with Email" onClick={handleLogin} />
 				<div className="flex justify-center">
 					<span className="mx-auto text-center text-sm text-[#808080]">
-						Don&apos;t have an account?{" "}
+						Don&apos;t have an account? {isMobile && <br />}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
 							href="/auth/signup"
