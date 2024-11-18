@@ -13,7 +13,7 @@ import {
 	InputLabel,
 	Checkbox,
 	ListItemText,
-	SelectChangeEvent,
+	type SelectChangeEvent,
 } from "@mui/material";
 import GradientButton from "../../components/GradientButton";
 
