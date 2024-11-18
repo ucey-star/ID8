@@ -15,7 +15,7 @@ interface FeedbackData {
 }
 
 // CardData interface
-interface CardData {
+export interface CardData {
 	id: number; // Unique card ID
 	name: string; // Associated name
 	startupName: string; // Startup name

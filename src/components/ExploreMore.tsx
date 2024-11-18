@@ -3,18 +3,10 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TitleResponse from "./TitleResponse";
-
-interface ExploreMoreData {
-	headline: string;
-	startupName: string;
-	descriptionShort: string;
-	productLink: string;
-	demoLink: string;
-	descriptionLong: string;
-}
+import { CardData } from "../app/home/page";
 
 interface ExploreMoreProps {
-	data: ExploreMoreData;
+	data: CardData;
 	onBack: () => void;
 }
 
