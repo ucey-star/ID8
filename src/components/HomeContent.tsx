@@ -37,27 +37,8 @@ interface CardData {
 const HomeContent: React.FC<HomeContentProps> = ({user}) => {
 	const [view, setView] = useState<"cards" | "explore">("cards");
 	const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
-    const [username, setUsername] = useState<Database["public"]["Tables"]["User_Profile"]['Row']['username']>(null);
-
-    const getUsername = async () => {
-        const { data, error } = await supabaseClient
-            .from("User_Profile")
-            .select("*")
-            .eq("user_id", user?.id)
-            .single()
-
-        if (error) throw error;
-        setUsername(data?.username);
-    };
-
-    useEffect(() => {
-			if (user?.id) {
-				getUsername();
-			}
-		}, [user?.id]);
-
-
-
+    // we need to fetch all the posted projects and display them in the card components. 
+    // we need to pass the comments of each project into the feedback component.
 
 
 
