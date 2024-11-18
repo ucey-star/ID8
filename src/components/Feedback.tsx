@@ -14,16 +14,10 @@ interface FeedbackData {
 }
 
 interface FeedbackProps {
-	views: number;
-	comments: number;
-	likes: number;
 	data: FeedbackData[];
 }
 
 const Feedback: React.FC<FeedbackProps> = ({
-	views,
-	comments,
-	likes,
 	data,
 }) => {
 	return (
@@ -66,7 +60,6 @@ const Feedback: React.FC<FeedbackProps> = ({
 					marginBottom: "var(--spacing-large)",
 				}}
 			>
-				<Views views={views} />
 				<Box
 					sx={{
 						width: "1px",
@@ -74,7 +67,6 @@ const Feedback: React.FC<FeedbackProps> = ({
 						height: "48px",
 					}}
 				/>
-				<Comments comments={comments} />
 				<Box
 					sx={{
 						width: "1px",
@@ -82,7 +74,6 @@ const Feedback: React.FC<FeedbackProps> = ({
 						height: "48px",
 					}}
 				/>
-				<Likes likes={likes} />
 			</Box>
 
 			<Box
