@@ -26,6 +26,7 @@ interface CardData {
 	productLink: string; // Product URL
 	demoLink: string; // Demo URL
 	descriptionLong: string; // Full description
+	startupName: string; // Startup name
 	feedbackData: FeedbackData[]; // Array of feedback items
 }
 
@@ -47,6 +48,7 @@ export default function Home() {
 			demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
 			descriptionLong:
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
+			startupName: "MatchMakers",
 			feedbackData: [
 				{
 					id: 1,
@@ -89,6 +91,7 @@ export default function Home() {
 			descriptionShort: "Mobile App for Matchmakers",
 			productLink: "https://www.facebook.com/groups/2689639201174278/",
 			demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
+			startupName: "MatchStick",
 			descriptionLong:
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
 			feedbackData: [
