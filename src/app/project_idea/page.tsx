@@ -3,12 +3,11 @@ import { Box, Container, Typography, Link } from "@mui/material";
 import ProjectIdeaForm from "../../components/ProjectIdeaForm";
 import { createClient } from "~/api/supabaseServerClient";
 
-export default async function ProjectIdeaScreen(){
-
+export default async function ProjectIdeaScreen() {
 	const supabaseServer = createClient();
 	const {
 		data: { user },
-	} = await(await supabaseServer).auth.getUser();
+	} = await (await supabaseServer).auth.getUser();
 
 	return (
 		<Box
@@ -72,4 +71,4 @@ export default async function ProjectIdeaScreen(){
 			</Container>
 		</Box>
 	);
-};
+}
