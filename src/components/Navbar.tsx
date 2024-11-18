@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
 				</div>
 				<p>Project</p>
 			</Link>
-			<Link href="/" className={linkClasses("/")}>
+			<Link href="/home" className={linkClasses("/home")}>
 				<div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-600">
 					<Home className="h-8 w-8 text-indigo-600" aria-label="Home" />
 				</div>
