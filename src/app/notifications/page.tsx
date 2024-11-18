@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { User } from "lucide-react";
-import Navbar from "../_components/Navbar";
+import Navbar from "../../components/Navbar";
 
 interface Notification {
 	id: number;

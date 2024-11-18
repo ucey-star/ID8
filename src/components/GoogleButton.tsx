@@ -1,12 +1,18 @@
 import React from "react";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import { signInWIthGoogle } from "../app/auth/actions";
 
 const GoogleButton: React.FC<{ content: string }> = ({ content }) => {
+	const handleGoogleLogin = async () => {
+		const response = await signInWIthGoogle();
+		console.log(response);
+	};
 	return (
 		<>
 			<Button
 				variant="outlined"
+				onClick={handleGoogleLogin}
 				sx={{
 					mb: 3,
 					fontFamily: "Outfit",

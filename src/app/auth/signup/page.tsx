@@ -64,7 +64,7 @@ function SignUp() {
 						Already have an account? {isMobile && <br />}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
-							href="/login"
+							href="/auth/login"
 						>
 							Sign in
 						</Link>

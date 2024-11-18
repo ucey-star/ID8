@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import GoogleButton from "~/components/GoogleButton";
-import InputField from "~/components/InputField";
-import GradientButton from "~/components/GradientButton";
-import PasswordField from "~/components/PasswordField";
-import useMobile from "~/utils/useMobile";
-import Image from "next/image";
-import id8Logo from "~/assets/id8-logo.png";
+import GoogleButton from "../../../components/GoogleButton";
+import InputField from "../../../components/InputField";
+import GradientButton from "../../../components/GradientButton";
+import PasswordField from "../../../components/PasswordField";
 import Link from "next/link";
+import Image from "next/image";
+import id8Logo from "../../../assets/id8-logo.png";
+import useMobile from "~/utils/useMobile";
 
 function SignUp() {
 	const [email, setEmail] = useState("");
@@ -17,12 +17,12 @@ function SignUp() {
 	const handlePasswordClick = () => {
 		setShowPassword(!showPassword);
 	};
-	const handleLogin = () => {
-		// supabase func for login
-	};
 
 	const isMobile = useMobile();
 
+	const handleLogin = async () => {
+		console.log("login");
+	};
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
 			<div className="w-full max-w-md rounded-lg border border-solid border-[#5370F7] bg-white px-16 py-12 shadow-xl md:px-20">
@@ -65,7 +65,7 @@ function SignUp() {
 						Don&apos;t have an account? {isMobile && <br />}
 						<Link
 							className="font-semibold text-[#5370F7] underline"
-							href="/signup"
+							href="/auth/signup"
 						>
 							Sign up
 						</Link>

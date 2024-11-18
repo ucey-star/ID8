@@ -17,7 +17,6 @@ interface FeedbackData {
 interface CardData {
 	id: number; // Unique card ID
 	name: string; // Associated name
-	startupName: string; // Startup name
 	date: string; // Creation date
 	views: number; // View count
 	comments: number; // Comment count
@@ -27,6 +26,7 @@ interface CardData {
 	productLink: string; // Product URL
 	demoLink: string; // Demo URL
 	descriptionLong: string; // Full description
+	startupName: string; // Startup name
 	feedbackData: FeedbackData[]; // Array of feedback items
 }
 
@@ -38,7 +38,6 @@ export default function Home() {
 		{
 			id: 1,
 			name: "Muhammad Saleh",
-			startupName: "Matchstick",
 			date: "December 06, 2024",
 			views: 123,
 			comments: 456,
@@ -49,6 +48,7 @@ export default function Home() {
 			demoLink: "https://youtu.be/qL7zrWcv6XY?feature=shared",
 			descriptionLong:
 				"Matchstick is a mobile app that addresses the challenges faced by matchmakers in their work...",
+			startupName: "MatchMakers",
 			feedbackData: [
 				{
 					id: 1,
