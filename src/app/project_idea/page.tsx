@@ -8,7 +8,6 @@ export default async function ProjectIdeaScreen() {
 	const {
 		data: { user },
 	} = await (await supabaseServer).auth.getUser();
-
 	return (
 		<Box
 			sx={{
