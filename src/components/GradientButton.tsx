@@ -3,13 +3,15 @@ import { Button } from "@mui/material";
 
 const GradientButton: React.FC<{
 	content: string;
+	type?: "button" | "submit" | "reset";
 	className?: string;
-	onClick: () => void;
-}> = ({ content, className, onClick }) => {
+	onClick?: () => void;
+}> = ({ content, className, onClick, type = "button" }) => {
 	return (
 		<Button
 			onClick={onClick}
 			className={className}
+			type={type}
 			sx={{
 				width: "100%",
 				fontFamily: "Outfit",
