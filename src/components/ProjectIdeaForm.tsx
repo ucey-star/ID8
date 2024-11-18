@@ -29,7 +29,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 	const [projectLink, setProjectLink] = useState("");
 	const [demoLink, setDemoLink] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
-	const [feedbackQuestion, setFeedbackQuestion ] = useState("");
+	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;

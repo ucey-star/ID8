@@ -5,7 +5,6 @@ import { createClient } from "~/api/supabaseServerClient";
 
 export default async function PersonalDetailsScreen() {
 	const supabaseServer = createClient();
-
 	const {
 		data: { user },
 	} = await (await supabaseServer).auth.getUser();
