@@ -110,7 +110,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
             }
         };
 
-        fetchProjects();
+        void fetchProjects();
     }, [user?.id]);
 
     if (loading) {
