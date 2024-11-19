@@ -3,6 +3,7 @@ import { Box, Container, Typography } from "@mui/material";
 import PersonalDetailsForm from "../../components/PersonalDetailsForm";
 import { createClient } from "~/api/supabaseServerClient";
 
+<<<<<<< HEAD
 export default async function PersonalDetailsScreen({ searchParams }: { searchParams: { step?: string } }) {
     const supabaseServer = createClient();
 
@@ -10,6 +11,13 @@ export default async function PersonalDetailsScreen({ searchParams }: { searchPa
     const {
         data: { user },
     } = await (await supabaseServer).auth.getUser();
+=======
+export default async function PersonalDetailsScreen() {
+	const supabaseServer = createClient();
+	const {
+		data: { user },
+	} = await (await supabaseServer).auth.getUser();
+>>>>>>> main
 
     // Determine redirection based on `step` query parameter
     const redirectTo = searchParams?.step === "complete-profile" ? "/" : "/home";
