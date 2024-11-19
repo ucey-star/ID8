@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Box,
 	TextField,
@@ -18,19 +18,27 @@ import GradientButton from "../components/GradientButton";
 import type { User } from "@supabase/supabase-js";
 import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
+import { useRouter } from "next/navigation";
 
 interface ProjectIdeaFormProps {
 	user: User | null;
+	redirectTo?: string;
 }
 
-const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
+const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
+	user,
+	redirectTo,
+}) => {
+	const router = useRouter();
+	const [projectId, setProjectId] = useState<string | null>(null);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
 	const [projectLink, setProjectLink] = useState("");
 	const [demoLink, setDemoLink] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
-	const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -44,7 +52,52 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
-	const handleSaveDraft = async () => {
+	// Fetch project details if they exist
+	useEffect(() => {
+		const fetchProjectDetails = async () => {
+			if (!user) {
+				console.warn("User is not logged in.");
+				setLoading(false);
+				return;
+			}
+
+			try {
+				setLoading(true);
+				const { data, error } = await supabaseClient
+					.from("Projects")
+					.select("*")
+					.eq("user_id", user?.id)
+					.single(); // Get a single project for the user
+
+				if (error && error.code !== "PGRST116") {
+					console.error("Error fetching project details:", error);
+					throw error;
+				}
+
+				if (data) {
+					// Populate fields with existing project data
+					setProjectId(data.project_id); // Save project ID for updates
+					setProjectName(data.project_name ?? "");
+					setTagline(data.tagline ?? "");
+					setProjectLink(data.project_url ?? "");
+					setDemoLink(data.demo_link ?? "");
+					setProjectDescription(data.project_description ?? "");
+					setFeedbackQuestion(data.feedback_question ?? "");
+					setSelectedTags(data.tags ?? []);
+				}
+			} catch (error) {
+				console.error("Error loading project:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (user) {
+			void fetchProjectDetails();
+		}
+	}, [user]);
+
+	const handleSaveProject = async () => {
 		const formData: Database["public"]["Tables"]["Projects"]["Insert"] = {
 			user_id: user?.id,
 			project_name: projectName,
@@ -52,38 +105,64 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 			project_url: projectLink,
 			demo_link: demoLink,
 			project_description: projectDescription,
-			tags: selectedMajors,
+			tags: selectedTags,
 			feedback_question: feedbackQuestion,
-			created_at: new Date().toISOString().split("T")[0],
 		};
 
 		try {
-			const { data, error } = await supabaseClient
-				.from("Projects")
-				.insert([formData]);
+			if (projectId) {
+				// Update existing project
+				const { error: updateError } = await supabaseClient
+					.from("Projects")
+					.update(formData)
+					.eq("project_id", projectId); // Use project_id for updates
 
-			if (error) throw error;
+				if (updateError) throw updateError;
 
-			setSnackbar({
-				open: true,
-				message: "Project saved successfully!",
-				severity: "success",
-			});
-			console.log("Data inserted successfully:", data);
+				setSnackbar({
+					open: true,
+					message: "Project updated successfully!",
+					severity: "success",
+				});
+			} else {
+				// Insert new project if none exists
+				const { data, error } = await supabaseClient
+					.from("Projects")
+					.insert([formData])
+					.select(); // Get the created project data
+
+				if (error) throw error;
+
+				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
+				setSnackbar({
+					open: true,
+					message: "Project created successfully!",
+					severity: "success",
+				});
+			}
+
+			// Redirect after saving
+			setTimeout(() => {
+				router.push(redirectTo ?? "/home");
+			}, 1000);
 		} catch (error) {
-			console.error("Error inserting data:", error);
+			console.error("Error saving project:", error);
 			setSnackbar({
 				open: true,
-				message: "Error saving project idea. Please try again.",
+				message: "Error saving project. Please try again.",
 				severity: "error",
 			});
 		}
 	};
 
-	const handleMajorChange = (event: SelectChangeEvent<string[]>) => {
+	const handleTagChange = (event: SelectChangeEvent<string[]>) => {
 		const value = event.target.value as unknown as string[];
-		setSelectedMajors(value);
+		setSelectedTags(value);
 	};
+
+	if (loading) {
+		return <Box>Loading...</Box>;
+	}
 
 	return (
 		<Box
@@ -149,8 +228,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 				</InputLabel>
 				<Select
 					multiple
-					value={selectedMajors}
-					onChange={handleMajorChange}
+					value={selectedTags}
+					onChange={handleTagChange}
 					label="What are some tags you would associate with your project idea?*"
 					renderValue={(selected) => selected.join(", ")}
 					variant="outlined"
@@ -160,10 +239,10 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 						"Social Sciences (SS)",
 						"Arts and Humanities (AH)",
 						"Natural Sciences (NS)",
-					].map((major) => (
-						<MenuItem key={major} value={major}>
-							<Checkbox checked={selectedMajors.includes(major)} />
-							<ListItemText primary={major} />
+					].map((tag) => (
+						<MenuItem key={tag} value={tag}>
+							<Checkbox checked={selectedTags.includes(tag)} />
+							<ListItemText primary={tag} />
 						</MenuItem>
 					))}
 				</Select>
@@ -173,7 +252,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user }) => {
 				sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
 			>
 				<GradientButton
-					onClick={handleSaveDraft}
+					onClick={handleSaveProject}
 					content="Save"
 					className="w-1/2"
 				/>

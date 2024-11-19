@@ -6,7 +6,6 @@ import TitleResponse from "./TitleResponse";
 
 interface ExploreMoreData {
 	headline: string;
-	startupName: string;
 	descriptionShort: string;
 	productLink: string;
 	demoLink: string;
@@ -77,7 +76,6 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					gap: "var(--spacing-medium)",
 				}}
 			>
-				<TitleResponse title="Startup name" response={data.startupName} />
 				<TitleResponse
 					title="Describe what your company does in 50 characters or less.*"
 					response={data.descriptionShort}

@@ -1,32 +1,26 @@
 "use client";
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
-import Likes from "./Likes";
-import Comments from "./Comments";
-import Views from "./Views";
 
 interface CardProps {
-	name: string;
+	name: string | null;
 	date: string;
-	views: number;
-	comments: number;
-	likes: number;
+	descriptionShort: string;
+	headline: string;
 	onExploreMore: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
 	name,
 	date,
-	views,
-	comments,
-	likes,
+	descriptionShort,
+	headline,
 	onExploreMore,
 }) => {
 	return (
 		<Box
 			sx={{
-				width: "100%",
-				maxWidth: "500px",
+				width: "65%",
 				backgroundColor: "var(--color-background-paper)",
 				padding: "var(--spacing-large)",
 				borderRadius: "16px",
@@ -34,103 +28,110 @@ const Card: React.FC<CardProps> = ({
 				boxShadow: "var(--box-shadow)",
 				display: "flex",
 				flexDirection: "column",
+				justifyContent: "flex-start",
+				alignItems: "stretch",
 				gap: "var(--spacing-medium)",
-				alignItems: "center",
 				fontFamily: "var(--font-family-outfit)",
+				minHeight: "180px",
+				flexGrow: 1,
+				margin: "0 auto",
+				textAlign: "center",
 			}}
 		>
+			{/* Top Section: Headline on Left, Name and Date on Right */}
 			<Box
 				sx={{
-					width: "100%",
 					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center",
+					flexDirection: "row",
+					justifyContent: "space-between", // Space between headline and name/date
+					alignItems: "flex-start",
+					width: "100%",
 				}}
 			>
+				{/* Headline (Upper Left) */}
 				<Typography
-					variant="h6"
+					variant="h5"
 					sx={{
 						fontWeight: "var(--font-weight-bold)",
 						color: "var(--color-text-primary)",
 					}}
 				>
-					{name}
+					{headline}
 				</Typography>
-				<Typography
-					variant="body2"
+
+				{/* Name and Date (Upper Right) */}
+				<Box
 					sx={{
-						color: "var(--color-text-secondary)",
-						fontSize: "var(--font-size-body)",
-						lineHeight: "20.16px",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "flex-end", // Align items to the right
+						gap: "4px", // Small gap between name and date
 					}}
 				>
-					{date}
-				</Typography>
+					<Typography
+						variant="body1"
+						sx={{
+							color: "var(--color-text-secondary)",
+						}}
+					>
+						{name}
+					</Typography>
+					<Typography
+						variant="body1"
+						sx={{
+							fontWeight: "var(--font-weight-bold)",
+							color: "var(--color-text-primary)",
+						}}
+					>
+						{date}
+					</Typography>
+				</Box>
 			</Box>
 
+			{/* Middle Section: Short Description */}
 			<Box
 				sx={{
-					width: "400px",
-					height: "400px",
-					backgroundColor: "#F0F0F5",
+					flexGrow: 1,
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
-					borderRadius: "8px",
 				}}
 			>
 				<Typography
+					variant="subtitle1"
 					sx={{
 						color: "var(--color-text-secondary)",
-						fontSize: "var(--font-size-body)",
+						fontStyle: "italic",
+						fontWeight: "var(--font-weight-medium)",
 					}}
 				>
-					Name or Logo or Demo
+					{descriptionShort}
 				</Typography>
 			</Box>
 
+			{/* Bottom Section: Button */}
 			<Box
 				sx={{
 					width: "100%",
 					display: "flex",
-					justifyContent: "space-around",
-					alignItems: "center",
+					justifyContent: "center", // Center the button
 				}}
 			>
-				<Views views={views} />
-				<Box
+				<Button
+					variant="contained"
+					className="custom-next-button"
 					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
+						minWidth: "150px",
+						padding: "var(--spacing-small) var(--spacing-medium)",
+						whiteSpace: "nowrap",
+						fontFamily: "var(--font-family-outfit)",
+						alignItems: "center",
 					}}
-				/>
-				<Comments comments={comments} />
-				<Box
-					sx={{
-						width: "1px",
-						backgroundColor: "var(--color-border)",
-						height: "48px",
-					}}
-				/>
-				<Likes likes={likes} />
+					onClick={onExploreMore}
+				>
+					Explore More
+				</Button>
 			</Box>
-
-			<Button
-				variant="contained"
-				className="custom-next-button"
-				sx={{
-					width: "fit-content",
-					minWidth: "120px",
-					padding: "var(--spacing-small) var(--spacing-medium)",
-					whiteSpace: "nowrap",
-					flexShrink: 0,
-					fontFamily: "var(--font-family-outfit)",
-				}}
-				onClick={onExploreMore}
-			>
-				Explore More
-			</Button>
 		</Box>
 	);
 };

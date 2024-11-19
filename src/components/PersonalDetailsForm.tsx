@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Box, TextField, Snackbar, Alert } from "@mui/material";
 import GradientButton from "../components/GradientButton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -12,9 +13,13 @@ import { useRouter } from "next/navigation";
 
 interface PersonalDetailsFormProps {
 	user: User | null;
+	redirectTo?: string;
 }
 
-const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
+const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
+	user,
+	redirectTo,
+}) => {
 	const router = useRouter();
 	const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
 	const [gender, setGender] = useState("");
@@ -23,6 +28,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 	const [workplace, setWorkplace] = useState("");
 	const [linkedin, setLinkedin] = useState("");
 	const [username, setUsername] = useState("");
+	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -36,7 +42,56 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
+	useEffect(() => {
+		const fetchUserDetails = async () => {
+			if (!user) {
+				console.warn("User is not logged in.");
+				setLoading(false);
+				return;
+			}
+
+			try {
+				setLoading(true);
+				const { data, error } = await supabaseClient
+					.from("User_Profile")
+					.select("*")
+					.eq("user_id", user?.id)
+					.single();
+
+				if (error && error.code !== "PGRST116") {
+					console.error("Error fetching user details:", error);
+					throw error;
+				}
+
+				if (data) {
+					// Populate the form with existing details
+					setUsername(data.username ?? "");
+					setDateOfBirth(data.DOB ? new Date(data.DOB) : null);
+					setGender(data.Gender ?? "");
+					setAddress(data.Address ?? "");
+					setDescription(data.bio ?? "");
+					setWorkplace(data.Place_of_work ?? "");
+					setLinkedin(data.linkedin_url ?? "");
+				}
+			} catch (error) {
+				console.error("Error loading user profile:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (user) {
+			void fetchUserDetails();
+		}
+	}, [user]);
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		if (!user) {
+			console.warn("User is not logged in.");
+			setLoading(false);
+			return;
+		}
+
 		e.preventDefault();
 
 		const formData: Database["public"]["Tables"]["User_Profile"]["Insert"] = {
@@ -51,28 +106,53 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 		};
 
 		try {
-			const { data, error } = await supabaseClient
+			// Check if the user profile already exists
+			const { data: existingProfile, error: fetchError } = await supabaseClient
 				.from("User_Profile")
-				.insert([formData]);
+				.select("*")
+				.eq("user_id", user?.id)
+				.single();
 
-			if (error) throw error;
+			if (fetchError && fetchError.code !== "PGRST116") {
+				throw new Error("Error checking existing profile");
+			}
 
-			// Show success message
-			setSnackbar({
-				open: true,
-				message: "Details saved successfully!",
-				severity: "success",
-			});
-			console.log("Data inserted successfully:", data);
+			if (existingProfile) {
+				// Update existing profile
+				const { error: updateError } = await supabaseClient
+					.from("User_Profile")
+					.update(formData)
+					.eq("user_id", user?.id);
 
-			// Navigate to home after a delay
+				if (updateError) throw updateError;
+
+				setSnackbar({
+					open: true,
+					message: "Profile updated successfully!",
+					severity: "success",
+				});
+			} else {
+				// Create new profile
+				const { error: insertError } = await supabaseClient
+					.from("User_Profile")
+					.insert([formData]);
+
+				if (insertError) throw insertError;
+
+				setSnackbar({
+					open: true,
+					message: "Profile created successfully!",
+					severity: "success",
+				});
+			}
+
+			// Trigger the onSave callback or navigate to "/home"
 			setTimeout(() => {
-				router.push("/home");
-			}, 1100);
+				router.push(redirectTo ?? "/home");
+			}, 1000);
 		} catch (error) {
-			console.error("Error inserting data:", error);
+			console.error("Error saving profile:", error);
 
-			// Show error message
 			setSnackbar({
 				open: true,
 				message: "Error saving details. Please try again.",
@@ -80,6 +160,10 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 			});
 		}
 	};
+
+	if (loading) {
+		return <Box>Loading...</Box>;
+	}
 
 	return (
 		<>
@@ -153,7 +237,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user }) => {
 			{/* Snackbar for notifications */}
 			<Snackbar
 				open={snackbar.open}
-				autoHideDuration={snackbar.severity === "error" ? 10000 : 1000} // 10 seconds for error, 6 seconds for success
+				autoHideDuration={snackbar.severity === "error" ? 10000 : 1000}
 				onClose={handleCloseSnackbar}
 			>
 				<Alert
