@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 interface FeedbackItemProps {
 	name: string;
 	timeAgo: string;
-	feedback: string;
+	feedback: string | null;
 }
 
 const FeedbackItem: React.FC<FeedbackItemProps> = ({

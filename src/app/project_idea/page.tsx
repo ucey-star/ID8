@@ -3,11 +3,13 @@ import { Box, Container, Typography, Link } from "@mui/material";
 import ProjectIdeaForm from "../../components/ProjectIdeaForm";
 import { createClient } from "~/api/supabaseServerClient";
 
-export default async function ProjectIdeaScreen() {
+export default async function ProjectIdeaScreen({ searchParams }: { searchParams: { step?: string } }) {
 	const supabaseServer = createClient();
 	const {
 		data: { user },
 	} = await (await supabaseServer).auth.getUser();
+
+	const redirectTo = searchParams?.step === "start-project" ? "/": "/home";
 	return (
 		<Box
 			sx={{
@@ -58,7 +60,7 @@ export default async function ProjectIdeaScreen() {
 					project.
 				</Typography>
 
-				<ProjectIdeaForm user={user} />
+				<ProjectIdeaForm user={user} redirectTo={redirectTo} />
 
 				<Link
 					href="/home"

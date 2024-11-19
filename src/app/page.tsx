@@ -1,69 +1,189 @@
 "use client";
 
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import Header from "../components/Header";
+import React from "react";
+import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
-import supabaseClient from "~/api/supabaseConfig";
-import type { Database } from "~/types/database.types";
 
 export default function HomePage() {
-	const [counter, setCounter] = useState(0);
-	const [fetchedText, setFetchedText] = useState<
-		Database["public"]["Tables"]["Test_table"]["Row"][]
-	>([]);
-	function increment() {
-		setCounter((prev) => prev + 1);
-	}
-	function decrement() {
-		setCounter((prev) => prev - 1);
-	}
-	async function fetchTestData(): Promise<void> {
-		try {
-			const { data, error } = await supabaseClient
-				.from("Test_table")
-				.select("*");
-			if (error) {
-				console.log("Error fetching data:", error.message);
-			} else {
-				setFetchedText(data);
-			}
-		} catch (err) {
-			console.error("An error occurred:", err);
-		}
-	}
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh",
+                background: "linear-gradient(to right, #f8f9fc, #e3e7ff)",
+                padding: "20px",
+            }}
+        >
+            <Box
+                sx={{
+                    backgroundColor: "white",
+                    borderRadius: "16px",
+                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                    padding: "40px",
+                    width: "100%",
+                    maxWidth: "500px",
+                    textAlign: "center",
+                }}
+            >
+                <Typography
+                    variant="h4"
+                    sx={{
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#333",
+                        fontFamily: "Arial, sans-serif",
+                    }}
+                >
+                    Welcome to the Platform
+                </Typography>
+                <Typography
+                    sx={{
+                        fontSize: "16px",
+                        marginBottom: "24px",
+                        color: "#666",
+                        fontFamily: "Arial, sans-serif",
+                    }}
+                >
+                    Follow these steps to get started:
+                </Typography>
 
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-center bg-slate-400 text-white">
-			<div className="container flex flex-row items-center justify-center gap-12 px-4 py-16">
-				<Header />
-				<Button onClick={increment}>Increment</Button>
-				<Button onClick={decrement}>Decrement</Button>
-				<Button onClick={fetchTestData}>Fetch Test Data</Button>
-			</div>
-			<div className="flex flex-col items-center justify-center rounded-2xl bg-slate-500 px-16 py-8">
-				{counter}
-				<ul>
-					{fetchedText.map((item) => (
-						<li key={item.id}>Test:{item.Test ?? "No Test data"}</li>
-					))}
-				</ul>
-			</div>
-			{/* New Section for Routing. Only added this to facilitate development while we don't have a main page and we want to see the other pages in a easy way. We will remove it later*/}
-			<div className="mt-4 flex flex-col items-center justify-center gap-4">
-				{/* Link to Personal Details Page */}
-				<Link href="/personal-details" passHref>
-					<Button variant="contained" color="primary">
-						Go to Personal Details
-					</Button>
-				</Link>
-				{/* Link to Project Idea Page */}
-				<Link href="/project_idea" passHref>
-					<Button variant="contained" color="primary">
-						Go to Project Idea
-					</Button>
-				</Link>
-			</div>
-		</main>
-	);
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "24px",
+                        alignItems: "center",
+                        fontFamily: "Arial, sans-serif",
+                    }}
+                >
+                    {/* Step 1 */}
+                    <Box sx={{ textAlign: "left", width: "100%" }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: "bold",
+                                marginBottom: "8px",
+                                color: "#333",
+                            }}
+                        >
+                            Step 1: Complete Your Profile
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: "14px",
+                                marginBottom: "12px",
+                                color: "#666",
+                            }}
+                        >
+                            Make sure others can understand who you are by completing your profile.
+                        </Typography>
+                        <Link href={{
+                                pathname: "/personal-details",
+                                query: { step: "complete-profile" },
+                            }}
+							 passHref>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    background: "linear-gradient(90deg, #7b42f6, #bc85f9)",
+                                    color: "white",
+                                    padding: "10px 20px",
+                                    borderRadius: "8px",
+                                    textTransform: "none",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Complete Profile
+                            </Button>
+                        </Link>
+                    </Box>
+
+                    {/* Step 2 */}
+                    <Box sx={{ textAlign: "left", width: "100%" }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: "bold",
+                                marginBottom: "8px",
+                                color: "#333",
+                            }}
+                        >
+                            Step 2: Share Your Project Idea
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: "14px",
+                                marginBottom: "12px",
+                                color: "#666",
+                            }}
+                        >
+                            Submit your project idea to start connecting with others.
+                        </Typography>
+                        <Link
+                            href={{
+                                pathname: "/project_idea",
+                                query: { step: "start-project" },
+                            }}
+                            passHref
+                        >
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    background: "linear-gradient(90deg, #34c759, #62e3a6)",
+                                    color: "white",
+                                    padding: "10px 20px",
+                                    borderRadius: "8px",
+                                    textTransform: "none",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Start a Project
+                            </Button>
+                        </Link>
+                    </Box>
+
+                    {/* Step 3 */}
+                    <Box sx={{ textAlign: "left", width: "100%" }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: "bold",
+                                marginBottom: "8px",
+                                color: "#333",
+                            }}
+                        >
+                            Step 3: Go to Your Dashboard
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: "14px",
+                                marginBottom: "12px",
+                                color: "#666",
+                            }}
+                        >
+                            View your progress and manage your projects on the dashboard.
+                        </Typography>
+                        <Link href="/home" passHref>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    background: "linear-gradient(90deg, #ff9900, #ffc14c)",
+                                    color: "white",
+                                    padding: "10px 20px",
+                                    borderRadius: "8px",
+                                    textTransform: "none",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Go to Dashboard
+                            </Button>
+                        </Link>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+    );
 }

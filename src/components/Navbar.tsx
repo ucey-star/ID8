@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
 				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
 					<Settings className="h-8 w-8 text-indigo-600" aria-label="Project" />
 				</div>
-				<p>Project</p>
+				<p>Edit Project</p>
 			</div>
 			<div
 				onClick={() => handleNavigation("/home")}
@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
 				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
 					<User className="h-8 w-8 text-indigo-600" aria-label="Profile" />
 				</div>
-				<p>Settings</p>
+				<p>Profile</p>
 			</div>
 		</nav>
 	);
