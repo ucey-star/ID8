@@ -59,7 +59,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
             }
         };
 
-        fetchComments();
+        void fetchComments();
     }, [projectId]);
 
     const handleAddComment = async () => {

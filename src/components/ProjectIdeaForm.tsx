@@ -74,13 +74,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user, redirectTo }) =
                 if (data) {
                     // Populate fields with existing project data
                     setProjectId(data.project_id); // Save project ID for updates
-                    setProjectName(data.project_name || "");
-                    setTagline(data.tagline || "");
-                    setProjectLink(data.project_url || "");
-                    setDemoLink(data.demo_link || "");
-                    setProjectDescription(data.project_description || "");
-                    setFeedbackQuestion(data.feedback_question || "");
-                    setSelectedTags(data.tags || []);
+                    setProjectName(data.project_name ?? "");
+                    setTagline(data.tagline ?? "");
+                    setProjectLink(data.project_url ?? "");
+                    setDemoLink(data.demo_link ?? "");
+                    setProjectDescription(data.project_description ?? "");
+                    setFeedbackQuestion(data.feedback_question ?? "");
+                    setSelectedTags(data.tags ?? []);
                 }
             } catch (error) {
                 console.error("Error loading project:", error);
@@ -90,7 +90,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user, redirectTo }) =
         };
 
         if (user) {
-            fetchProjectDetails();
+			void fetchProjectDetails();
         }
     }, [user]);
 
@@ -130,7 +130,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user, redirectTo }) =
 
                 if (error) throw error;
 
-                setProjectId(data[0]?.project_id || null); // Save the new project ID for future updates
+                setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
                 setSnackbar({
                     open: true,
                     message: "Project created successfully!",
@@ -140,7 +140,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user, redirectTo }) =
 
             // Redirect after saving
             setTimeout(() => {
-                router.push(redirectTo || "/home");
+                router.push(redirectTo ?? "/home");
             }, 1000);
         } catch (error) {
             console.error("Error saving project:", error);

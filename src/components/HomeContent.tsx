@@ -73,30 +73,30 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
                     .select("*")
                     .neq("user_id", user.id);
 
-                if (myProjectsResponse.error || otherProjectsResponse.error) {
+                if (myProjectsResponse.error ?? otherProjectsResponse.error) {
                     console.error("Error fetching projects");
                 } else {
-                    const mappedMyProjects = (myProjectsResponse.data || []).map((project) => ({
+                    const mappedMyProjects = (myProjectsResponse.data ?? []).map((project) => ({
                         id: project.project_id, // Keep UUID as string
-                        name: project.project_name || "Unknown",
+                        name: project.project_name ?? "Unknown",
                         date: new Date(project.created_at).toLocaleDateString(),
-                        headline: project.project_name || "No Headline",
-                        descriptionShort: project.tagline || "",
-                        productLink: project.project_url || "",
-                        demoLink: project.demo_link || "",
-                        descriptionLong: project.project_description || "",
+                        headline: project.project_name ?? "No Headline",
+                        descriptionShort: project.tagline ?? "",
+                        productLink: project.project_url ?? "",
+                        demoLink: project.demo_link ?? "",
+                        descriptionLong: project.project_description ?? "",
                         feedbackData: [],
                     }));
 
-                    const mappedOtherProjects = (otherProjectsResponse.data || []).map((project) => ({
+                    const mappedOtherProjects = (otherProjectsResponse.data ?? []).map((project) => ({
                         id: project.project_id, // Keep UUID as string
-                        name: project.project_name || "Unknown",
+                        name: project.project_name ?? "Unknown",
                         date: new Date(project.created_at).toLocaleDateString(),
-                        headline: project.project_name || "No Headline",
-                        descriptionShort: project.tagline || "",
-                        productLink: project.project_url || "",
-                        demoLink: project.demo_link || "",
-                        descriptionLong: project.project_description || "",
+                        headline: project.project_name ?? "No Headline",
+                        descriptionShort: project.tagline ?? "",
+                        productLink: project.project_url ?? "",
+                        demoLink: project.demo_link ?? "",
+                        descriptionLong: project.project_description ?? "",
                         feedbackData: [],
                     }));
 

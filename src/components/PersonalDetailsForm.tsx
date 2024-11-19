@@ -62,13 +62,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 
 				if (data) {
 					// Populate the form with existing details
-					setUsername(data.username || "");
+					setUsername(data.username ?? "");
 					setDateOfBirth(data.DOB ? new Date(data.DOB) : null);
-					setGender(data.Gender || "");
-					setAddress(data.Address || "");
-					setDescription(data.bio || "");
-					setWorkplace(data.Place_of_work || "");
-					setLinkedin(data.linkedin_url || "");
+					setGender(data.Gender ?? "");
+					setAddress(data.Address ?? "");
+					setDescription(data.bio ?? "");
+					setWorkplace(data.Place_of_work ?? "");
+					setLinkedin(data.linkedin_url ?? "");
 				}
 			} catch (error) {
 				console.error("Error loading user profile:", error);
@@ -78,7 +78,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 		};
 
 		if (user) {
-			fetchUserDetails();
+			void fetchUserDetails();
 		}
 	}, [user]);
 
@@ -145,7 +145,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 
 			// Trigger the onSave callback or navigate to "/home"
 			setTimeout(() => {
-                router.push(redirectTo || "/home");
+                router.push(redirectTo ?? "/home");
             }, 1000);
 		} catch (error) {
 			console.error("Error saving profile:", error);
