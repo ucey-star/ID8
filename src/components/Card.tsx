@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 
 interface CardProps {
-	name: string| null;
+	name: string | null;
 	date: string;
 	descriptionShort: string;
 	headline: string;

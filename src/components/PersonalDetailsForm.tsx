@@ -16,7 +16,10 @@ interface PersonalDetailsFormProps {
 	redirectTo?: string;
 }
 
-const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirectTo }) => {
+const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
+	user,
+	redirectTo,
+}) => {
 	const router = useRouter();
 	const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
 	const [gender, setGender] = useState("");
@@ -42,10 +45,10 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			if (!user) {
-                console.warn("User is not logged in.");
-                setLoading(false);
-                return;
-            }
+				console.warn("User is not logged in.");
+				setLoading(false);
+				return;
+			}
 
 			try {
 				setLoading(true);
@@ -145,8 +148,8 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 
 			// Trigger the onSave callback or navigate to "/home"
 			setTimeout(() => {
-                router.push(redirectTo ?? "/home");
-            }, 1000);
+				router.push(redirectTo ?? "/home");
+			}, 1000);
 		} catch (error) {
 			console.error("Error saving profile:", error);
 

@@ -1,6 +1,6 @@
-import HomeContent from "~/components/HomeContent"; 
+import HomeContent from "~/components/HomeContent";
 import Navbar from "~/components/Navbar";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import { createClient } from "~/api/supabaseServerClient";
 
 export default async function Home() {
@@ -8,7 +8,7 @@ export default async function Home() {
 
 	const {
 		data: { user },
-	} = await(await supabaseServer).auth.getUser();
+	} = await (await supabaseServer).auth.getUser();
 
 	return (
 		<>
@@ -29,7 +29,7 @@ export default async function Home() {
 			>
 				<Navbar />
 			</Box>
-			<HomeContent user = {user}/>
+			<HomeContent user={user} />
 		</>
 	);
 }
