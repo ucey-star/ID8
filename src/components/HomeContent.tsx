@@ -9,7 +9,7 @@ import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 
 interface HomeContentProps {
-    user: User;
+    user: User | null;
 }
 
 // FeedbackData interface
