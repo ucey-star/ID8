@@ -36,7 +36,7 @@ function SignUp() {
 
 				<GoogleButton content="Sign up with Google" />
 
-				<div className="mb-6 flex items-center">
+				{/* <div className="mb-6 flex items-center">
 					<div className="flex-grow border-t border-gray-300"></div>
 					<span className="mx-4 flex-shrink text-gray-600">OR</span>
 					<div className="flex-grow border-t border-gray-300"></div>
@@ -56,9 +56,9 @@ function SignUp() {
 					onTogglePassword={handlePasswordClick}
 					value={password}
 					handleChange={(e) => setPassword(e.target.value)}
-				/>
+				/> */}
 
-				<GradientButton content="Create Account" onClick={handleSignup} />
+				{/* <GradientButton content="Create Account" onClick={handleSignup} /> */}
 				<div className="flex justify-center">
 					<span className="mx-auto text-center text-sm text-[#808080]">
 						Already have an account? {isMobile && <br />}

@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Chip } from "@mui/material";
 
 interface CardProps {
 	name: string | null;
 	date: string;
 	descriptionShort: string;
 	headline: string;
+	tags?: string[]; // Tags prop
 	onExploreMore: () => void;
 }
 
@@ -15,8 +16,17 @@ const Card: React.FC<CardProps> = ({
 	date,
 	descriptionShort,
 	headline,
+	tags = [], // Default empty array
 	onExploreMore,
 }) => {
+	// Define darker colors for tags
+	const tagColors: Record<string, string> = {
+		"Computer Science (CS)": "#4CB8A5", // Dark Blue
+		"Social Sciences (SS)": "#F9A825", // Dark Green
+		"Arts and Humanities (AH)": "#FF6F61", // Dark Red
+		"Natural Sciences (NS)": "#8E6EB4", // Dark Orange
+	};
+
 	return (
 		<Box
 			sx={{
@@ -32,7 +42,7 @@ const Card: React.FC<CardProps> = ({
 				alignItems: "stretch",
 				gap: "var(--spacing-medium)",
 				fontFamily: "var(--font-family-outfit)",
-				minHeight: "180px",
+				minHeight: "200px",
 				flexGrow: 1,
 				margin: "0 auto",
 				textAlign: "center",
@@ -95,6 +105,7 @@ const Card: React.FC<CardProps> = ({
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
+					textAlign: "center",
 				}}
 			>
 				<Typography
@@ -109,6 +120,33 @@ const Card: React.FC<CardProps> = ({
 				</Typography>
 			</Box>
 
+			{/* Tags Section (Below Description) */}
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "flex-start", // Align tags to the left
+					alignItems: "center", // Center vertically
+					flexWrap: "wrap", // Allow tags to wrap to the next line if needed
+					gap: "8px", // Space between chips
+					marginTop: "12px", // Add some spacing above the tags
+					width: "100%", // Take full width of the card
+				}}
+			>
+				{tags.map((tag) => (
+					<Chip
+						key={tag}
+						label={tag}
+						sx={{
+							backgroundColor: tagColors[tag] || "#424242", // Fallback to dark gray
+							color: "#ffffff", // White text for contrast
+							fontSize: "0.65rem", // Smaller font size
+							height: "22px", // Reduced height for smaller tags
+							padding: "2px 6px", // Smaller padding inside the chip
+							fontWeight: "500", // Maintain readability
+						}}
+					/>
+				))}
+			</Box>
 			{/* Bottom Section: Button */}
 			<Box
 				sx={{

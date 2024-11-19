@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 				</div>
 				<p>Home</p>
 			</div>
-			<div
+			{/* <div
 				onClick={() => handleNavigation("/notifications")}
 				className={linkClasses("/notifications")}
 			>
@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
 					/>
 				</div>
 				<p>Notifications</p>
-			</div>
+			</div> */}
 			<div
 				onClick={() => handleNavigation("/personal-details")}
 				className={linkClasses("/personal-details")}

@@ -86,6 +86,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							tags: project.tags ?? "",
 							feedbackData: [],
 						}),
 					);
@@ -100,6 +101,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							tags: project.tags ?? "",
 							feedbackData: [],
 						}),
 					);
@@ -160,6 +162,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 									date={card.date}
 									descriptionShort={card.descriptionShort}
 									headline={card.headline}
+									tags={card.tags}
 									onExploreMore={() => handleExploreMore(card)}
 								/>
 							))
@@ -190,6 +193,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 									date={card.date}
 									descriptionShort={card.descriptionShort}
 									headline={card.headline}
+									tags = {card.tags}
 									onExploreMore={() => handleExploreMore(card)}
 								/>
 							))
