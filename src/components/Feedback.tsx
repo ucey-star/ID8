@@ -14,7 +14,7 @@ interface FeedbackData {
 
 interface FeedbackProps {
     projectId: string;
-    userId: string;
+    userId: string | null;
 }
 
 const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {

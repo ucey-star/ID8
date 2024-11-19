@@ -41,6 +41,12 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
+			if (!user) {
+                console.warn("User is not logged in.");
+                setLoading(false);
+                return;
+            }
+
 			try {
 				setLoading(true);
 				const { data, error } = await supabaseClient
@@ -77,6 +83,12 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ user, redirec
 	}, [user]);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		if (!user) {
+			console.warn("User is not logged in.");
+			setLoading(false);
+			return;
+		}
+
 		e.preventDefault();
 
 		const formData: Database["public"]["Tables"]["User_Profile"]["Insert"] = {

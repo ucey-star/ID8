@@ -53,6 +53,12 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 
     useEffect(() => {
         const fetchProjects = async () => {
+			if (!user) {
+                console.warn("User is not logged in.");
+                setLoading(false);
+                return;
+            }
+
             setLoading(true);
             try {
                 // Fetch projects created by the current user
@@ -105,7 +111,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
         };
 
         fetchProjects();
-    }, [user.id]);
+    }, [user?.id]);
 
     if (loading) {
         return <Typography>Loading...</Typography>;
@@ -192,7 +198,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
                 selectedCard && (
                     <>
                         <ExploreMore data={selectedCard} onBack={handleBackToCards} />
-                        <Feedback projectId={selectedCard.id} userId={user.id} />
+                        <Feedback projectId={selectedCard.id} userId={user?.id ?? null} />
                     </>
                 )
             )}

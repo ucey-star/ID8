@@ -52,6 +52,12 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({ user, redirectTo }) =
     // Fetch project details if they exist
     useEffect(() => {
         const fetchProjectDetails = async () => {
+			if (!user) {
+                console.warn("User is not logged in.");
+                setLoading(false);
+                return;
+            }
+
             try {
                 setLoading(true);
                 const { data, error } = await supabaseClient
