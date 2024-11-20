@@ -87,7 +87,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
-							tags: project.tags ?? "",
+							tags: Array.isArray(project.tags)
+								? project.tags
+								: project.tags
+									? [project.tags]
+									: [],
 							feedbackData: [],
 						}),
 					);
@@ -102,7 +106,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
-							tags: project.tags ?? "",
+							tags: Array.isArray(project.tags)
+								? project.tags
+								: project.tags
+									? [project.tags]
+									: [],
 							feedbackData: [],
 						}),
 					);
