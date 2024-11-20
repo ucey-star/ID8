@@ -137,7 +137,7 @@ const Card: React.FC<CardProps> = ({
 						key={tag}
 						label={tag}
 						sx={{
-							backgroundColor: tagColors[tag] || "#424242", // Fallback to dark gray
+							backgroundColor: tagColors[tag] ?? "#424242", // Fallback to dark gray
 							color: "#ffffff", // White text for contrast
 							fontSize: "0.65rem", // Smaller font size
 							height: "22px", // Reduced height for smaller tags

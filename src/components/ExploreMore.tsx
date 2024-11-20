@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TitleResponse from "./TitleResponse";
 

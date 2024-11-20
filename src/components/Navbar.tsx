@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { User, Home, Bell, Settings } from "lucide-react";
+import { User, Home, Settings } from "lucide-react"; // Add Bell icon here I have removed it for now.
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";

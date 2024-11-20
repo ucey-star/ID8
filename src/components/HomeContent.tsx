@@ -29,6 +29,7 @@ interface CardData {
 	descriptionShort: string;
 	productLink: string;
 	demoLink: string;
+	tags: string[];
 	descriptionLong: string;
 	feedbackData: FeedbackData[];
 }
@@ -193,7 +194,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 									date={card.date}
 									descriptionShort={card.descriptionShort}
 									headline={card.headline}
-									tags = {card.tags}
+									tags={card.tags}
 									onExploreMore={() => handleExploreMore(card)}
 								/>
 							))
