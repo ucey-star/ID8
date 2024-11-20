@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import GoogleButton from "../../../components/GoogleButton";
-import InputField from "../../../components/InputField";
-import GradientButton from "../../../components/GradientButton";
-import PasswordField from "../../../components/PasswordField";
+// import InputField from "../../../components/InputField";
+// import GradientButton from "../../../components/GradientButton";
+// import PasswordField from "../../../components/PasswordField";
 import Link from "next/link";
 import Image from "next/image";
 import id8Logo from "../../../../public/logo/id8.png";
@@ -37,7 +37,7 @@ function SignUp() {
 
 				<GoogleButton content="Sign in with Google" />
 
-				<div className="mb-6 flex items-center">
+				{/* <div className="mb-6 flex items-center">
 					<div className="flex-grow border-t border-gray-300"></div>
 					<span className="mx-4 flex-shrink text-gray-600">OR</span>
 					<div className="flex-grow border-t border-gray-300"></div>
@@ -59,7 +59,7 @@ function SignUp() {
 					handleChange={(e) => setPassword(e.target.value)}
 				/>
 
-				<GradientButton content="Sign in with Email" onClick={handleLogin} />
+				<GradientButton content="Sign in with Email" onClick={handleLogin} /> */}
 				<div className="flex justify-center">
 					<span className="mx-auto text-center text-sm text-[#808080]">
 						Don&apos;t have an account? {isMobile && <br />}

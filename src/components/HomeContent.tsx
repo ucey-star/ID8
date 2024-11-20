@@ -29,6 +29,7 @@ interface CardData {
 	descriptionShort: string;
 	productLink: string;
 	demoLink: string;
+	tags: string[];
 	descriptionLong: string;
 	feedbackData: FeedbackData[];
 }
@@ -86,6 +87,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							tags: Array.isArray(project.tags)
+								? project.tags
+								: project.tags
+									? [project.tags]
+									: [],
 							feedbackData: [],
 						}),
 					);
@@ -100,6 +106,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							tags: Array.isArray(project.tags)
+								? project.tags
+								: project.tags
+									? [project.tags]
+									: [],
 							feedbackData: [],
 						}),
 					);
@@ -160,6 +171,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 									date={card.date}
 									descriptionShort={card.descriptionShort}
 									headline={card.headline}
+									tags={card.tags}
 									onExploreMore={() => handleExploreMore(card)}
 								/>
 							))
@@ -190,6 +202,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 									date={card.date}
 									descriptionShort={card.descriptionShort}
 									headline={card.headline}
+									tags={card.tags}
 									onExploreMore={() => handleExploreMore(card)}
 								/>
 							))

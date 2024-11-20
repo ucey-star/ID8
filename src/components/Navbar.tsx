@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { User, Home, Bell, Settings } from "lucide-react";
+import { User, Home, Settings } from "lucide-react"; // Add Bell icon here I have removed it for now.
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 				</div>
 				<p>Home</p>
 			</div>
-			<div
+			{/* <div
 				onClick={() => handleNavigation("/notifications")}
 				className={linkClasses("/notifications")}
 			>
@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
 					/>
 				</div>
 				<p>Notifications</p>
-			</div>
+			</div> */}
 			<div
 				onClick={() => handleNavigation("/personal-details")}
 				className={linkClasses("/personal-details")}

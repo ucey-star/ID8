@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TitleResponse from "./TitleResponse";
 
@@ -33,6 +33,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 				gap: "var(--spacing-medium)",
 				alignItems: "center",
 				fontFamily: "var(--font-family-outfit)",
+				marginBottom: "12px",
 			}}
 		>
 			<Box
@@ -102,7 +103,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 				)}
 			</Box>
 
-			<Button
+			{/* <Button
 				variant="contained"
 				className="custom-next-button"
 				sx={{
@@ -115,7 +116,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 				}}
 			>
 				Like
-			</Button>
+			</Button> */}
 		</Box>
 	);
 };
