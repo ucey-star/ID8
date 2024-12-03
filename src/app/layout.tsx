@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 import { Outfit } from "next/font/google";
 import { type Metadata } from "next";
 import Script from "next/script";
+import { env } from "../env";
 
 export const metadata: Metadata = {
 	title: "ID8",
@@ -26,14 +27,14 @@ export default function RootLayout({
 				<Script
 					id="google-analytics"
 					async
-					src="https://www.googletagmanager.com/gtag/js?id=G-YCR5CFZNMZ"
+					src={`https://www.googletagmanager.com/gtag/js?id=${env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
 				/>
 				<Script id="google-analytics-init">
 					{`
 						window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
-							gtag('js', new Date());
-							gtag('config', 'G-YCR5CFZNMZ');
+						gtag('js', new Date());
+						gtag('config', '${env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}');
 					`}
 				</Script>
 
@@ -42,7 +43,7 @@ export default function RootLayout({
 					{`
 						(function(h,o,t,j,a,r){
 							h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-							h._hjSettings={hjid:5228354,hjsv:6};
+							h._hjSettings={hjid:${env.NEXT_PUBLIC_HOTJAR_ID},hjsv:6};
 							a=o.getElementsByTagName('head')[0];
 							r=o.createElement('script');r.async=1;
 							r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
