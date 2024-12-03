@@ -26,7 +26,8 @@ export const env = createEnv({
 	 */
 	runtimeEnv: {
 		NODE_ENV: process.env.NODE_ENV,
-		NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+		NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:
+			process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
 		NEXT_PUBLIC_HOTJAR_ID: process.env.NEXT_PUBLIC_HOTJAR_ID,
 	},
 	/**
