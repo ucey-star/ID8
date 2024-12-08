@@ -10,6 +10,7 @@ interface ExploreMoreData {
 	productLink: string;
 	demoLink: string;
 	descriptionLong: string;
+	feedbackQuestion: string;
 }
 
 interface ExploreMoreProps {
@@ -99,6 +100,12 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					<TitleResponse
 						title="What is your company going to make? Please describe your product and what it does or will do."
 						response={data.descriptionLong}
+					/>
+				)}
+				{data.descriptionLong && (
+					<TitleResponse
+						title="What aspect of the project idea needs feedback?"
+						response={data.feedbackQuestion}
 					/>
 				)}
 			</Box>
