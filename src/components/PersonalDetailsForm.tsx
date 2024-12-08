@@ -200,13 +200,14 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 						onChange={(e) => setGender(e.target.value)}
 						variant="outlined"
 					/>
-					<TextField
+					{/* disabled for now */}
+					{/* <TextField
 						fullWidth
 						label="Address"
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						variant="outlined"
-					/>
+					/> */}
 					<TextField
 						fullWidth
 						label="What best describes you?"
