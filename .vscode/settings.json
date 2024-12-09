@@ -3,5 +3,10 @@
 		"source.fixAll.eslint": "explicit"
 	},
 	"editor.formatOnSave": true,
-	"eslint.rules.customizations": [{ "rule": "*", "Severity": "warn" }]
+	"eslint.rules.customizations": [
+		{
+			"rule": "*",
+			"Severity": "warn"
+		}
+	]
 }
