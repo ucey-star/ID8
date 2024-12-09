@@ -31,6 +31,7 @@ interface CardData {
 	demoLink: string;
 	tags: string[];
 	descriptionLong: string;
+	feedbackQuestion: string;
 	feedbackData: FeedbackData[];
 }
 
@@ -87,6 +88,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							feedbackQuestion: project.feedback_question ?? "",
 							tags: Array.isArray(project.tags)
 								? project.tags
 								: project.tags
@@ -106,6 +108,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							feedbackQuestion: project.feedback_question ?? "",
 							tags: Array.isArray(project.tags)
 								? project.tags
 								: project.tags
