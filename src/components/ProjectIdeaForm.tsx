@@ -300,7 +300,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					}}
 				>
 					<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
-						Would you like to share any photos or videos?*
+						Would you like to share any photos or videos?
 					</Box>
 					<Box sx={{ display: "flex", gap: "16px", justifyContent: "center" }}>
 						{[...Array(3)].map((_, index) => (
