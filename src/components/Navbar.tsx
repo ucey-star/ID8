@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
 			</div>
 			<div
 				onClick={handleLogout} // Call logout function
-				className="flex flex-col items-center space-y-1 text-indigo-600 cursor-pointer"
+				className="flex cursor-pointer flex-col items-center space-y-1 text-indigo-600"
 			>
 				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
 					<LogOut className="h-8 w-8 text-indigo-600" aria-label="Logout" />
