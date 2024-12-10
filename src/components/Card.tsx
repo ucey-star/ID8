@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { Box, Button, Typography, Chip } from "@mui/material";
 
@@ -79,14 +80,14 @@ const Card: React.FC<CardProps> = ({
 						gap: "4px", // Small gap between name and date
 					}}
 				>
-					<Typography
+					{/* <Typography
 						variant="body1"
 						sx={{
 							color: "var(--color-text-secondary)",
 						}}
 					>
 						{name}
-					</Typography>
+					</Typography> */}
 					<Typography
 						variant="body1"
 						sx={{

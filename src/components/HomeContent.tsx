@@ -101,7 +101,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 					const mappedOtherProjects = (otherProjectsResponse.data ?? []).map(
 						(project) => ({
 							id: project.project_id, // Keep UUID as string
-							name: project.project_name ?? "Unknown",
+							name: project.project_name ?? "Unknown", // TODO: at the moment the same as the headline, redundant
 							date: new Date(project.created_at).toLocaleDateString(),
 							headline: project.project_name ?? "No Headline",
 							descriptionShort: project.tagline ?? "",
@@ -129,7 +129,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 		};
 
 		void fetchProjects();
-	}, [user?.id]);
+	}, [user]);
 
 	if (loading) {
 		return <Typography>Loading...</Typography>;

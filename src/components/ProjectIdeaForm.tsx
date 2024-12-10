@@ -30,6 +30,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	redirectTo,
 }) => {
 	const router = useRouter();
+	const [characterCounter, setCharacterCounter] = useState(0);
 	const [projectId, setProjectId] = useState<string | null>(null);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
@@ -96,6 +97,10 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			void fetchProjectDetails();
 		}
 	}, [user]);
+
+	useEffect(() => {
+		setCharacterCounter(tagline.length);
+	}, [tagline]);
 
 	const handleSaveProject = async () => {
 		const formData: Database["public"]["Tables"]["Projects"]["Insert"] = {
@@ -182,14 +187,29 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				variant="outlined"
 			/>
 
-			<TextField
-				fullWidth
-				label="Describe what your project does in 150 characters or less.*"
-				value={tagline}
-				onChange={(e) => setTagline(e.target.value)}
-				variant="outlined"
-				inputProps={{ maxLength: 150 }}
-			/>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					gap: "2px",
+				}}
+			>
+				<TextField
+					fullWidth
+					multiline
+					label="Describe what your project does in 150 characters or less.*"
+					value={tagline}
+					onChange={(e) => {
+						setTagline(e.target.value);
+						setCharacterCounter(e.target.value.length);
+					}}
+					variant="outlined"
+					inputProps={{ maxLength: 150 }}
+				/>
+				<span style={{ alignSelf: "flex-end", color: "#666" }}>
+					Character Counter: {characterCounter}
+				</span>
+			</Box>
 			<TextField
 				fullWidth
 				label="Please provide a link to the project, if any."

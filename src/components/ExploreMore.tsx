@@ -51,6 +51,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					sx={{
 						position: "absolute",
 						left: 0,
+						top: 0,
 						cursor: "pointer",
 						color: "#5370F7",
 					}}
@@ -61,6 +62,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 						fontSize: "32px",
 						fontWeight: 600,
 						lineHeight: "40.32px",
+						marginTop: "32px",
 						textAlign: "left",
 						textUnderlinePosition: "from-font",
 						textDecorationSkipInk: "none",
