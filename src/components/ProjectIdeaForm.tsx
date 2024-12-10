@@ -259,6 +259,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						"Social Sciences (SS)",
 						"Arts and Humanities (AH)",
 						"Natural Sciences (NS)",
+						"Business (B)",
 					].map((tag) => (
 						<MenuItem key={tag} value={tag}>
 							<Checkbox checked={selectedTags.includes(tag)} />
