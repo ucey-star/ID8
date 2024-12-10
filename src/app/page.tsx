@@ -90,13 +90,13 @@ export default function HomePage() {
 						>
 							<Button
 								variant="contained"
+								className="custom-next-button"
 								sx={{
-									background: "linear-gradient(90deg, #7b42f6, #bc85f9)",
-									color: "white",
-									padding: "10px 20px",
-									borderRadius: "8px",
-									textTransform: "none",
-									fontWeight: "bold",
+									minWidth: "150px",
+									padding: "var(--spacing-small) var(--spacing-medium)",
+									whiteSpace: "nowrap",
+									fontFamily: "var(--font-family-outfit)",
+									alignItems: "center",
 								}}
 							>
 								Complete Profile
@@ -134,13 +134,13 @@ export default function HomePage() {
 						>
 							<Button
 								variant="contained"
+								className="custom-next-button"
 								sx={{
-									background: "linear-gradient(90deg, #34c759, #62e3a6)",
-									color: "white",
-									padding: "10px 20px",
-									borderRadius: "8px",
-									textTransform: "none",
-									fontWeight: "bold",
+									minWidth: "150px",
+									padding: "var(--spacing-small) var(--spacing-medium)",
+									whiteSpace: "nowrap",
+									fontFamily: "var(--font-family-outfit)",
+									alignItems: "center",
 								}}
 							>
 								Start a Project
@@ -172,13 +172,13 @@ export default function HomePage() {
 						<Link href="/home" passHref>
 							<Button
 								variant="contained"
+								className="custom-next-button"
 								sx={{
-									background: "linear-gradient(90deg, #ff9900, #ffc14c)",
-									color: "white",
-									padding: "10px 20px",
-									borderRadius: "8px",
-									textTransform: "none",
-									fontWeight: "bold",
+									minWidth: "150px",
+									padding: "var(--spacing-small) var(--spacing-medium)",
+									whiteSpace: "nowrap",
+									fontFamily: "var(--font-family-outfit)",
+									alignItems: "center",
 								}}
 							>
 								Go to Dashboard
