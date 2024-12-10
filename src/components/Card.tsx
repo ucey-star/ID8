@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({
 		"Social Sciences (SS)": "#F9A825", // Dark Green
 		"Arts and Humanities (AH)": "#FF6F61", // Dark Red
 		"Natural Sciences (NS)": "#8E6EB4", // Dark Orange
-		"Business (B)": "#FF6F61", // Dark Red
+		"Business (B)": "#FFD700", // Dark Yellow
 	};
 
 	return (
