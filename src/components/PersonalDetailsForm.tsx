@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Snackbar, Alert, Typography, Tooltip } from "@mui/material";
+import {
+	Box,
+	TextField,
+	Snackbar,
+	Alert,
+	Typography,
+	Tooltip,
+} from "@mui/material";
 import GradientButton from "../components/GradientButton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
@@ -10,7 +17,7 @@ import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 import { useRouter } from "next/navigation";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface PersonalDetailsFormProps {
 	user: User | null;
@@ -192,8 +199,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							>
 								Username*
 							</Typography>
-							<Tooltip title="Choose a unique username that will identify you in the community" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+							<Tooltip
+								title="Choose a unique username that will identify you in the community"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<TextField
@@ -220,8 +232,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							>
 								Birth Date
 							</Typography>
-							<Tooltip title="Your date of birth helps us personalize your experience" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+							<Tooltip
+								title="Your date of birth helps us personalize your experience"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -250,7 +267,9 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 								Gender
 							</Typography>
 							<Tooltip title="How do you identify?" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<TextField
@@ -277,8 +296,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							>
 								Bio
 							</Typography>
-							<Tooltip title="Tell us about yourself, your interests, and what you're passionate about" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+							<Tooltip
+								title="Tell us about yourself, your interests, and what you're passionate about"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<TextField
@@ -307,8 +331,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							>
 								Workplace
 							</Typography>
-							<Tooltip title="Where do you currently work? This helps build your professional profile" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+							<Tooltip
+								title="Where do you currently work? This helps build your professional profile"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<TextField
@@ -335,8 +364,13 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							>
 								LinkedIn Profile
 							</Typography>
-							<Tooltip title="Share your LinkedIn profile to connect with other professionals" placement="right">
-								<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+							<Tooltip
+								title="Share your LinkedIn profile to connect with other professionals"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
 							</Tooltip>
 						</Box>
 						<TextField
@@ -349,9 +383,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 						/>
 					</Box>
 
-					<Box
-						sx={{ display: "flex", justifyContent: "center" }}
-					>
+					<Box sx={{ display: "flex", justifyContent: "center" }}>
 						<GradientButton
 							type="submit"
 							content="Save Profile"

@@ -20,7 +20,7 @@ import type { User } from "@supabase/supabase-js";
 import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
 import { useRouter } from "next/navigation";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface ProjectIdeaFormProps {
 	user: User | null;
@@ -195,8 +195,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Project Name*
 					</Typography>
-					<Tooltip title="What's the name you want people to remember your project by? Keep it short and memorable." placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="What's the name you want people to remember your project by? Keep it short and memorable."
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -222,8 +227,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Quick Pitch*
 					</Typography>
-					<Tooltip title="How would you describe your project to someone in an elevator? Focus on the main problem it solves. The limit is 150 characters." placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="How would you describe your project to someone in an elevator? Focus on the main problem it solves. The limit is 150 characters."
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -238,7 +248,14 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					variant="outlined"
 					inputProps={{ maxLength: 150 }}
 				/>
-				<span style={{ alignSelf: "flex-end", color: "#6C6C80", fontSize: "14px", marginTop: "4px" }}>
+				<span
+					style={{
+						alignSelf: "flex-end",
+						color: "#6C6C80",
+						fontSize: "14px",
+						marginTop: "4px",
+					}}
+				>
 					Character Counter: {characterCounter}
 				</span>
 			</Box>
@@ -257,8 +274,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Project URL
 					</Typography>
-					<Tooltip title="Where can people find your project online? Include your website, GitHub repository, or any other relevant links." placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="Where can people find your project online? Include your website, GitHub repository, or any other relevant links."
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -284,8 +306,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Demo Link
 					</Typography>
-					<Tooltip title="Share a video or interactive demo that shows your project in action. Loom videos work great!" placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="Share a video or interactive demo that shows your project in action. Loom videos work great!"
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -311,8 +338,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Detailed Description
 					</Typography>
-					<Tooltip title="What problem does your project solve? Who is it for? How does it work? Include your motivation and technical approach." placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="What problem does your project solve? Who is it for? How does it work? Include your motivation and technical approach."
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -340,8 +372,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Feedback Request
 					</Typography>
-					<Tooltip title="What specific aspects of your project would you like feedback on? Technical implementation? User experience? Business model?" placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="What specific aspects of your project would you like feedback on? Technical implementation? User experience? Business model?"
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<TextField
@@ -367,8 +404,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						Project Categories*
 					</Typography>
-					<Tooltip title="Select all academic disciplines that your project relates to. This helps match you with relevant feedback." placement="right">
-						<InfoOutlinedIcon sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }} />
+					<Tooltip
+						title="Select all academic disciplines that your project relates to. This helps match you with relevant feedback."
+						placement="right"
+					>
+						<InfoOutlinedIcon
+							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+						/>
 					</Tooltip>
 				</Box>
 				<FormControl fullWidth>
@@ -396,9 +438,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				</FormControl>
 			</Box>
 
-			<Box
-				sx={{ display: "flex", justifyContent: "center" }}
-			>
+			<Box sx={{ display: "flex", justifyContent: "center" }}>
 				<GradientButton
 					onClick={handleSaveProject}
 					content="Edit Project"

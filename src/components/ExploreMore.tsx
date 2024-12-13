@@ -80,23 +80,12 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					gap: "var(--spacing-medium)",
 				}}
 			>
-				<TitleResponse
-					title="Quick Pitch*"
-					response={data.descriptionShort}
-				/>
+				<TitleResponse title="Quick Pitch*" response={data.descriptionShort} />
 				{data.productLink && (
-					<TitleResponse
-						title="Project URL"
-						response={data.productLink}
-						link
-					/>
+					<TitleResponse title="Project URL" response={data.productLink} link />
 				)}
 				{data.demoLink && (
-					<TitleResponse
-						title="Demo Link"
-						response={data.demoLink}
-						link
-					/>
+					<TitleResponse title="Demo Link" response={data.demoLink} link />
 				)}
 				{data.descriptionLong && (
 					<TitleResponse

@@ -57,14 +57,14 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	};
 
 	useEffect(() => {
-		const queryId = searchParams.get('id');
+		const queryId = searchParams.get("id");
 		if (queryId && (myProjects.length > 0 || otherProjects.length > 0)) {
 			const allProjects = [...myProjects, ...otherProjects];
-			const cardToExplore = allProjects.find(card => card.id === queryId);
+			const cardToExplore = allProjects.find((card) => card.id === queryId);
 			if (cardToExplore) {
 				handleExploreMore(cardToExplore);
 				const newUrl = window.location.pathname;
-				window.history.replaceState({}, '', newUrl);
+				window.history.replaceState({}, "", newUrl);
 			}
 		}
 	}, [searchParams, myProjects, otherProjects]);
