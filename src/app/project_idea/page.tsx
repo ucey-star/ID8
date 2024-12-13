@@ -61,7 +61,8 @@ export default async function ProjectIdeaScreen({
 					}}
 				>
 					Fill out as much detail as possible to help others understand your
-					project.
+					project. You can view the example entry{" "}
+					<a href="https://id8.guru/home?id=4f2828f6-43f8-40dd-b19e-85901af4a926" target="_blank" style={{ color: "#9450e0" }}>here</a>, along with the type of feedback you can expect.
 				</Typography>
 
 				<ProjectIdeaForm user={user} redirectTo={redirectTo} />
