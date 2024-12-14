@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Snackbar, Alert } from "@mui/material";
+import {
+	Box,
+	Container,
+	Typography,
+	TextField,
+	Snackbar,
+	Alert,
+} from "@mui/material";
 import GradientButton from "../components/GradientButton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
@@ -10,6 +17,7 @@ import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 import { useRouter } from "next/navigation";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface PersonalDetailsFormProps {
 	user: User | null;
@@ -38,6 +46,8 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 		message: "",
 		severity: "success",
 	});
+
+	const matchesMobile = useMediaQuery("(max-width: 600px)");
 
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
@@ -167,88 +177,138 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
-				<Box
+			<Box
+				sx={{
+					minHeight: "100vh",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+					padding: `${matchesMobile ? "20px" : "70px"}`,
+				}}
+			>
+				<Container
+					maxWidth="sm"
 					sx={{
-						display: "flex",
-						flexDirection: "column",
-						gap: "40px",
-						marginBottom: "32px",
-						padding: "8px",
+						backgroundColor: "#FFFFFF",
+						padding: `${matchesMobile ? "24px" : "48px"}`,
+						borderRadius: "16px",
+						border: "1px solid #D6D6E7",
+						boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+						textAlign: "center",
 					}}
 				>
-					<TextField
-						fullWidth
-						label="Username"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						variant="outlined"
-					/>
-					<LocalizationProvider dateAdapter={AdapterDateFns}>
-						<DatePicker
-							label="Date of Birth"
-							value={dateOfBirth}
-							onChange={(newValue) => {
-								setDateOfBirth(newValue);
+					{/* Header */}
+					<Typography
+						variant="h5"
+						component="h1"
+						sx={{
+							color: "#000000",
+							fontWeight: 600,
+							fontSize: "32px",
+							lineHeight: "40.32px",
+							marginBottom: "32px",
+							fontFamily: "'Outfit', sans-serif",
+						}}
+					>
+						My Profile
+					</Typography>
+					<Typography
+						variant="body2"
+						sx={{
+							color: "#6C6C80",
+							marginBottom: "46px",
+							fontSize: "20px",
+							lineHeight: "28px",
+							fontFamily: "'Outfit', sans-serif",
+						}}
+					>
+						This helps others understand who you are when reviewing your ideas.
+					</Typography>
+					<form onSubmit={handleSubmit}>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "40px",
+								marginBottom: "32px",
+								padding: "8px",
 							}}
-						/>
-					</LocalizationProvider>
-					<TextField
-						fullWidth
-						label="Gender"
-						value={gender}
-						onChange={(e) => setGender(e.target.value)}
-						variant="outlined"
-					/>
-					{/* disabled for now */}
-					{/* <TextField
+						>
+							<TextField
+								fullWidth
+								label="Username"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+								variant="outlined"
+							/>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DatePicker
+									label="Date of Birth"
+									value={dateOfBirth}
+									onChange={(newValue) => {
+										setDateOfBirth(newValue);
+									}}
+								/>
+							</LocalizationProvider>
+							<TextField
+								fullWidth
+								label="Gender"
+								value={gender}
+								onChange={(e) => setGender(e.target.value)}
+								variant="outlined"
+							/>
+							{/* disabled for now */}
+							{/* <TextField
 						fullWidth
 						label="Address"
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						variant="outlined"
 					/> */}
-					<TextField
-						fullWidth
-						label="What best describes you?"
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						variant="outlined"
-					/>
-					<TextField
-						fullWidth
-						label="Where do you work?"
-						value={workplace}
-						onChange={(e) => setWorkplace(e.target.value)}
-						variant="outlined"
-					/>
-					<TextField
-						fullWidth
-						label="LinkedIn URL"
-						value={linkedin}
-						onChange={(e) => setLinkedin(e.target.value)}
-						variant="outlined"
-					/>
-				</Box>
-				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<GradientButton type="submit" className="w-1/2" content="Save" />
-				</Box>
-			</form>
+							<TextField
+								fullWidth
+								label="What best describes you?"
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								variant="outlined"
+							/>
+							<TextField
+								fullWidth
+								label="Where do you work?"
+								value={workplace}
+								onChange={(e) => setWorkplace(e.target.value)}
+								variant="outlined"
+							/>
+							<TextField
+								fullWidth
+								label="LinkedIn URL"
+								value={linkedin}
+								onChange={(e) => setLinkedin(e.target.value)}
+								variant="outlined"
+							/>
+						</Box>
+						<Box sx={{ display: "flex", justifyContent: "center" }}>
+							<GradientButton type="submit" className="w-1/2" content="Save" />
+						</Box>
+					</form>
 
-			{/* Snackbar for notifications */}
-			<Snackbar
-				open={snackbar.open}
-				autoHideDuration={snackbar.severity === "error" ? 10000 : 1000}
-				onClose={handleCloseSnackbar}
-			>
-				<Alert
-					onClose={handleCloseSnackbar}
-					severity={snackbar.severity}
-					sx={{ width: "100%" }}
-				>
-					{snackbar.message}
-				</Alert>
-			</Snackbar>
+					{/* Snackbar for notifications */}
+					<Snackbar
+						open={snackbar.open}
+						autoHideDuration={snackbar.severity === "error" ? 10000 : 1000}
+						onClose={handleCloseSnackbar}
+					>
+						<Alert
+							onClose={handleCloseSnackbar}
+							severity={snackbar.severity}
+							sx={{ width: "100%" }}
+						>
+							{snackbar.message}
+						</Alert>
+					</Snackbar>
+				</Container>
+			</Box>
 		</>
 	);
 };
