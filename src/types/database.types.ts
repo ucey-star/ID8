@@ -15,24 +15,32 @@ export type Database = {
 					comment_id: string;
 					content: string | null;
 					created_at: string;
-					project_id: string | null;
+					project_id: string;
 					user_id: string | null;
 				};
 				Insert: {
 					comment_id?: string;
 					content?: string | null;
 					created_at?: string;
-					project_id?: string | null;
+					project_id: string;
 					user_id?: string | null;
 				};
 				Update: {
 					comment_id?: string;
 					content?: string | null;
 					created_at?: string;
-					project_id?: string | null;
+					project_id?: string;
 					user_id?: string | null;
 				};
-				Relationships: [];
+				Relationships: [
+					{
+						foreignKeyName: "Comments_project_id_fkey";
+						columns: ["project_id"];
+						isOneToOne: false;
+						referencedRelation: "Projects";
+						referencedColumns: ["project_id"];
+					},
+				];
 			};
 			Project_Attachments: {
 				Row: {
@@ -96,11 +104,12 @@ export type Database = {
 					created_at: string;
 					demo_link: string | null;
 					feedback_question: string | null;
-					project_description: string | null;
+					file_paths: string[] | null;
+					project_description: string;
 					project_id: string;
-					project_name: string | null;
+					project_name: string;
 					project_url: string | null;
-					tagline: string | null;
+					tagline: string;
 					tags: string[] | null;
 					target_audience: string | null;
 					updated_at: string | null;
@@ -110,11 +119,12 @@ export type Database = {
 					created_at?: string;
 					demo_link?: string | null;
 					feedback_question?: string | null;
-					project_description?: string | null;
+					file_paths?: string[] | null;
+					project_description: string;
 					project_id?: string;
-					project_name?: string | null;
+					project_name: string;
 					project_url?: string | null;
-					tagline?: string | null;
+					tagline: string;
 					tags?: string[] | null;
 					target_audience?: string | null;
 					updated_at?: string | null;
@@ -124,11 +134,12 @@ export type Database = {
 					created_at?: string;
 					demo_link?: string | null;
 					feedback_question?: string | null;
-					project_description?: string | null;
+					file_paths?: string[] | null;
+					project_description?: string;
 					project_id?: string;
-					project_name?: string | null;
+					project_name?: string;
 					project_url?: string | null;
-					tagline?: string | null;
+					tagline?: string;
 					tags?: string[] | null;
 					target_audience?: string | null;
 					updated_at?: string | null;
@@ -302,8 +313,8 @@ export type Enums<
 
 export type CompositeTypes<
 	PublicCompositeTypeNameOrOptions extends
-		| keyof PublicSchema["CompositeTypes"]
-		| { schema: keyof Database },
+		// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+		keyof PublicSchema["CompositeTypes"] | { schema: keyof Database },
 	CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
 		schema: keyof Database;
 	}
