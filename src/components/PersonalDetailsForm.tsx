@@ -17,7 +17,7 @@ import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 import { useRouter } from "next/navigation";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import useMobile from "~/utils/useMobile";
 
 interface PersonalDetailsFormProps {
 	user: User | null;
@@ -47,7 +47,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 		severity: "success",
 	});
 
-	const matchesMobile = useMediaQuery("(max-width: 600px)");
+	const isMobile = useMobile();
 
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
@@ -184,14 +184,14 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 					justifyContent: "center",
 					alignItems: "center",
 					background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
-					padding: `${matchesMobile ? "20px" : "70px"}`,
+					padding: `${isMobile ? "20px" : "70px"}`,
 				}}
 			>
 				<Container
 					maxWidth="sm"
 					sx={{
 						backgroundColor: "#FFFFFF",
-						padding: `${matchesMobile ? "24px" : "48px"}`,
+						padding: `${isMobile ? "24px" : "48px"}`,
 						borderRadius: "16px",
 						border: "1px solid #D6D6E7",
 						boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
