@@ -13,6 +13,7 @@ import {
 	Snackbar,
 	Alert,
 } from "@mui/material";
+import { AddCircleOutline } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
 import type { User } from "@supabase/supabase-js";
@@ -39,6 +40,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [uploads, setUploads] = useState<File[]>([]);
+	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
@@ -53,7 +56,26 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
-	// Fetch project details if they exist
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setUploads((prevUploads) => [...prevUploads, ...fileList].slice(0, 3));
+		}
+	};
+
+	const handlePhotosVideosChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setPhotosVideos((prevPhotosVideos) =>
+				[...prevPhotosVideos, ...fileList].slice(0, 3),
+			);
+		}
+	};
+
 	useEffect(() => {
 		const fetchProjectDetails = async () => {
 			if (!user) {
@@ -68,7 +90,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					.from("Projects")
 					.select("*")
 					.eq("user_id", user?.id)
-					.single(); // Get a single project for the user
+					.single();
 
 				if (error && error.code !== "PGRST116") {
 					console.error("Error fetching project details:", error);
@@ -77,7 +99,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 
 				if (data) {
 					// Populate fields with existing project data
-					setProjectId(data.project_id); // Save project ID for updates
+					setProjectId(data.project_id);
 					setProjectName(data.project_name ?? "");
 					setTagline(data.tagline ?? "");
 					setProjectLink(data.project_url ?? "");
@@ -103,12 +125,27 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	}, [tagline]);
 
 	const handleSaveProject = async () => {
+		if (
+			!projectName.trim() ||
+			!tagline.trim() ||
+			!projectDescription.trim() ||
+			!feedbackQuestion.trim() ||
+			selectedTags.length === 0
+		) {
+			setSnackbar({
+				open: true,
+				message: "Please fill out all mandatory fields.",
+				severity: "error",
+			});
+			return;
+		}
+
 		const formData: Database["public"]["Tables"]["Projects"]["Insert"] = {
 			user_id: user?.id,
 			project_name: projectName,
 			tagline: tagline,
-			project_url: projectLink,
-			demo_link: demoLink,
+			project_url: projectLink || null,
+			demo_link: demoLink || null,
 			project_description: projectDescription,
 			tags: selectedTags,
 			feedback_question: feedbackQuestion,
@@ -120,7 +157,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				const { error: updateError } = await supabaseClient
 					.from("Projects")
 					.update(formData)
-					.eq("project_id", projectId); // Use project_id for updates
+					.eq("project_id", projectId);
 
 				if (updateError) throw updateError;
 
@@ -129,16 +166,50 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					message: "Project updated successfully!",
 					severity: "success",
 				});
+
+				// Upload files for existing project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${projectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
 			} else {
-				// Insert new project if none exists
+				// Insert new project
 				const { data, error } = await supabaseClient
 					.from("Projects")
 					.insert([formData])
-					.select(); // Get the created project data
+					.select();
 
 				if (error) throw error;
 
-				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
+				const newProjectId = data?.[0]?.project_id;
+				if (!newProjectId) {
+					throw new Error("No project ID returned from insert");
+				}
+
+				// Upload files for the newly created project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${newProjectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
+
+				setProjectId(newProjectId);
+
 				setSnackbar({
 					open: true,
 					message: "Project created successfully!",
@@ -210,6 +281,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					Character Counter: {characterCounter}
 				</span>
 			</Box>
+
 			<TextField
 				fullWidth
 				label="Please provide a link to the project, if any."
@@ -217,6 +289,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				onChange={(e) => setProjectLink(e.target.value)}
 				variant="outlined"
 			/>
+
 			<TextField
 				fullWidth
 				label="If you have a demo, link it below."
@@ -224,9 +297,10 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				onChange={(e) => setDemoLink(e.target.value)}
 				variant="outlined"
 			/>
+
 			<TextField
 				fullWidth
-				label="What is your project going to do? Please describe your product and what it does or will do."
+				label="What is your project going to do? Please describe your product and what it does or will do.*"
 				value={projectDescription}
 				onChange={(e) => setProjectDescription(e.target.value)}
 				variant="outlined"
@@ -236,11 +310,71 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 
 			<TextField
 				fullWidth
-				label="Feedback Question: What aspect of the project idea needs feedback?"
+				label="Feedback Question: What aspect of the project idea needs feedback?*"
 				value={feedbackQuestion}
 				onChange={(e) => setFeedbackQuestion(e.target.value)}
 				variant="outlined"
 			/>
+
+			<FormControl fullWidth>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "16px",
+						marginTop: "16px",
+					}}
+				>
+					<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+						Would you like to share any photos or videos?
+					</Box>
+					<Box sx={{ display: "flex", gap: "16px", justifyContent: "center" }}>
+						{Array.from({ length: 3 }, (_, index) => (
+							<Box
+								key={index}
+								sx={{
+									width: "100px",
+									height: "100px",
+									border: "1px dashed #ccc",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									cursor: "pointer",
+									borderRadius: "8px",
+									backgroundSize: "cover",
+									backgroundPosition: "center",
+									backgroundImage: photosVideos[index]
+										? `url(${URL.createObjectURL(photosVideos[index])})`
+										: "none",
+								}}
+								component="label"
+							>
+								{!photosVideos[index] && (
+									<AddCircleOutline sx={{ color: "#666", fontSize: "24px" }} />
+								)}
+								<input
+									type="file"
+									accept="image/*,video/*"
+									onChange={(e) => {
+										const files = e.target.files;
+										if (files) {
+											const fileList = Array.from(files);
+											setPhotosVideos((prev) => {
+												const updated = [...prev];
+												if (fileList[0]) {
+													updated[index] = fileList[0];
+												}
+												return updated;
+											});
+										}
+									}}
+									style={{ display: "none" }}
+								/>
+							</Box>
+						))}
+					</Box>
+				</Box>
+			</FormControl>
 
 			<FormControl fullWidth>
 				<InputLabel>
