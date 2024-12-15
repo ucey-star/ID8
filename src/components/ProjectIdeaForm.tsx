@@ -40,9 +40,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
-	// const [generalQuestion, setGeneralQuestion] = useState("");
 	const [uploads, setUploads] = useState<File[]>([]);
-	// const [additionalQuestion, setAdditionalQuestion] = useState("");
 	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
@@ -79,7 +77,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	};
 
 	useEffect(() => {
-		// Fetch project details if they exist
 		const fetchProjectDetails = async () => {
 			if (!user) {
 				console.warn("User is not logged in.");
@@ -93,7 +90,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					.from("Projects")
 					.select("*")
 					.eq("user_id", user?.id)
-					.single(); // Get a single project for the user
+					.single();
 
 				if (error && error.code !== "PGRST116") {
 					console.error("Error fetching project details:", error);
@@ -102,7 +99,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 
 				if (data) {
 					// Populate fields with existing project data
-					setProjectId(data.project_id); // Save project ID for updates
+					setProjectId(data.project_id);
 					setProjectName(data.project_name ?? "");
 					setTagline(data.tagline ?? "");
 					setProjectLink(data.project_url ?? "");
@@ -169,6 +166,20 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					message: "Project updated successfully!",
 					severity: "success",
 				});
+
+				// Upload files for existing project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${projectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
 			} else {
 				// Insert new project
 				const { data, error } = await supabaseClient
@@ -178,7 +189,27 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 
 				if (error) throw error;
 
-				setProjectId(data[0]?.project_id ?? null);
+				const newProjectId = data?.[0]?.project_id;
+				if (!newProjectId) {
+					throw new Error("No project ID returned from insert");
+				}
+
+				// Upload files for the newly created project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${newProjectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
+
+				setProjectId(newProjectId);
+
 				setSnackbar({
 					open: true,
 					message: "Project created successfully!",
@@ -219,7 +250,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				padding: "8px",
 			}}
 		>
-			{/* Existing fields */}
 			<TextField
 				fullWidth
 				label="Project name*"
@@ -286,9 +316,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				variant="outlined"
 			/>
 
-			{/* New Additional Question Section */}
-
-			{/* Photos and Videos Section*/}
 			<FormControl fullWidth>
 				<Box
 					sx={{
@@ -332,7 +359,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 										const files = e.target.files;
 										if (files) {
 											const fileList = Array.from(files);
-											// Update the specific square with the uploaded file
 											setPhotosVideos((prev) => {
 												const updated = [...prev];
 												if (fileList[0]) {
@@ -376,6 +402,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					))}
 				</Select>
 			</FormControl>
+
 			<Box
 				sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
 			>
