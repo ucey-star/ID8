@@ -7,7 +7,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 // Initialize the notification API
 notificationapi.init(
 	Deno.env.get("NOTIFICATION_API_CLIENT_ID"),
-	Deno.env.get(" NOTIFICATION_API_CLIENT_SECRET"),
+	Deno.env.get("NOTIFICATION_API_CLIENT_SECRET"),
 );
 
 const supabase = createClient(
@@ -27,7 +27,18 @@ console.log("Hello from the 'send-comment-notification' Edge Function!");
 Deno.serve(async (req) => {
 	try {
 		const comment: CommentsPayload = await req.json();
-		const { project_id } = comment.record;
+		const { project_id, owner } = comment.record;
+		if (owner === true) {
+			console.log("Comment made by the owner. No notification sent.");
+			return new Response(
+				JSON.stringify({
+					message: "No notification sent.Owner made the comment",
+				}),
+				{
+					headers: { "Content-Type": "application/json" },
+				},
+			);
+		}
 
 		const { data: projectData, error: projectError } = await supabase
 			.from("Projects")

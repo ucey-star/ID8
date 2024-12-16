@@ -43,7 +43,6 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	const [loading, setLoading] = useState(true);
 
 	const handleExploreMore = (card: CardData) => {
-		console.log("Selected card ID:", card.id);
 		setSelectedCard(card);
 		setView("explore");
 	};
@@ -218,7 +217,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				selectedCard && (
 					<>
 						<ExploreMore data={selectedCard} onBack={handleBackToCards} />
-						<Feedback projectId={selectedCard.id} userId={user?.id ?? null} />
+						<Feedback
+							projectId={selectedCard.id}
+							userId={user?.id ?? null}
+							userProjects={myProjects}
+						/>
 					</>
 				)
 			)}

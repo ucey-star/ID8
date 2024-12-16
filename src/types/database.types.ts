@@ -15,6 +15,7 @@ export type Database = {
 					comment_id: string;
 					content: string | null;
 					created_at: string;
+					owner: boolean | null;
 					project_id: string;
 					user_id: string | null;
 				};
@@ -22,6 +23,7 @@ export type Database = {
 					comment_id?: string;
 					content?: string | null;
 					created_at?: string;
+					owner?: boolean | null;
 					project_id: string;
 					user_id?: string | null;
 				};
@@ -29,6 +31,7 @@ export type Database = {
 					comment_id?: string;
 					content?: string | null;
 					created_at?: string;
+					owner?: boolean | null;
 					project_id?: string;
 					user_id?: string | null;
 				};
@@ -313,8 +316,8 @@ export type Enums<
 
 export type CompositeTypes<
 	PublicCompositeTypeNameOrOptions extends
-		// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-		keyof PublicSchema["CompositeTypes"] | { schema: keyof Database },
+		| keyof PublicSchema["CompositeTypes"]
+		| { schema: keyof Database },
 	CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
 		schema: keyof Database;
 	}
