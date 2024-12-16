@@ -80,33 +80,22 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 					gap: "var(--spacing-medium)",
 				}}
 			>
-				<TitleResponse
-					title="Describe what your company does in 50 characters or less.*"
-					response={data.descriptionShort}
-				/>
+				<TitleResponse title="Quick Pitch*" response={data.descriptionShort} />
 				{data.productLink && (
-					<TitleResponse
-						title="Please provide a link to the product, if any."
-						response={data.productLink}
-						link
-					/>
+					<TitleResponse title="Project URL" response={data.productLink} link />
 				)}
 				{data.demoLink && (
-					<TitleResponse
-						title="If you have a demo, attach it below."
-						response={data.demoLink}
-						link
-					/>
+					<TitleResponse title="Demo Link" response={data.demoLink} link />
 				)}
 				{data.descriptionLong && (
 					<TitleResponse
-						title="What is your company going to make? Please describe your product and what it does or will do."
+						title="Detailed Description"
 						response={data.descriptionLong}
 					/>
 				)}
-				{data.descriptionLong && (
+				{data.feedbackQuestion && (
 					<TitleResponse
-						title="What aspect of the project idea needs feedback?"
+						title="Feedback Request"
 						response={data.feedbackQuestion}
 					/>
 				)}

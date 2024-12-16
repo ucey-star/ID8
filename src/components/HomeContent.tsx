@@ -8,6 +8,7 @@ import Feedback from "../components/Feedback";
 import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import useMobile from "~/utils/useMobile";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface HomeContentProps {
 	user: User | null;
@@ -41,6 +42,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	const [otherProjects, setOtherProjects] = useState<CardData[]>([]);
 	const [loading, setLoading] = useState(true);
 	const isMobile = useMobile();
+	const searchParams = useSearchParams();
+	const router = useRouter();
 
 	const handleExploreMore = (card: CardData) => {
 		console.log("Selected card ID:", card.id);
@@ -52,6 +55,19 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 		setView("cards");
 		setSelectedCard(null);
 	};
+
+	useEffect(() => {
+		const queryId = searchParams.get("id");
+		if (queryId && (myProjects.length > 0 || otherProjects.length > 0)) {
+			const allProjects = [...myProjects, ...otherProjects];
+			const cardToExplore = allProjects.find((card) => card.id === queryId);
+			if (cardToExplore) {
+				handleExploreMore(cardToExplore);
+				const newUrl = window.location.pathname;
+				window.history.replaceState({}, "", newUrl);
+			}
+		}
+	}, [searchParams, myProjects, otherProjects]);
 
 	useEffect(() => {
 		const fetchProjects = async () => {

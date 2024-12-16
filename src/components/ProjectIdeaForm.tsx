@@ -10,11 +10,12 @@ import {
 	Select,
 	MenuItem,
 	FormControl,
-	InputLabel,
 	Checkbox,
 	ListItemText,
 	Snackbar,
 	Alert,
+	InputLabel,
+	Tooltip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
@@ -23,6 +24,7 @@ import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
 import { useRouter } from "next/navigation";
 import useMobile from "~/utils/useMobile";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface ProjectIdeaFormProps {
 	user: User | null;
