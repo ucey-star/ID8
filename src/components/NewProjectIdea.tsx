@@ -15,33 +15,20 @@ import {
 	Snackbar,
 	Alert,
 	InputLabel,
-	Tooltip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
 import type { User } from "@supabase/supabase-js";
-import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
-import { useRouter } from "next/navigation";
 import useMobile from "~/utils/useMobile";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useSearchParams } from "next/navigation";
 
-
-interface ProjectIdeaFormProps {
+interface NewProjectIdeaProps {
 	user: User | null;
 	redirectTo?: string;
 }
 
-const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
-	user,
-	redirectTo,
-}) => {
-	const searchParams = useSearchParams();
-	const projectId = searchParams.get("projectId");
-	const router = useRouter();
+const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({ user, redirectTo }) => {
 	const [characterCounter, setCharacterCounter] = useState(0);
-	const [projectIdState, setProjectId] = useState<string | null>(null);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
 	const [projectLink, setProjectLink] = useState("");
@@ -49,7 +36,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
-	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -65,68 +51,18 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
-	// Fetch project details if they exist
-	useEffect(() => {
-		const fetchProjectDetails = async () => {
-			if (!user) {
-				console.warn("User is not logged in.");
-				setLoading(false);
-				return;
-			}
-	
-			if (!projectId) {
-				console.warn("No projectId provided in query parameters.");
-				setLoading(false);
-				return;
-			}
-	
-			try {
-				setLoading(true);
-				console.log("Fetching project with project_id:", projectId);
+	const handleSaveNewProject = async () => {
+		if (!user) {
+			setSnackbar({
+				open: true,
+				message: "You need to be logged in to save a project.",
+				severity: "error",
+			});
+			return;
+		}
 
-				const { data, error } = await supabaseClient
-					.from("Projects")
-					.select("*")
-					.eq("project_id", projectId)
-					.single();
-				
-				console.log("Fetched Project Data:", data);
-				console.log("Fetch Error:", error);
-				
-				if (error) throw error;
-	
-				if (data) {
-					// Populate fields with existing project data
-					console.log("Populating state with:", data);
-					setProjectId(data.project_id); 
-					setProjectName(data.project_name ?? "");
-					setTagline(data.tagline ?? "");
-					setProjectLink(data.project_url ?? "");
-					setDemoLink(data.demo_link ?? "");
-					setProjectDescription(data.project_description ?? "");
-					setFeedbackQuestion(data.feedback_question ?? "");
-					setSelectedTags(data.tags ?? []);
-				}
-			} catch (error) {
-				console.error("Error loading project:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-	
-		fetchProjectDetails().catch((err) =>
-			console.error("Unexpected error:", err)
-		);
-	}, [user, projectId]);
-	
-
-	useEffect(() => {
-		setCharacterCounter(tagline.length);
-	}, [tagline]);
-
-	const handleSaveProject = async () => {
-		const formData: Database["public"]["Tables"]["Projects"]["Insert"] = {
-			user_id: user?.id,
+		const formData = {
+			user_id: user.id,
 			project_name: projectName,
 			tagline: tagline,
 			project_url: projectLink,
@@ -137,43 +73,25 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		};
 
 		try {
-			if (projectId) {
-				// Update existing project
-				const { error: updateError } = await supabaseClient
-					.from("Projects")
-					.update(formData)
-					.eq("project_id", projectId); // Use project_id for updates
+			// Insert new project
+			const { error } = await supabaseClient
+				.from("Projects")
+				.insert([formData]);
 
-				if (updateError) throw updateError;
+			if (error) throw error;
 
-				setSnackbar({
-					open: true,
-					message: "Project updated successfully!",
-					severity: "success",
-				});
-			} else {
-				// Insert new project if none exists
-				const { data, error } = await supabaseClient
-					.from("Projects")
-					.insert([formData])
-					.select(); // Get the created project data
-
-				if (error) throw error;
-
-				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
-				setSnackbar({
-					open: true,
-					message: "Project created successfully!",
-					severity: "success",
-				});
-			}
+			setSnackbar({
+				open: true,
+				message: "New project created successfully!",
+				severity: "success",
+			});
 
 			// Redirect after saving
 			setTimeout(() => {
-				router.push(redirectTo ?? "/home");
+				window.location.href = redirectTo ?? "/home";
 			}, 1000);
 		} catch (error) {
-			console.error("Error saving project:", error);
+			console.error("Error creating new project:", error);
 			setSnackbar({
 				open: true,
 				message: "Error saving project. Please try again.",
@@ -186,10 +104,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		const value = event.target.value as unknown as string[];
 		setSelectedTags(value);
 	};
-
-	if (loading) {
-		return <Box>Loading...</Box>;
-	}
 
 	return (
 		<Box
@@ -225,20 +139,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						fontFamily: "'Outfit', sans-serif",
 					}}
 				>
-					Project Idea
-				</Typography>
-				<Typography
-					variant="body2"
-					sx={{
-						color: "#6C6C80",
-						marginBottom: "46px",
-						fontSize: "20px",
-						lineHeight: "28px",
-						fontFamily: "'Outfit', sans-serif",
-					}}
-				>
-					Fill out as much detail as possible to help others understand your
-					project.
+					New Project Idea
 				</Typography>
 				<Box
 					sx={{
@@ -323,7 +224,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 							multiple
 							value={selectedTags}
 							onChange={handleTagChange}
-							label="What are some tags you would associate with your project idea?*"
 							renderValue={(selected) => selected.join(", ")}
 							variant="outlined"
 						>
@@ -350,7 +250,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						}}
 					>
 						<GradientButton
-							onClick={handleSaveProject}
+							onClick={handleSaveNewProject}
 							content="Save"
 							className="w-1/2"
 						/>
@@ -383,4 +283,4 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	);
 };
 
-export default ProjectIdeaForm;
+export default NewProjectIdea;

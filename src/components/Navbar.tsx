@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { User, Home, Settings, LogOut } from "lucide-react";
+import { User, Home, LogOut, Folder } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
 
 	// Prefetch routes for faster navigation
 	useEffect(() => {
-		void router.prefetch("/project_idea");
+		void router.prefetch("/my_projects");
 		void router.prefetch("/home");
 		void router.prefetch("/notifications");
 		void router.prefetch("/personal-details");
@@ -50,18 +50,18 @@ const Navbar: React.FC = () => {
 			className={`flex ${isMobile ? "justify-between space-x-10 px-6" : "justify-center space-x-16"} bg-transparent ${isMobile ? "py-4" : "py-8"}`}
 		>
 			<div
-				onClick={() => handleNavigation("/project_idea")}
-				className={linkClasses("/project_idea")}
+				onClick={() => handleNavigation("/my_projects")}
+				className={linkClasses("/my_projects")}
 			>
 				<div
 					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
 				>
-					<Settings
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
-						aria-label="Project"
+					<Folder
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`} 
+						aria-label="My Projects"
 					/>
 				</div>
-				{!isMobile && <p>Edit Project</p>}
+				{!isMobile && <p>My Projects</p>}
 			</div>
 			<div
 				onClick={() => handleNavigation("/home")}
