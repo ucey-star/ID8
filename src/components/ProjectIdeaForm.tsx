@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import {
 	Box,
+	Container,
+	Typography,
+	Link,
 	TextField,
 	Select,
 	MenuItem,
@@ -11,7 +14,7 @@ import {
 	ListItemText,
 	Snackbar,
 	Alert,
-	Typography,
+	InputLabel,
 	Tooltip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
@@ -20,6 +23,7 @@ import type { User } from "@supabase/supabase-js";
 import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
 import { useRouter } from "next/navigation";
+import useMobile from "~/utils/useMobile";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface ProjectIdeaFormProps {
@@ -51,6 +55,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		message: "",
 		severity: "success",
 	});
+
+	const isMobile = useMobile();
 
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
@@ -174,292 +180,191 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	return (
 		<Box
 			sx={{
+				minHeight: "100vh",
 				display: "flex",
-				flexDirection: "column",
-				gap: "40px",
-				marginBottom: "32px",
-				padding: "8px",
+				justifyContent: "center",
+				alignItems: "center",
+				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+				padding: `${isMobile ? "20px" : "70px"}`,
 			}}
 		>
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Project Name*
-					</Typography>
-					<Tooltip
-						title="What's the name you want people to remember your project by? Keep it short and memorable."
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					placeholder="e.g., Seat Magician"
-					value={projectName}
-					onChange={(e) => setProjectName(e.target.value)}
-					variant="outlined"
-				/>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Quick Pitch*
-					</Typography>
-					<Tooltip
-						title="How would you describe your project to someone in an elevator? Focus on the main problem it solves. The limit is 150 characters."
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					multiline
-					placeholder="e.g., A web app that helps couples create perfect seating charts for their wedding reception"
-					value={tagline}
-					onChange={(e) => {
-						setTagline(e.target.value);
-						setCharacterCounter(e.target.value.length);
-					}}
-					variant="outlined"
-					inputProps={{ maxLength: 150 }}
-				/>
-				<span
-					style={{
-						alignSelf: "flex-end",
-						color: "#6C6C80",
-						fontSize: "14px",
-						marginTop: "4px",
-					}}
-				>
-					Character Counter: {characterCounter}
-				</span>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Project URL
-					</Typography>
-					<Tooltip
-						title="Where can people find your project online? Include your website, GitHub repository, or any other relevant links."
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					placeholder="e.g., https://www.seatmagician.com"
-					value={projectLink}
-					onChange={(e) => setProjectLink(e.target.value)}
-					variant="outlined"
-				/>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Demo Link
-					</Typography>
-					<Tooltip
-						title="Share a video or interactive demo that shows your project in action. Loom videos work great!"
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					placeholder="e.g., https://www.loom.com/share/your-demo"
-					value={demoLink}
-					onChange={(e) => setDemoLink(e.target.value)}
-					variant="outlined"
-				/>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Detailed Description
-					</Typography>
-					<Tooltip
-						title="What problem does your project solve? Who is it for? How does it work? Include your motivation and technical approach."
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					placeholder="e.g., Seat Magician simplifies wedding planning by automating seating arrangements. It considers relationships, preferences, and table constraints to create optimal seating charts..."
-					value={projectDescription}
-					onChange={(e) => setProjectDescription(e.target.value)}
-					variant="outlined"
-					multiline
-					rows={3}
-				/>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Feedback Request
-					</Typography>
-					<Tooltip
-						title="What specific aspects of your project would you like feedback on? Technical implementation? User experience? Business model?"
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<TextField
-					fullWidth
-					placeholder="e.g., I'm looking for ideas on how to incorporate statistical analysis..."
-					value={feedbackQuestion}
-					onChange={(e) => setFeedbackQuestion(e.target.value)}
-					variant="outlined"
-				/>
-			</Box>
-
-			<Box sx={{ textAlign: "left" }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="subtitle1"
-						sx={{
-							fontWeight: 500,
-							marginBottom: "8px",
-							marginTop: "8px",
-							color: "#2D2D2D",
-							fontFamily: "'Outfit', sans-serif",
-						}}
-					>
-						Project Categories*
-					</Typography>
-					<Tooltip
-						title="Select all academic disciplines that your project relates to. This helps match you with relevant feedback."
-						placement="right"
-					>
-						<InfoOutlinedIcon
-							sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-						/>
-					</Tooltip>
-				</Box>
-				<FormControl fullWidth>
-					<Select
-						multiple
-						value={selectedTags}
-						onChange={handleTagChange}
-						placeholder="Select tags"
-						renderValue={(selected) => selected.join(", ")}
-						variant="outlined"
-					>
-						{[
-							"Computer Science (CS)",
-							"Social Sciences (SS)",
-							"Arts and Humanities (AH)",
-							"Natural Sciences (NS)",
-							"Business (B)",
-						].map((tag) => (
-							<MenuItem key={tag} value={tag}>
-								<Checkbox checked={selectedTags.includes(tag)} />
-								<ListItemText primary={tag} />
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-			</Box>
-
-			<Box sx={{ display: "flex", justifyContent: "center" }}>
-				<GradientButton
-					onClick={handleSaveProject}
-					content="Edit Project"
-					className="w-1/2"
-				/>
-			</Box>
-
-			{/* Snackbar for notifications */}
-			<Snackbar
-				open={snackbar.open}
-				autoHideDuration={snackbar.severity === "error" ? 6000 : 2000}
-				onClose={handleCloseSnackbar}
+			<Container
+				maxWidth="sm"
+				sx={{
+					backgroundColor: "#FFFFFF",
+					padding: `${isMobile ? "24px" : "48px"}`,
+					borderRadius: "16px",
+					border: "1px solid #D6D6E7",
+					boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+					textAlign: "center",
+				}}
 			>
-				<Alert
-					onClose={handleCloseSnackbar}
-					severity={snackbar.severity}
-					sx={{ width: "100%" }}
+				<Typography
+					variant="h5"
+					component="h1"
+					sx={{
+						color: "#000000",
+						fontWeight: 600,
+						fontSize: "32px",
+						lineHeight: "40.32px",
+						marginBottom: "32px",
+						fontFamily: "'Outfit', sans-serif",
+					}}
 				>
-					{snackbar.message}
-				</Alert>
-			</Snackbar>
+					Project Idea
+				</Typography>
+				<Typography
+					variant="body2"
+					sx={{
+						color: "#6C6C80",
+						marginBottom: "46px",
+						fontSize: "20px",
+						lineHeight: "28px",
+						fontFamily: "'Outfit', sans-serif",
+					}}
+				>
+					Fill out as much detail as possible to help others understand your
+					project.
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "40px",
+						marginBottom: "32px",
+						padding: "8px",
+					}}
+				>
+					<TextField
+						fullWidth
+						multiline
+						label="Project name*"
+						value={projectName}
+						onChange={(e) => setProjectName(e.target.value)}
+						variant="outlined"
+					/>
+
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "2px",
+						}}
+					>
+						<TextField
+							fullWidth
+							multiline
+							label="Describe what your project does in 150 characters or less.*"
+							value={tagline}
+							onChange={(e) => {
+								setTagline(e.target.value);
+								setCharacterCounter(e.target.value.length);
+							}}
+							variant="outlined"
+							inputProps={{ maxLength: 150 }}
+						/>
+						<span style={{ alignSelf: "flex-end", color: "#666" }}>
+							Character Counter: {characterCounter}
+						</span>
+					</Box>
+					<TextField
+						fullWidth
+						multiline
+						label="Please provide a link to the project, if any."
+						value={projectLink}
+						onChange={(e) => setProjectLink(e.target.value)}
+						variant="outlined"
+					/>
+					<TextField
+						fullWidth
+						label="If you have a demo, link it below."
+						value={demoLink}
+						onChange={(e) => setDemoLink(e.target.value)}
+						variant="outlined"
+					/>
+					<TextField
+						fullWidth
+						label="What is your project going to do? Please describe your product and what it does or will do."
+						value={projectDescription}
+						onChange={(e) => setProjectDescription(e.target.value)}
+						variant="outlined"
+						multiline
+						rows={3}
+					/>
+
+					<TextField
+						fullWidth
+						multiline
+						label="Feedback Question: What aspect of the project idea needs feedback?"
+						value={feedbackQuestion}
+						onChange={(e) => setFeedbackQuestion(e.target.value)}
+						variant="outlined"
+					/>
+
+					<FormControl fullWidth>
+						<InputLabel>
+							What are some tags you would associate with your project idea?*
+						</InputLabel>
+						<Select
+							multiple
+							value={selectedTags}
+							onChange={handleTagChange}
+							label="What are some tags you would associate with your project idea?*"
+							renderValue={(selected) => selected.join(", ")}
+							variant="outlined"
+						>
+							{[
+								"Computer Science (CS)",
+								"Social Sciences (SS)",
+								"Arts and Humanities (AH)",
+								"Natural Sciences (NS)",
+								"Business (B)",
+							].map((tag) => (
+								<MenuItem key={tag} value={tag}>
+									<Checkbox checked={selectedTags.includes(tag)} />
+									<ListItemText primary={tag} />
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<GradientButton
+							onClick={handleSaveProject}
+							content="Save"
+							className="w-1/2"
+						/>
+						<Link
+							href="/home"
+							underline="hover"
+							sx={{ marginTop: "16px", color: "#6C6C80" }}
+						>
+							Go back
+						</Link>
+					</Box>
+
+					{/* Snackbar for notifications */}
+					<Snackbar
+						open={snackbar.open}
+						autoHideDuration={snackbar.severity === "error" ? 6000 : 2000}
+						onClose={handleCloseSnackbar}
+					>
+						<Alert
+							onClose={handleCloseSnackbar}
+							severity={snackbar.severity}
+							sx={{ width: "100%" }}
+						>
+							{snackbar.message}
+						</Alert>
+					</Snackbar>
+				</Box>
+			</Container>
 		</Box>
 	);
 };

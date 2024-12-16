@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Box, Button, Typography, Chip } from "@mui/material";
+import useMobile from "~/utils/useMobile";
 
 interface CardProps {
 	name: string | null;
@@ -29,12 +30,14 @@ const Card: React.FC<CardProps> = ({
 		"Business (B)": "#FFD700", // Dark Yellow
 	};
 
+	const isMobile = useMobile();
+
 	return (
 		<Box
 			sx={{
-				width: "65%",
+				width: `${isMobile ? "90%" : "65%"}`,
 				backgroundColor: "var(--color-background-paper)",
-				padding: "var(--spacing-large)",
+				padding: `${isMobile ? "var(--spacing-medium)" : "var(--spacing-large)"}`,
 				borderRadius: "16px",
 				border: `1px solid var(--color-border)`,
 				boxShadow: "var(--box-shadow)",
@@ -54,9 +57,9 @@ const Card: React.FC<CardProps> = ({
 			<Box
 				sx={{
 					display: "flex",
-					flexDirection: "row",
+					flexDirection: `${isMobile ? "column" : "row"}`,
 					justifyContent: "space-between", // Space between headline and name/date
-					alignItems: "flex-start",
+					alignItems: "center",
 					width: "100%",
 				}}
 			>
@@ -126,7 +129,7 @@ const Card: React.FC<CardProps> = ({
 			<Box
 				sx={{
 					display: "flex",
-					justifyContent: "flex-start", // Align tags to the left
+					justifyContent: `${isMobile ? "center" : `flex-start`}`, // Align tags to the left, center on mobile
 					alignItems: "center", // Center vertically
 					flexWrap: "wrap", // Allow tags to wrap to the next line if needed
 					gap: "8px", // Space between chips

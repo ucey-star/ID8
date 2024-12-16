@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import {
 	Box,
+	Container,
+	Typography,
 	TextField,
 	Snackbar,
 	Alert,
-	Typography,
 	Tooltip,
 } from "@mui/material";
 import GradientButton from "../components/GradientButton";
@@ -17,6 +18,7 @@ import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import type { Database } from "~/types/database.types";
 import { useRouter } from "next/navigation";
+import useMobile from "~/utils/useMobile";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface PersonalDetailsFormProps {
@@ -47,6 +49,8 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 		severity: "success",
 	});
 
+	const isMobile = useMobile();
+
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
@@ -72,7 +76,6 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 				}
 
 				if (data) {
-					// Populate the form with existing details
 					setUsername(data.username ?? "");
 					setDateOfBirth(data.DOB ? new Date(data.DOB) : null);
 					setGender(data.Gender ?? "");
@@ -114,7 +117,6 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 		};
 
 		try {
-			// Check if the user profile already exists
 			const { data: existingProfile, error: fetchError } = await supabaseClient
 				.from("User_Profile")
 				.select("*")
@@ -126,7 +128,6 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 			}
 
 			if (existingProfile) {
-				// Update existing profile
 				const { error: updateError } = await supabaseClient
 					.from("User_Profile")
 					.update(formData)
@@ -140,7 +141,6 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 					severity: "success",
 				});
 			} else {
-				// Create new profile
 				const { error: insertError } = await supabaseClient
 					.from("User_Profile")
 					.insert([formData]);
@@ -154,13 +154,11 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 				});
 			}
 
-			// Trigger the onSave callback or navigate to "/home"
 			setTimeout(() => {
 				router.push(redirectTo ?? "/home");
 			}, 1000);
 		} catch (error) {
 			console.error("Error saving profile:", error);
-
 			setSnackbar({
 				open: true,
 				message: "Error saving details. Please try again.",
@@ -175,238 +173,286 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
-				<Box
+			<Box
+				sx={{
+					minHeight: "100vh",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+					padding: isMobile ? "20px" : "70px",
+				}}
+			>
+				<Container
+					maxWidth="sm"
 					sx={{
-						display: "flex",
-						flexDirection: "column",
-						gap: "40px",
-						marginBottom: "32px",
-						padding: "8px",
+						backgroundColor: "#FFFFFF",
+						padding: isMobile ? "24px" : "48px",
+						borderRadius: "16px",
+						border: "1px solid #D6D6E7",
+						boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+						textAlign: "center",
 					}}
 				>
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								Username*
-							</Typography>
-							<Tooltip
-								title="Choose a unique username that will identify you in the community"
-								placement="right"
-							>
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<TextField
-							fullWidth
-							placeholder="e.g., john.doe"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							variant="outlined"
-							required
-						/>
-					</Box>
-
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								Birth Date
-							</Typography>
-							<Tooltip
-								title="Your date of birth helps us personalize your experience"
-								placement="right"
-							>
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<LocalizationProvider dateAdapter={AdapterDateFns}>
-							<DatePicker
-								value={dateOfBirth}
-								onChange={(newValue) => {
-									setDateOfBirth(newValue);
-								}}
-								sx={{ width: "100%" }}
-							/>
-						</LocalizationProvider>
-					</Box>
-
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								Gender
-							</Typography>
-							<Tooltip title="How do you identify?" placement="right">
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<TextField
-							fullWidth
-							placeholder="e.g., Female, Male, Non-binary, Prefer not to say"
-							value={gender}
-							onChange={(e) => setGender(e.target.value)}
-							variant="outlined"
-							required
-						/>
-					</Box>
-
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								Bio
-							</Typography>
-							<Tooltip
-								title="Tell us about yourself, your interests, and what you're passionate about"
-								placement="right"
-							>
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<TextField
-							fullWidth
-							multiline
-							rows={3}
-							placeholder="e.g., I'm a software engineer passionate about creating innovative solutions..."
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-							variant="outlined"
-							required
-						/>
-					</Box>
-
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								Workplace
-							</Typography>
-							<Tooltip
-								title="Where do you currently work? This helps build your professional profile"
-								placement="right"
-							>
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<TextField
-							fullWidth
-							placeholder="e.g., Google, Self-employed, Student at Stanford"
-							value={workplace}
-							onChange={(e) => setWorkplace(e.target.value)}
-							variant="outlined"
-							required
-						/>
-					</Box>
-
-					<Box sx={{ textAlign: "left" }}>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									fontWeight: 500,
-									marginBottom: "8px",
-									marginTop: "8px",
-									color: "#2D2D2D",
-									fontFamily: "'Outfit', sans-serif",
-								}}
-							>
-								LinkedIn Profile
-							</Typography>
-							<Tooltip
-								title="Share your LinkedIn profile to connect with other professionals"
-								placement="right"
-							>
-								<InfoOutlinedIcon
-									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
-								/>
-							</Tooltip>
-						</Box>
-						<TextField
-							fullWidth
-							placeholder="e.g., https://www.linkedin.com/in/yourprofile"
-							value={linkedin}
-							onChange={(e) => setLinkedin(e.target.value)}
-							variant="outlined"
-							required
-						/>
-					</Box>
-
-					<Box sx={{ display: "flex", justifyContent: "center" }}>
-						<GradientButton
-							type="submit"
-							content="Save Profile"
-							className="w-1/2"
-						/>
-					</Box>
-				</Box>
-
-				{/* Snackbar for notifications */}
-				<Snackbar
-					open={snackbar.open}
-					autoHideDuration={snackbar.severity === "error" ? 10000 : 1000}
-					onClose={handleCloseSnackbar}
-				>
-					<Alert
-						onClose={handleCloseSnackbar}
-						severity={snackbar.severity}
-						sx={{ width: "100%" }}
+					<Typography
+						variant="h5"
+						component="h1"
+						sx={{
+							color: "#000000",
+							fontWeight: 600,
+							fontSize: "32px",
+							lineHeight: "40.32px",
+							marginBottom: "32px",
+							fontFamily: "'Outfit', sans-serif",
+						}}
 					>
-						{snackbar.message}
-					</Alert>
-				</Snackbar>
-			</form>
+						My Profile
+					</Typography>
+					<Typography
+						variant="body2"
+						sx={{
+							color: "#6C6C80",
+							marginBottom: "46px",
+							fontSize: "20px",
+							lineHeight: "28px",
+							fontFamily: "'Outfit', sans-serif",
+						}}
+					>
+						This helps others understand who you are when reviewing your ideas.
+					</Typography>
+					<form onSubmit={handleSubmit}>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "40px",
+								marginBottom: "32px",
+								padding: "8px",
+							}}
+						>
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										Username*
+									</Typography>
+									<Tooltip
+										title="Choose a unique username that will identify you in the community"
+										placement="right"
+									>
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<TextField
+									fullWidth
+									placeholder="e.g., john.doe"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
+									variant="outlined"
+									required
+								/>
+							</Box>
+
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										Birth Date
+									</Typography>
+									<Tooltip
+										title="Your date of birth helps us personalize your experience"
+										placement="right"
+									>
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
+									<DatePicker
+										value={dateOfBirth}
+										onChange={(newValue) => {
+											setDateOfBirth(newValue);
+										}}
+										sx={{ width: "100%" }}
+									/>
+								</LocalizationProvider>
+							</Box>
+
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										Gender
+									</Typography>
+									<Tooltip title="How do you identify?" placement="right">
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<TextField
+									fullWidth
+									placeholder="e.g., Female, Male, Non-binary, Prefer not to say"
+									value={gender}
+									onChange={(e) => setGender(e.target.value)}
+									variant="outlined"
+									required
+								/>
+							</Box>
+
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										Bio
+									</Typography>
+									<Tooltip
+										title="Tell us about yourself, your interests, and what you're passionate about"
+										placement="right"
+									>
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<TextField
+									fullWidth
+									multiline
+									rows={3}
+									placeholder="e.g., I'm a software engineer passionate about creating innovative solutions..."
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
+									variant="outlined"
+									required
+								/>
+							</Box>
+
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										Workplace
+									</Typography>
+									<Tooltip
+										title="Where do you currently work? This helps build your professional profile"
+										placement="right"
+									>
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<TextField
+									fullWidth
+									placeholder="e.g., Google, Self-employed, Student at Stanford"
+									value={workplace}
+									onChange={(e) => setWorkplace(e.target.value)}
+									variant="outlined"
+									required
+								/>
+							</Box>
+
+							<Box sx={{ textAlign: "left" }}>
+								<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											fontWeight: 500,
+											marginBottom: "8px",
+											marginTop: "8px",
+											color: "#2D2D2D",
+											fontFamily: "'Outfit', sans-serif",
+										}}
+									>
+										LinkedIn Profile
+									</Typography>
+									<Tooltip
+										title="Share your LinkedIn profile to connect with other professionals"
+										placement="right"
+									>
+										<InfoOutlinedIcon
+											sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+										/>
+									</Tooltip>
+								</Box>
+								<TextField
+									fullWidth
+									placeholder="e.g., https://www.linkedin.com/in/yourprofile"
+									value={linkedin}
+									onChange={(e) => setLinkedin(e.target.value)}
+									variant="outlined"
+									required
+								/>
+							</Box>
+						</Box>
+
+						<Box sx={{ display: "flex", justifyContent: "center" }}>
+							<GradientButton
+								type="submit"
+								content="Save Profile"
+								className="w-1/2"
+							/>
+						</Box>
+					</form>
+
+					<Snackbar
+						open={snackbar.open}
+						autoHideDuration={snackbar.severity === "error" ? 10000 : 1000}
+						onClose={handleCloseSnackbar}
+					>
+						<Alert
+							onClose={handleCloseSnackbar}
+							severity={snackbar.severity}
+							sx={{ width: "100%" }}
+						>
+							{snackbar.message}
+						</Alert>
+					</Snackbar>
+				</Container>
+			</Box>
 		</>
 	);
 };
