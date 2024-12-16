@@ -27,7 +27,10 @@ interface NewProjectIdeaProps {
 	redirectTo?: string;
 }
 
-const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({ user, redirectTo }) => {
+const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
+	user,
+	redirectTo,
+}) => {
 	const [characterCounter, setCharacterCounter] = useState(0);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");

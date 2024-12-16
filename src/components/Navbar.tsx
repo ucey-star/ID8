@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
 					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
 				>
 					<Folder
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`} 
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
 						aria-label="My Projects"
 					/>
 				</div>

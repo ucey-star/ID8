@@ -27,7 +27,6 @@ import useMobile from "~/utils/useMobile";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useSearchParams } from "next/navigation";
 
-
 interface ProjectIdeaFormProps {
 	user: User | null;
 	redirectTo?: string;
@@ -73,13 +72,13 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				setLoading(false);
 				return;
 			}
-	
+
 			if (!projectId) {
 				console.warn("No projectId provided in query parameters.");
 				setLoading(false);
 				return;
 			}
-	
+
 			try {
 				setLoading(true);
 				console.log("Fetching project with project_id:", projectId);
@@ -89,16 +88,16 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					.select("*")
 					.eq("project_id", projectId)
 					.single();
-				
+
 				console.log("Fetched Project Data:", data);
 				console.log("Fetch Error:", error);
-				
+
 				if (error) throw error;
-	
+
 				if (data) {
 					// Populate fields with existing project data
 					console.log("Populating state with:", data);
-					setProjectId(data.project_id); 
+					setProjectId(data.project_id);
 					setProjectName(data.project_name ?? "");
 					setTagline(data.tagline ?? "");
 					setProjectLink(data.project_url ?? "");
@@ -113,12 +112,11 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				setLoading(false);
 			}
 		};
-	
+
 		fetchProjectDetails().catch((err) =>
-			console.error("Unexpected error:", err)
+			console.error("Unexpected error:", err),
 		);
 	}, [user, projectId]);
-	
 
 	useEffect(() => {
 		setCharacterCounter(tagline.length);
