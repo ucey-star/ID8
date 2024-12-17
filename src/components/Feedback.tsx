@@ -12,14 +12,32 @@ interface FeedbackData {
 	feedback: string | null;
 }
 
+interface CardProps {
+	id: string;
+}
+
 interface FeedbackProps {
 	projectId: string;
 	userId: string | null;
+	userProjects: CardProps[];
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
+const Feedback: React.FC<FeedbackProps> = ({
+	projectId,
+	userId,
+	userProjects,
+}) => {
 	const [comment, setComment] = useState("");
 	const [feedbackData, setFeedbackData] = useState<FeedbackData[]>([]);
+
+	let UsersProject = false;
+
+	userProjects.map((project) => {
+		if (project.id === projectId) {
+			UsersProject = true;
+		}
+		return null;
+	});
 
 	useEffect(() => {
 		const fetchComments = async () => {
@@ -75,6 +93,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 					project_id: projectId,
 					user_id: userId,
 					content: comment,
+					owner: UsersProject,
 				})
 				.select("*")
 				.single();

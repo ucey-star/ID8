@@ -10,6 +10,7 @@
 		"start": "next start",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
+		"supabase": "supabase",
 		"generate:types": "npx supabase gen types --lang=typescript --project-id ebbjgvdnhlqubcyyikbo --schema public > ./src/types/database.types.ts"
 	},
 	"dependencies": {
