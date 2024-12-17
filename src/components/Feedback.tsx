@@ -62,12 +62,17 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 
   useEffect(() => {
 	const fetchData = async () => {
-	  if (projectId) {
-		await fetchAndMapComments();
+	  try {
+		if (projectId) {
+		  await fetchAndMapComments();
+		}
+	  } catch (error) {
+		console.error("Error in useEffect:", error);
 	  }
 	};
 	fetchData();
   }, [projectId]);
+  
   
 
   const handleAddComment = async () => {
