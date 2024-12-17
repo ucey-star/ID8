@@ -14,7 +14,7 @@ interface CardProps {
 	onExploreMore: () => void;
 	buttonLabel?: string;
 	isDeletable?: boolean;
-    onDelete?: () => void;
+	onDelete?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({
 	onExploreMore,
 	buttonLabel = "Explore More",
 	isDeletable = false,
-    onDelete,
+	onDelete,
 }) => {
 	// Define darker colors for tags
 	const tagColors: Record<string, string> = {
@@ -63,7 +63,6 @@ const Card: React.FC<CardProps> = ({
 				"&:hover": { transform: "scale(1.02)" },
 			}}
 		>
-
 			{/* Top Section: Headline on Left, Name and Date on Right */}
 			<Box
 				sx={{
@@ -178,22 +177,22 @@ const Card: React.FC<CardProps> = ({
 				>
 					{buttonLabel} {/* Dynamic button text */}
 				</Button>
-						
-			{/* Delete Button*/}
-			{isDeletable && (
-                <IconButton
-                    onClick={onDelete}
-                    sx={{
-                        position: "absolute",
-                        bottom: "12px",
-                        right: "12px",
-                        color: "#FF6F61",
-                    }}
-                    aria-label="delete"
-                >
-                    <DeleteIcon />
-                </IconButton>
-            )}
+
+				{/* Delete Button*/}
+				{isDeletable && (
+					<IconButton
+						onClick={onDelete}
+						sx={{
+							position: "absolute",
+							bottom: "12px",
+							right: "12px",
+							color: "#FF6F61",
+						}}
+						aria-label="delete"
+					>
+						<DeleteIcon />
+					</IconButton>
+				)}
 			</Box>
 		</Box>
 	);

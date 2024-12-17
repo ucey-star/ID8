@@ -24,11 +24,11 @@ interface CardData {
 const MyProjectsContent: React.FC<MyProjectsContentProps> = ({ userId }) => {
 	const [projects, setProjects] = useState<CardData[]>([]);
 	const [loading, setLoading] = useState(true);
-    const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-        open: false,
-        message: "",
-    });
-    const isMobile = useMobile();
+	const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+		open: false,
+		message: "",
+	});
+	const isMobile = useMobile();
 	const router = useRouter();
 
 	useEffect(() => {
@@ -66,24 +66,24 @@ const MyProjectsContent: React.FC<MyProjectsContentProps> = ({ userId }) => {
 			console.error("Error during fetchProjects:", err),
 		);
 	}, [userId]);
-    const handleDeleteProject = async (projectId: string) => {
-        try {
-            const { error } = await supabaseClient
-                .from("Projects")
-                .delete()
-                .eq("project_id", projectId);
+	const handleDeleteProject = async (projectId: string) => {
+		try {
+			const { error } = await supabaseClient
+				.from("Projects")
+				.delete()
+				.eq("project_id", projectId);
 
-            if (error) throw error;
+			if (error) throw error;
 
-            // Remove the project locally
-            setProjects((prev) => prev.filter((project) => project.id !== projectId));
+			// Remove the project locally
+			setProjects((prev) => prev.filter((project) => project.id !== projectId));
 
-            setSnackbar({ open: true, message: "Project deleted successfully!" });
-        } catch (error) {
-            console.error("Error deleting project:", error);
-            setSnackbar({ open: true, message: "Failed to delete project." });
-        }
-    };
+			setSnackbar({ open: true, message: "Project deleted successfully!" });
+		} catch (error) {
+			console.error("Error deleting project:", error);
+			setSnackbar({ open: true, message: "Failed to delete project." });
+		}
+	};
 	if (loading) return <Typography>Loading...</Typography>;
 
 	return (
@@ -130,8 +130,8 @@ const MyProjectsContent: React.FC<MyProjectsContentProps> = ({ userId }) => {
 									router.push(`/project_idea?projectId=${project.id}`)
 								}
 								buttonLabel="Edit Project"
-                                isDeletable
-                                onDelete={() => handleDeleteProject(project.id)}
+								isDeletable
+								onDelete={() => handleDeleteProject(project.id)}
 							/>
 						</Box>
 					))
@@ -144,16 +144,19 @@ const MyProjectsContent: React.FC<MyProjectsContentProps> = ({ userId }) => {
 					<AddProjectCard />
 				</Box>
 
-                {/* Snackbar for Feedback */}
-                <Snackbar
-                    open={snackbar.open}
-                    autoHideDuration={3000}
-                    onClose={() => setSnackbar({ ...snackbar, open: false })}
-                >
-                    <Alert severity="success" onClose={() => setSnackbar({ ...snackbar, open: false })}>
-                        {snackbar.message}
-                    </Alert>
-                </Snackbar>
+				{/* Snackbar for Feedback */}
+				<Snackbar
+					open={snackbar.open}
+					autoHideDuration={3000}
+					onClose={() => setSnackbar({ ...snackbar, open: false })}
+				>
+					<Alert
+						severity="success"
+						onClose={() => setSnackbar({ ...snackbar, open: false })}
+					>
+						{snackbar.message}
+					</Alert>
+				</Snackbar>
 			</Container>
 		</Box>
 	);
