@@ -37,7 +37,7 @@ export default function HomePage() {
 						fontFamily: "Arial, sans-serif",
 					}}
 				>
-					Welcome to the Platform
+					Welcome to ID8
 				</Typography>
 				<Typography
 					sx={{
@@ -47,7 +47,7 @@ export default function HomePage() {
 						fontFamily: "Arial, sans-serif",
 					}}
 				>
-					Follow these steps to get started:
+					Follow these steps to get started!
 				</Typography>
 
 				<Box
@@ -60,7 +60,7 @@ export default function HomePage() {
 					}}
 				>
 					{/* Step 1 */}
-					<Box sx={{ textAlign: "left", width: "100%" }}>
+					<Box sx={{ textAlign: "center", width: "100%" }}>
 						<Typography
 							variant="h6"
 							sx={{
@@ -78,8 +78,8 @@ export default function HomePage() {
 								color: "#666",
 							}}
 						>
-							Make sure others can understand who you are by completing your
-							profile.
+							Make sure other founders can understand who you are by completing
+							your profile.
 						</Typography>
 						<Link
 							href={{
@@ -105,7 +105,7 @@ export default function HomePage() {
 					</Box>
 
 					{/* Step 2 */}
-					<Box sx={{ textAlign: "left", width: "100%" }}>
+					<Box sx={{ textAlign: "center", width: "100%" }}>
 						<Typography
 							variant="h6"
 							sx={{
@@ -123,7 +123,8 @@ export default function HomePage() {
 								color: "#666",
 							}}
 						>
-							Submit your project idea to start connecting with others.
+							Submit a project idea or startup to start connecting with other
+							founders.
 						</Typography>
 						<Link
 							href={{
@@ -149,7 +150,7 @@ export default function HomePage() {
 					</Box>
 
 					{/* Step 3 */}
-					<Box sx={{ textAlign: "left", width: "100%" }}>
+					<Box sx={{ textAlign: "center", width: "100%" }}>
 						<Typography
 							variant="h6"
 							sx={{
@@ -158,7 +159,7 @@ export default function HomePage() {
 								color: "#333",
 							}}
 						>
-							Step 3: Go to Your Dashboard
+							Step 3: Go to Home
 						</Typography>
 						<Typography
 							sx={{
@@ -167,7 +168,7 @@ export default function HomePage() {
 								color: "#666",
 							}}
 						>
-							View your progress and manage your projects on the dashboard.
+							Give and get feedback on projects and ideas!
 						</Typography>
 						<Link href="/home" passHref>
 							<Button
@@ -181,7 +182,7 @@ export default function HomePage() {
 									alignItems: "center",
 								}}
 							>
-								Go to Dashboard
+								Go to Home
 							</Button>
 						</Link>
 					</Box>

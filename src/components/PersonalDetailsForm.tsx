@@ -218,7 +218,8 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 							fontFamily: "'Outfit', sans-serif",
 						}}
 					>
-						This helps others understand who you are when reviewing your ideas.
+						This helps other founders understand who you are when reviewing your
+						ideas. The more detail you provide, the better!
 					</Typography>
 					<form onSubmit={handleSubmit}>
 						<Box
@@ -387,7 +388,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 								</Box>
 								<TextField
 									fullWidth
-									placeholder="e.g., Google, Self-employed, Student at Stanford"
+									placeholder="e.g., Google, Self-employed, Stanford University"
 									value={workplace}
 									onChange={(e) => setWorkplace(e.target.value)}
 									variant="outlined"

@@ -13,23 +13,42 @@ interface CardProps {
 	onExploreMore: () => void;
 }
 
+// Define unique colors for each new tag
+const tagColors: Record<string, string> = {
+	"Financial Technology (Fintech)": "#FF5733", // Vibrant Orange
+	"Healthcare Technology": "#33FF57", // Bright Green
+	AI: "#3357FF", // Strong Blue
+	SaaS: "#FF33A8", // Bold Pink
+	Web3: "#A833FF", // Deep Purple
+	"Education Technology (Edtech)": "#33FFA1", // Teal
+	"Real Estate": "#FF8C33", // Warm Orange
+	"Big Data": "#33A1FF", // Sky Blue
+	Sustainability: "#8E6EB4", // Soft Purple
+	"Climate Tech": "#FF33F6", // Bright Magenta
+	Energy: "#33FFF6", // Aqua
+	Robotics: "#A1FF33", // Lime Green
+	"Leisure & Entertainment": "#FF3333", // Red
+	"Virtual Reality (VR)": "#33FFBD", // Mint
+	"Augmented Reality (AR)": "#FF33C4", // Hot Pink
+	Blockchain: "#33C4FF", // Light Blue
+	B2B: "#FF8C33", // Orange
+	"Delivery Services": "#8C33FF", // Indigo
+	"E-commerce": "#33FF57", // Bright Green
+	"Health & Wellness": "#FF5733", // Vibrant Orange
+	Legal: "#33A1FF", // Sky Blue
+	Lifestyle: "#A133FF", // Purple
+	Security: "#424242", // Dark Gray
+	"Social Media": "#33FFBD", // Mint
+};
+
 const Card: React.FC<CardProps> = ({
 	name,
 	date,
 	descriptionShort,
 	headline,
-	tags = [], // Default empty array
+	tags = [],
 	onExploreMore,
 }) => {
-	// Define darker colors for tags
-	const tagColors: Record<string, string> = {
-		"Computer Science (CS)": "#4CB8A5", // Dark Blue
-		"Social Sciences (SS)": "#F9A825", // Dark Green
-		"Arts and Humanities (AH)": "#FF6F61", // Dark Red
-		"Natural Sciences (NS)": "#8E6EB4", // Dark Orange
-		"Business (B)": "#FFD700", // Dark Yellow
-	};
-
 	const isMobile = useMobile();
 
 	return (
@@ -129,7 +148,7 @@ const Card: React.FC<CardProps> = ({
 			<Box
 				sx={{
 					display: "flex",
-					justifyContent: `${isMobile ? "center" : `flex-start`}`, // Align tags to the left, center on mobile
+					justifyContent: `${isMobile ? "center" : "flex-start"}`, // Align tags to the left, center on mobile
 					alignItems: "center", // Center vertically
 					flexWrap: "wrap", // Allow tags to wrap to the next line if needed
 					gap: "8px", // Space between chips
@@ -152,6 +171,7 @@ const Card: React.FC<CardProps> = ({
 					/>
 				))}
 			</Box>
+
 			{/* Bottom Section: Button */}
 			<Box
 				sx={{

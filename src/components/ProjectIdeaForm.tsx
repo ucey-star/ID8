@@ -223,8 +223,9 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						fontFamily: "'Outfit', sans-serif",
 					}}
 				>
-					Fill out as much detail as possible to help others understand your
-					project.
+					It&apos;s time to tell the community about your idea, project, or
+					startup! Fill out as much detail as possible to help other founders
+					understand your what you&apos;re building.
 				</Typography>
 				<Box
 					sx={{
@@ -254,7 +255,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						<TextField
 							fullWidth
 							multiline
-							label="Describe what your project does in 150 characters or less.*"
+							label="Quick Pitch: Describe what your project does or will do in 150 characters or less.*"
 							value={tagline}
 							onChange={(e) => {
 								setTagline(e.target.value);
@@ -284,7 +285,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					/>
 					<TextField
 						fullWidth
-						label="What is your project going to do? Please describe your product and what it does or will do."
+						label="What is your project going to do? What sets your project apart from the competition?"
 						value={projectDescription}
 						onChange={(e) => setProjectDescription(e.target.value)}
 						variant="outlined"
@@ -295,7 +296,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					<TextField
 						fullWidth
 						multiline
-						label="Feedback Question: What aspect of the project idea needs feedback?"
+						label="What aspect of your project idea needs feedback?"
 						value={feedbackQuestion}
 						onChange={(e) => setFeedbackQuestion(e.target.value)}
 						variant="outlined"
@@ -314,11 +315,30 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 							variant="outlined"
 						>
 							{[
-								"Computer Science (CS)",
-								"Social Sciences (SS)",
-								"Arts and Humanities (AH)",
-								"Natural Sciences (NS)",
-								"Business (B)",
+								"Financial Technology (Fintech)",
+								"Healthcare Technology",
+								"AI",
+								"SaaS",
+								"Web3",
+								"Education Technology (Edtech)",
+								"Real Estate",
+								"Big Data",
+								"Sustainability",
+								"Climate Tech",
+								"Energy",
+								"Robotics",
+								"Leisure & Entertainment",
+								"Virtual Reality (VR)",
+								"Augmented Reality (AR)",
+								"Blockchain",
+								"B2B",
+								"Delivery Services",
+								"E-commerce",
+								"Health & Wellness",
+								"Legal",
+								"Lifestyle",
+								"Security",
+								"Social Media",
 							].map((tag) => (
 								<MenuItem key={tag} value={tag}>
 									<Checkbox checked={selectedTags.includes(tag)} />
