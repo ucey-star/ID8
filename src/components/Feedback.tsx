@@ -36,6 +36,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
                         comment_id,
                         content,
                         created_at,
+						user_id,
 						project_id
 
                     `,
@@ -43,11 +44,27 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 					.eq("project_id", projectId)
 					.order("created_at", { ascending: false });
 
+				const userIds = [...new Set((comments ?? []).map((comment) => comment.user_id))];
+
+
+				const { data: userProfiles, error: userProfilesError } = await supabaseClient
+					.from("User_Profile")
+					.select("user_id, username")
+					.in("user_id", userIds);
+
+
 				if (error) throw error;
+				if (userProfilesError) throw userProfilesError;
+
+				const userMap = userProfiles.reduce<Record<string, string>>((map, user) => {
+					map[user.user_id] = user.username || "Anonymous";
+					return map;
+				}, {});
+				
 
 				const mappedComments = comments.map((comment) => ({
 					id: comment.comment_id,
-					name: "Anonymous",
+					name: userMap[comment.user_id] || "Anonymous",
 					timeAgo: new Date(comment.created_at).toLocaleString(),
 					feedback: comment.content,
 				}));
@@ -114,7 +131,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 
 			const mappedComments = comments.map((comment) => ({
 				id: comment.comment_id,
-				name: "Anonymous", // You can replace this with user data if needed
+				name: comment.user_id, // You can replace this with user data if needed
 				timeAgo: new Date(comment.created_at).toLocaleString(),
 				feedback: comment.content,
 			}));
