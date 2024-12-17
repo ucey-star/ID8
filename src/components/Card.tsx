@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Box, Button, Typography, Chip } from "@mui/material";
+import { Box, Button, Typography, Chip, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import useMobile from "~/utils/useMobile";
 
 interface CardProps {
@@ -12,6 +13,8 @@ interface CardProps {
 	tags?: string[]; // Tags prop
 	onExploreMore: () => void;
 	buttonLabel?: string;
+	isDeletable?: boolean;
+    onDelete?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -22,6 +25,8 @@ const Card: React.FC<CardProps> = ({
 	tags = [], // Default empty array
 	onExploreMore,
 	buttonLabel = "Explore More",
+	isDeletable = false,
+    onDelete,
 }) => {
 	// Define darker colors for tags
 	const tagColors: Record<string, string> = {
@@ -37,6 +42,7 @@ const Card: React.FC<CardProps> = ({
 	return (
 		<Box
 			sx={{
+				position: "relative",
 				width: `${isMobile ? "90%" : "65%"}`,
 				backgroundColor: "var(--color-background-paper)",
 				padding: `${isMobile ? "var(--spacing-medium)" : "var(--spacing-large)"}`,
@@ -57,6 +63,7 @@ const Card: React.FC<CardProps> = ({
 				"&:hover": { transform: "scale(1.02)" },
 			}}
 		>
+
 			{/* Top Section: Headline on Left, Name and Date on Right */}
 			<Box
 				sx={{
@@ -171,6 +178,22 @@ const Card: React.FC<CardProps> = ({
 				>
 					{buttonLabel} {/* Dynamic button text */}
 				</Button>
+						
+			{/* Delete Button*/}
+			{isDeletable && (
+                <IconButton
+                    onClick={onDelete}
+                    sx={{
+                        position: "absolute",
+                        bottom: "12px",
+                        right: "12px",
+                        color: "#FF6F61",
+                    }}
+                    aria-label="delete"
+                >
+                    <DeleteIcon />
+                </IconButton>
+            )}
 			</Box>
 		</Box>
 	);
