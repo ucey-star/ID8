@@ -66,7 +66,7 @@ export default function Home() {
 						<div className="group space-y-4">
 							<div className="aspect-square overflow-hidden rounded-lg">
 								<Image
-									src="/images/img1.png"
+									src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80"
 									alt="Real Reciprocity"
 									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 									width={800}
@@ -83,7 +83,7 @@ export default function Home() {
 						<div className="group space-y-4">
 							<div className="aspect-square overflow-hidden rounded-lg">
 								<Image
-									src="/images/img2.png"
+									src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80"
 									alt="No Noise, Just Value"
 									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 									width={800}
@@ -99,7 +99,7 @@ export default function Home() {
 						<div className="group space-y-4">
 							<div className="aspect-square overflow-hidden rounded-lg">
 								<Image
-									src="/images/img3.png"
+									src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80"
 									alt="Grow Together"
 									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 									width={800}
@@ -119,18 +119,15 @@ export default function Home() {
 			{/* CTA Section */}
 			<section className="py-24">
 				<div className="mx-auto max-w-3xl px-4 text-center">
-					<h2 className="mb-6 text-3xl font-bold">Join Our Slack Community</h2>
+					<h2 className="mb-6 text-3xl font-bold">Join Us</h2>
 					<p className="text-muted-foreground mb-8">
-						We&apos;re in early development, working hard to build a platform
-						where founders and ideators can exchange valuable feedback and
-						refine their ideas with the help of like-minded entrepreneurs. Join
-						our Slack community now to be part of the first wave and get
-						priority access to post your ideas when we launch.
+						ID8 is now available to the public! Be one of the first to share
+						your project and gain exclusive access to our team&apos;s expertise.
 					</p>
 					<LandingButton
-						content="Join Us"
+						content="Jump In"
 						variant="primary"
-						onClick={() => console.log("Join")}
+						onClick={() => handleNavigation("/project_idea?step=start-project")}
 					/>
 				</div>
 			</section>
