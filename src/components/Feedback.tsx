@@ -61,7 +61,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
   };
 
   useEffect(() => {
-	(async () => {
+	void (async () => {
 	  try {
 		if (projectId) {
 		  await fetchAndMapComments();
@@ -71,9 +71,6 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 	  }
 	})();
   }, [projectId]);
-  
-  
-  
 
   const handleAddComment = async () => {
     if (!comment.trim()) {
