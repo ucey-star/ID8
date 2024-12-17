@@ -3,15 +3,19 @@
 import React, { useState, useEffect } from "react";
 import {
 	Box,
+	Container,
+	Typography,
+	Link,
 	TextField,
 	Select,
 	MenuItem,
 	FormControl,
-	InputLabel,
 	Checkbox,
 	ListItemText,
 	Snackbar,
 	Alert,
+	InputLabel,
+	Tooltip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
@@ -19,6 +23,8 @@ import type { User } from "@supabase/supabase-js";
 import type { Database } from "~/types/database.types";
 import supabaseClient from "~/api/supabaseConfig";
 import { useRouter } from "next/navigation";
+import useMobile from "~/utils/useMobile";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface ProjectIdeaFormProps {
 	user: User | null;
@@ -49,6 +55,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		message: "",
 		severity: "success",
 	});
+
+	const isMobile = useMobile();
 
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
@@ -172,126 +180,191 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	return (
 		<Box
 			sx={{
+				minHeight: "100vh",
 				display: "flex",
-				flexDirection: "column",
-				gap: "40px",
-				marginBottom: "32px",
-				padding: "8px",
+				justifyContent: "center",
+				alignItems: "center",
+				background: "linear-gradient(135deg, #F7F7F8, #E3E7FF, #DCE0FF)",
+				padding: `${isMobile ? "20px" : "70px"}`,
 			}}
 		>
-			<TextField
-				fullWidth
-				label="Project name*"
-				value={projectName}
-				onChange={(e) => setProjectName(e.target.value)}
-				variant="outlined"
-			/>
-
-			<Box
+			<Container
+				maxWidth="sm"
 				sx={{
-					display: "flex",
-					flexDirection: "column",
-					gap: "2px",
+					backgroundColor: "#FFFFFF",
+					padding: `${isMobile ? "24px" : "48px"}`,
+					borderRadius: "16px",
+					border: "1px solid #D6D6E7",
+					boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+					textAlign: "center",
 				}}
 			>
-				<TextField
-					fullWidth
-					multiline
-					label="Describe what your project does in 150 characters or less.*"
-					value={tagline}
-					onChange={(e) => {
-						setTagline(e.target.value);
-						setCharacterCounter(e.target.value.length);
+				<Typography
+					variant="h5"
+					component="h1"
+					sx={{
+						color: "#000000",
+						fontWeight: 600,
+						fontSize: "32px",
+						lineHeight: "40.32px",
+						marginBottom: "32px",
+						fontFamily: "'Outfit', sans-serif",
 					}}
-					variant="outlined"
-					inputProps={{ maxLength: 150 }}
-				/>
-				<span style={{ alignSelf: "flex-end", color: "#666" }}>
-					Character Counter: {characterCounter}
-				</span>
-			</Box>
-			<TextField
-				fullWidth
-				label="Please provide a link to the project, if any."
-				value={projectLink}
-				onChange={(e) => setProjectLink(e.target.value)}
-				variant="outlined"
-			/>
-			<TextField
-				fullWidth
-				label="If you have a demo, link it below."
-				value={demoLink}
-				onChange={(e) => setDemoLink(e.target.value)}
-				variant="outlined"
-			/>
-			<TextField
-				fullWidth
-				label="What is your project going to do? Please describe your product and what it does or will do."
-				value={projectDescription}
-				onChange={(e) => setProjectDescription(e.target.value)}
-				variant="outlined"
-				multiline
-				rows={3}
-			/>
-
-			<TextField
-				fullWidth
-				label="Feedback Question: What aspect of the project idea needs feedback?"
-				value={feedbackQuestion}
-				onChange={(e) => setFeedbackQuestion(e.target.value)}
-				variant="outlined"
-			/>
-
-			<FormControl fullWidth>
-				<InputLabel>
-					What are some tags you would associate with your project idea?*
-				</InputLabel>
-				<Select
-					multiple
-					value={selectedTags}
-					onChange={handleTagChange}
-					label="What are some tags you would associate with your project idea?*"
-					renderValue={(selected) => selected.join(", ")}
-					variant="outlined"
 				>
-					{[
-						"Computer Science (CS)",
-						"Social Sciences (SS)",
-						"Arts and Humanities (AH)",
-						"Natural Sciences (NS)",
-					].map((tag) => (
-						<MenuItem key={tag} value={tag}>
-							<Checkbox checked={selectedTags.includes(tag)} />
-							<ListItemText primary={tag} />
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
-
-			<Box
-				sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-			>
-				<GradientButton
-					onClick={handleSaveProject}
-					content="Save"
-					className="w-1/2"
-				/>
-			</Box>
-
-			{/* Snackbar for notifications */}
-			<Snackbar
-				open={snackbar.open}
-				autoHideDuration={snackbar.severity === "error" ? 6000 : 2000}
-				onClose={handleCloseSnackbar}
-			>
-				<Alert
-					onClose={handleCloseSnackbar}
-					severity={snackbar.severity}
-					sx={{ width: "100%" }}
+					Project Idea
+				</Typography>
+				<Typography
+					variant="body2"
+					sx={{
+						color: "#6C6C80",
+						marginBottom: "46px",
+						fontSize: "20px",
+						lineHeight: "28px",
+						fontFamily: "'Outfit', sans-serif",
+					}}
 				>
-					{snackbar.message}
-				</Alert>
-			</Snackbar>
+					Fill out as much detail as possible to help others understand your
+					project.
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "40px",
+						marginBottom: "32px",
+						padding: "8px",
+					}}
+				>
+					<TextField
+						fullWidth
+						multiline
+						label="Project name*"
+						value={projectName}
+						onChange={(e) => setProjectName(e.target.value)}
+						variant="outlined"
+					/>
+
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "2px",
+						}}
+					>
+						<TextField
+							fullWidth
+							multiline
+							label="Describe what your project does in 150 characters or less.*"
+							value={tagline}
+							onChange={(e) => {
+								setTagline(e.target.value);
+								setCharacterCounter(e.target.value.length);
+							}}
+							variant="outlined"
+							inputProps={{ maxLength: 150 }}
+						/>
+						<span style={{ alignSelf: "flex-end", color: "#666" }}>
+							Character Counter: {characterCounter}
+						</span>
+					</Box>
+					<TextField
+						fullWidth
+						multiline
+						label="Please provide a link to the project, if any."
+						value={projectLink}
+						onChange={(e) => setProjectLink(e.target.value)}
+						variant="outlined"
+					/>
+					<TextField
+						fullWidth
+						label="If you have a demo, link it below."
+						value={demoLink}
+						onChange={(e) => setDemoLink(e.target.value)}
+						variant="outlined"
+					/>
+					<TextField
+						fullWidth
+						label="What is your project going to do? Please describe your product and what it does or will do."
+						value={projectDescription}
+						onChange={(e) => setProjectDescription(e.target.value)}
+						variant="outlined"
+						multiline
+						rows={3}
+					/>
+
+					<TextField
+						fullWidth
+						multiline
+						label="Feedback Question: What aspect of the project idea needs feedback?"
+						value={feedbackQuestion}
+						onChange={(e) => setFeedbackQuestion(e.target.value)}
+						variant="outlined"
+					/>
+
+					<FormControl fullWidth>
+						<InputLabel>
+							What are some tags you would associate with your project idea?*
+						</InputLabel>
+						<Select
+							multiple
+							value={selectedTags}
+							onChange={handleTagChange}
+							label="What are some tags you would associate with your project idea?*"
+							renderValue={(selected) => selected.join(", ")}
+							variant="outlined"
+						>
+							{[
+								"Computer Science (CS)",
+								"Social Sciences (SS)",
+								"Arts and Humanities (AH)",
+								"Natural Sciences (NS)",
+								"Business (B)",
+							].map((tag) => (
+								<MenuItem key={tag} value={tag}>
+									<Checkbox checked={selectedTags.includes(tag)} />
+									<ListItemText primary={tag} />
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<GradientButton
+							onClick={handleSaveProject}
+							content="Save"
+							className="w-1/2"
+						/>
+						<Link
+							href="/home"
+							underline="hover"
+							sx={{ marginTop: "16px", color: "#6C6C80" }}
+						>
+							Go back
+						</Link>
+					</Box>
+
+					{/* Snackbar for notifications */}
+					<Snackbar
+						open={snackbar.open}
+						autoHideDuration={snackbar.severity === "error" ? 6000 : 2000}
+						onClose={handleCloseSnackbar}
+					>
+						<Alert
+							onClose={handleCloseSnackbar}
+							severity={snackbar.severity}
+							sx={{ width: "100%" }}
+						>
+							{snackbar.message}
+						</Alert>
+					</Snackbar>
+				</Box>
+			</Container>
 		</Box>
 	);
 };

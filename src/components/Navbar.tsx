@@ -1,19 +1,33 @@
 "use client";
 
 import React from "react";
-import { User, Home, Settings } from "lucide-react"; // Add Bell icon here I have removed it for now.
+import { User, Home, Settings, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import supabaseClient from "~/api/supabaseConfig";
+import useMobile from "~/utils/useMobile";
 
 const Navbar: React.FC = () => {
 	const router = useRouter();
 	const pathname = usePathname();
+	const isMobile = useMobile();
 
 	// Function to handle navigation
 	const handleNavigation = (path: string) => {
 		if (pathname !== path) {
-			void router.push(path); // Navigate to the new path
+			void router.push(path);
+		}
+	};
+
+	// Function to handle logout
+	const handleLogout = async () => {
+		try {
+			const { error } = await supabaseClient.auth.signOut();
+			if (error) throw error;
+			void router.push("/auth/login");
+		} catch (error) {
+			console.error("Error logging out:", error);
 		}
 	};
 
@@ -27,50 +41,69 @@ const Navbar: React.FC = () => {
 
 	// Helper function for link styling
 	const linkClasses = (path: string) =>
-		`flex flex-col items-center space-y-1 ${
+		`flex ${isMobile ? "flex-col items-center" : "flex-col items-center hover:cursor-pointer"} ${
 			pathname === path ? "underline" : ""
 		} text-indigo-600`;
 
 	return (
-		<nav className="flex justify-center space-x-16 bg-transparent py-8">
+		<nav
+			className={`flex ${isMobile ? "justify-between space-x-10 px-6" : "justify-center space-x-16"} bg-transparent ${isMobile ? "py-4" : "py-8"}`}
+		>
 			<div
 				onClick={() => handleNavigation("/project_idea")}
 				className={linkClasses("/project_idea")}
 			>
-				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
-					<Settings className="h-8 w-8 text-indigo-600" aria-label="Project" />
+				<div
+					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+				>
+					<Settings
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+						aria-label="Project"
+					/>
 				</div>
-				<p>Edit Project</p>
+				{!isMobile && <p>Edit Project</p>}
 			</div>
 			<div
 				onClick={() => handleNavigation("/home")}
 				className={linkClasses("/home")}
 			>
-				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
-					<Home className="h-8 w-8 text-indigo-600" aria-label="Home" />
-				</div>
-				<p>Home</p>
-			</div>
-			{/* <div
-				onClick={() => handleNavigation("/notifications")}
-				className={linkClasses("/notifications")}
-			>
-				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
-					<Bell
-						className="h-8 w-8 text-indigo-600"
-						aria-label="Notifications"
+				<div
+					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+				>
+					<Home
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+						aria-label="Home"
 					/>
 				</div>
-				<p>Notifications</p>
-			</div> */}
+				{!isMobile && <p>Home</p>}
+			</div>
 			<div
 				onClick={() => handleNavigation("/personal-details")}
 				className={linkClasses("/personal-details")}
 			>
-				<div className="group flex h-14 w-14 items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600">
-					<User className="h-8 w-8 text-indigo-600" aria-label="Profile" />
+				<div
+					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+				>
+					<User
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+						aria-label="Profile"
+					/>
 				</div>
-				<p>Profile</p>
+				{!isMobile && <p>Profile</p>}
+			</div>
+			<div
+				onClick={handleLogout}
+				className={`flex cursor-pointer ${isMobile ? "flex-col items-center" : "flex-col items-center hover:cursor-pointer"} text-indigo-600`}
+			>
+				<div
+					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+				>
+					<LogOut
+						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+						aria-label="Logout"
+					/>
+				</div>
+				{!isMobile && <p>Logout</p>}
 			</div>
 		</nav>
 	);

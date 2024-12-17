@@ -1,4 +1,4 @@
-"use client"; // Mark this component as a Client Component
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
@@ -7,12 +7,13 @@ import ExploreMore from "../components/ExploreMore";
 import Feedback from "../components/Feedback";
 import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
+import useMobile from "~/utils/useMobile";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface HomeContentProps {
 	user: User | null;
 }
 
-// FeedbackData interface
 interface FeedbackData {
 	id: number;
 	name: string;
@@ -20,9 +21,8 @@ interface FeedbackData {
 	feedback: string;
 }
 
-// CardData interface
 interface CardData {
-	id: string; // Use string for UUID
+	id: string;
 	name: string;
 	date: string;
 	headline: string;
@@ -31,6 +31,7 @@ interface CardData {
 	demoLink: string;
 	tags: string[];
 	descriptionLong: string;
+	feedbackQuestion: string;
 	feedbackData: FeedbackData[];
 }
 
@@ -40,6 +41,9 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	const [myProjects, setMyProjects] = useState<CardData[]>([]);
 	const [otherProjects, setOtherProjects] = useState<CardData[]>([]);
 	const [loading, setLoading] = useState(true);
+	const isMobile = useMobile();
+	const searchParams = useSearchParams();
+	const router = useRouter();
 
 	const handleExploreMore = (card: CardData) => {
 		console.log("Selected card ID:", card.id);
@@ -53,6 +57,19 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	};
 
 	useEffect(() => {
+		const queryId = searchParams.get("id");
+		if (queryId && (myProjects.length > 0 || otherProjects.length > 0)) {
+			const allProjects = [...myProjects, ...otherProjects];
+			const cardToExplore = allProjects.find((card) => card.id === queryId);
+			if (cardToExplore) {
+				handleExploreMore(cardToExplore);
+				const newUrl = window.location.pathname;
+				window.history.replaceState({}, "", newUrl);
+			}
+		}
+	}, [searchParams, myProjects, otherProjects]);
+
+	useEffect(() => {
 		const fetchProjects = async () => {
 			if (!user) {
 				console.warn("User is not logged in.");
@@ -62,13 +79,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 
 			setLoading(true);
 			try {
-				// Fetch projects created by the current user
 				const myProjectsResponse = await supabaseClient
 					.from("Projects")
 					.select("*")
 					.eq("user_id", user.id);
 
-				// Fetch projects created by other users
 				const otherProjectsResponse = await supabaseClient
 					.from("Projects")
 					.select("*")
@@ -79,7 +94,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				} else {
 					const mappedMyProjects = (myProjectsResponse.data ?? []).map(
 						(project) => ({
-							id: project.project_id, // Keep UUID as string
+							id: project.project_id,
 							name: project.project_name ?? "Unknown",
 							date: new Date(project.created_at).toLocaleDateString(),
 							headline: project.project_name ?? "No Headline",
@@ -87,6 +102,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							feedbackQuestion: project.feedback_question ?? "",
 							tags: Array.isArray(project.tags)
 								? project.tags
 								: project.tags
@@ -98,14 +114,15 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 
 					const mappedOtherProjects = (otherProjectsResponse.data ?? []).map(
 						(project) => ({
-							id: project.project_id, // Keep UUID as string
-							name: project.project_name ?? "Unknown", // TODO: at the moment the same as the headline, redundant
+							id: project.project_id,
+							name: project.project_name ?? "Unknown",
 							date: new Date(project.created_at).toLocaleDateString(),
 							headline: project.project_name ?? "No Headline",
 							descriptionShort: project.tagline ?? "",
 							productLink: project.project_url ?? "",
 							demoLink: project.demo_link ?? "",
 							descriptionLong: project.project_description ?? "",
+							feedbackQuestion: project.feedback_question ?? "",
 							tags: Array.isArray(project.tags)
 								? project.tags
 								: project.tags
@@ -143,7 +160,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				background:
 					"linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
 				fontFamily: "var(--font-family-outfit)",
-				padding: "var(--spacing-large)",
+				padding: isMobile ? "var(--spacing-small)" : "var(--spacing-large)",
 				paddingTop: "90px",
 			}}
 		>
@@ -151,16 +168,27 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				<>
 					{/* My Projects Section */}
 					<Container
-						maxWidth="xl"
+						maxWidth={false}
 						sx={{
 							display: "flex",
 							flexDirection: "column",
 							gap: "var(--spacing-medium)",
-							padding: "var(--spacing-medium)",
+							padding: isMobile
+								? "var(--spacing-small)"
+								: "var(--spacing-medium)",
 							alignItems: "center",
+							width: "100%",
+							marginTop: "40px",
+							marginX: isMobile ? "0" : "auto",
 						}}
 					>
-						<Typography variant="h4" sx={{ marginBottom: "16px" }}>
+						<Typography
+							variant="h4"
+							sx={{
+								marginBottom: "16px",
+								fontSize: isMobile ? "1.5rem" : "2rem",
+							}}
+						>
 							My Project
 						</Typography>
 						{myProjects.length > 0 ? (
@@ -182,16 +210,26 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 
 					{/* Other Projects Section */}
 					<Container
-						maxWidth="xl"
+						maxWidth={false}
 						sx={{
 							display: "flex",
 							flexDirection: "column",
 							gap: "var(--spacing-medium)",
-							padding: "var(--spacing-medium)",
+							padding: isMobile
+								? "var(--spacing-small)"
+								: "var(--spacing-medium)",
 							alignItems: "center",
+							width: "100%",
+							marginX: isMobile ? "0" : "auto",
 						}}
 					>
-						<Typography variant="h4" sx={{ marginBottom: "16px" }}>
+						<Typography
+							variant="h4"
+							sx={{
+								marginBottom: "16px",
+								fontSize: isMobile ? "1.5rem" : "2rem",
+							}}
+						>
 							Other Projects
 						</Typography>
 						{otherProjects.length > 0 ? (
