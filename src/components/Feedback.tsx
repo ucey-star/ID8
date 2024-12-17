@@ -64,10 +64,13 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 
 				const mappedComments = comments.map((comment) => ({
 					id: comment.comment_id,
-					name: userMap[comment.user_id] || "Anonymous",
+					name: comment.user_id
+					  ? userMap[comment.user_id] || "Anonymous"
+					  : "Anonymous", // Default to 'Anonymous' if user_id is null
 					timeAgo: new Date(comment.created_at).toLocaleString(),
 					feedback: comment.content,
-				}));
+				  }));
+				  
 
 				setFeedbackData(mappedComments);
 			} catch (error) {
