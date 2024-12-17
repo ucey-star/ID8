@@ -42,13 +42,13 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
       if (userProfilesError) throw userProfilesError;
 
       const userMap = userProfiles.reduce<Record<string, string>>((map, user) => {
-        map[user.user_id] = user.username || "Anonymous";
+        map[user.user_id] = user.username ?? "Anonymous";
         return map;
       }, {});
 
       const mappedComments = comments.map((comment) => ({
         id: comment.comment_id,
-        name: comment.user_id ? userMap[comment.user_id] || "Anonymous" : "Anonymous",
+        name: comment.user_id ? userMap[comment.user_id] ?? "Anonymous" : "Anonymous",
         timeAgo: new Date(comment.created_at).toLocaleString(),
         feedback: comment.content,
       }));
