@@ -61,7 +61,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
   };
 
   useEffect(() => {
-	const fetchData = async () => {
+	(async () => {
 	  try {
 		if (projectId) {
 		  await fetchAndMapComments();
@@ -69,9 +69,9 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 	  } catch (error) {
 		console.error("Error in useEffect:", error);
 	  }
-	};
-	fetchData();
+	})();
   }, [projectId]);
+  
   
   
 
