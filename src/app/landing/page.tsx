@@ -117,7 +117,7 @@ export default function Home() {
 			</section>
 
 			{/* CTA Section */}
-			<section className="py-24">
+			<section className="py-8">
 				<div className="mx-auto max-w-3xl px-4 text-center">
 					<h2 className="mb-6 text-3xl font-bold">Join Us</h2>
 					<p className="text-muted-foreground mb-8">
