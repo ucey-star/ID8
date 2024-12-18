@@ -3,8 +3,20 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
+import type { User } from "@supabase/supabase-js";
 
-export default function HomePage() {
+interface OnboardingProps {
+    user: User;
+    isProfileComplete: boolean;
+    isProjectComplete: boolean;
+}
+
+
+const Onboarding: React.FC<OnboardingProps> = ({
+    isProfileComplete,
+    isProjectComplete,
+}) => {
+	
 	return (
 		<Box
 			sx={{
@@ -60,7 +72,8 @@ export default function HomePage() {
 					}}
 				>
 					{/* Step 1 */}
-					<Box sx={{ textAlign: "left", width: "100%" }}>
+					{!isProfileComplete && (
+						<Box sx={{ textAlign: "left", width: "100%" }}>
 						<Typography
 							variant="h6"
 							sx={{
@@ -69,7 +82,7 @@ export default function HomePage() {
 								color: "#333",
 							}}
 						>
-							Step 1: Complete Your Profile
+							Complete Your Profile
 						</Typography>
 						<Typography
 							sx={{
@@ -102,10 +115,12 @@ export default function HomePage() {
 								Complete Profile
 							</Button>
 						</Link>
-					</Box>
+					</Box>)}
+					
 
 					{/* Step 2 */}
-					<Box sx={{ textAlign: "left", width: "100%" }}>
+					{!isProjectComplete && (
+						<Box sx={{ textAlign: "left", width: "100%" }}>
 						<Typography
 							variant="h6"
 							sx={{
@@ -114,7 +129,7 @@ export default function HomePage() {
 								color: "#333",
 							}}
 						>
-							Step 2: Share Your Project Idea
+							Share Your Project Idea
 						</Typography>
 						<Typography
 							sx={{
@@ -147,6 +162,8 @@ export default function HomePage() {
 							</Button>
 						</Link>
 					</Box>
+					)}
+					
 
 					{/* Step 3 */}
 					<Box sx={{ textAlign: "left", width: "100%" }}>
@@ -158,7 +175,7 @@ export default function HomePage() {
 								color: "#333",
 							}}
 						>
-							Step 3: Go to Your Dashboard
+							Go to Your Dashboard
 						</Typography>
 						<Typography
 							sx={{
@@ -190,3 +207,5 @@ export default function HomePage() {
 		</Box>
 	);
 }
+
+export default Onboarding   // Add this line to export the component;
