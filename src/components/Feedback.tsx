@@ -35,7 +35,6 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 			const userIds = [
 				...new Set((comments ?? []).map((comment) => comment.user_id)),
 			];
-			console.log("User IDs:", userIds);
 
 			const { data: userProfiles, error: userProfilesError } =
 				await supabaseClient
@@ -98,8 +97,6 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				.single();
 
 			if (error) throw error;
-
-			console.log("New comment added:", newComment);
 
 			setComment("");
 			await fetchAndMapComments(); // Reuse the same function

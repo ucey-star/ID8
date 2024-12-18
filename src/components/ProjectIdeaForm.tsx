@@ -52,7 +52,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
-		severity: "success" | "error";
+		severity: "success" | "error" | "warning" | "info";
 	}>({
 		open: false,
 		message: "",
@@ -68,20 +68,22 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	useEffect(() => {
 		const fetchProjectDetails = async () => {
 			if (!user) {
-				console.warn("User is not logged in.");
 				setLoading(false);
 				return;
 			}
 
 			if (!projectId) {
-				console.warn("No projectId provided in query parameters.");
+				setSnackbar({
+					open: true,
+					message: "No projectId provided in query parameters.",
+					severity: "warning",
+				});
 				setLoading(false);
 				return;
 			}
 
 			try {
 				setLoading(true);
-				console.log("Fetching project with project_id:", projectId);
 
 				const { data, error } = await supabaseClient
 					.from("Projects")
@@ -89,14 +91,22 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					.eq("project_id", projectId)
 					.single();
 
-				console.log("Fetched Project Data:", data);
-				console.log("Fetch Error:", error);
+				setSnackbar({
+					open: true,
+					message: data
+						? "Project data fetched successfully"
+						: "No project data found",
+					severity: "info",
+				});
 
 				if (error) throw error;
 
 				if (data) {
-					// Populate fields with existing project data
-					console.log("Populating state with:", data);
+					setSnackbar({
+						open: true,
+						message: "Populating form with project data",
+						severity: "info",
+					});
 					setProjectId(data.project_id);
 					setProjectName(data.project_name ?? "");
 					setTagline(data.tagline ?? "");
@@ -107,15 +117,23 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					setSelectedTags(data.tags ?? []);
 				}
 			} catch (error) {
-				console.error("Error loading project:", error);
+				setSnackbar({
+					open: true,
+					message: `Error loading project: ${error instanceof Error ? error.message : "Unknown error"}`,
+					severity: "error",
+				});
 			} finally {
 				setLoading(false);
 			}
 		};
 
-		fetchProjectDetails().catch((err) =>
-			console.error("Unexpected error:", err),
-		);
+		fetchProjectDetails().catch((err) => {
+			setSnackbar({
+				open: true,
+				message: `Unexpected error: ${err instanceof Error ? err.message : "Unknown error"}`,
+				severity: "error",
+			});
+		});
 	}, [user, projectId]);
 
 	useEffect(() => {
@@ -140,7 +158,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				const { error: updateError } = await supabaseClient
 					.from("Projects")
 					.update(formData)
-					.eq("project_id", projectId); // Use project_id for updates
+					.eq("project_id", projectId);
 
 				if (updateError) throw updateError;
 
@@ -154,11 +172,11 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				const { data, error } = await supabaseClient
 					.from("Projects")
 					.insert([formData])
-					.select(); // Get the created project data
+					.select();
 
 				if (error) throw error;
 
-				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
+				setProjectId(data[0]?.project_id ?? null);
 				setSnackbar({
 					open: true,
 					message: "Project created successfully!",
@@ -171,10 +189,9 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				router.push(redirectTo ?? "/home");
 			}, 1000);
 		} catch (error) {
-			console.error("Error saving project:", error);
 			setSnackbar({
 				open: true,
-				message: "Error saving project. Please try again.",
+				message: `Error saving project: ${error instanceof Error ? error.message : "Unknown error"}`,
 				severity: "error",
 			});
 		}
