@@ -255,7 +255,6 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 						<Feedback
 							projectId={selectedCard.id}
 							userId={user?.id ?? null}
-							userProjects={myProjects}
 						/>
 					</>
 				)
