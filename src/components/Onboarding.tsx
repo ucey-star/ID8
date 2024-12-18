@@ -138,15 +138,10 @@ const Onboarding: React.FC<OnboardingProps> = ({
 								color: "#666",
 							}}
 						>
-							Submit your project idea to start connecting with others.
+							Share your innovative ideas by adding a new project to your
+							portfolio.
 						</Typography>
-						<Link
-							href={{
-								pathname: "/project_idea",
-								query: { step: "start-project" },
-							}}
-							passHref
-						>
+						<Link href="/new_project_idea" passHref>
 							<Button
 								variant="contained"
 								className="custom-next-button"
@@ -158,7 +153,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 									alignItems: "center",
 								}}
 							>
-								Start a Project
+								Add a Project
 							</Button>
 						</Link>
 					</Box>
@@ -184,7 +179,45 @@ const Onboarding: React.FC<OnboardingProps> = ({
 								color: "#666",
 							}}
 						>
-							View your progress and manage your projects on the dashboard.
+							Manage and view all the projects you&apos;ve added so far.
+						</Typography>
+						<Link href="/my_projects" passHref>
+							<Button
+								variant="contained"
+								className="custom-next-button"
+								sx={{
+									minWidth: "150px",
+									padding: "var(--spacing-small) var(--spacing-medium)",
+									whiteSpace: "nowrap",
+									fontFamily: "var(--font-family-outfit)",
+									alignItems: "center",
+								}}
+							>
+								My Projects
+							</Button>
+						</Link>
+					</Box>
+
+					{/* Step 4 */}
+					<Box sx={{ textAlign: "left", width: "100%" }}>
+						<Typography
+							variant="h6"
+							sx={{
+								fontWeight: "bold",
+								marginBottom: "8px",
+								color: "#333",
+							}}
+						>
+							Step 4: Go to Feed
+						</Typography>
+						<Typography
+							sx={{
+								fontSize: "14px",
+								marginBottom: "12px",
+								color: "#666",
+							}}
+						>
+							Check out what others are working on and share your feedback.
 						</Typography>
 						<Link href="/home" passHref>
 							<Button
@@ -198,7 +231,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 									alignItems: "center",
 								}}
 							>
-								Go to Dashboard
+								Go to Feed
 							</Button>
 						</Link>
 					</Box>
