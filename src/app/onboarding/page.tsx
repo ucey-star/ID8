@@ -31,12 +31,10 @@ export default async function OnboardingScreen() {
 		.single();
 
 	// Determine if onboarding is complete
-	const isProfileComplete = !!(
-        userProfile?.username && userProfile?.bio
-    );
+	const isProfileComplete = !!(userProfile?.username && userProfile?.bio);
 	const isProjectComplete = !!(
-        project?.project_name && project?.project_description
-    );
+		project?.project_name && project?.project_description
+	);
 
 	// Redirect to home if onboarding is complete
 	if (isProfileComplete && isProjectComplete) {
@@ -47,10 +45,10 @@ export default async function OnboardingScreen() {
 	return (
 		<>
 			<Onboarding
-                user={user}
-                isProfileComplete={isProfileComplete}
-                isProjectComplete={isProjectComplete}
-            />
+				user={user}
+				isProfileComplete={isProfileComplete}
+				isProjectComplete={isProjectComplete}
+			/>
 		</>
 	);
 }

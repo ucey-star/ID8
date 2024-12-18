@@ -6,17 +6,15 @@ import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
 
 interface OnboardingProps {
-    user: User;
-    isProfileComplete: boolean;
-    isProjectComplete: boolean;
+	user: User;
+	isProfileComplete: boolean;
+	isProjectComplete: boolean;
 }
 
-
 const Onboarding: React.FC<OnboardingProps> = ({
-    isProfileComplete,
-    isProjectComplete,
+	isProfileComplete,
+	isProjectComplete,
 }) => {
-	
 	return (
 		<Box
 			sx={{
@@ -74,91 +72,90 @@ const Onboarding: React.FC<OnboardingProps> = ({
 					{/* Step 1 */}
 					{!isProfileComplete && (
 						<Box sx={{ textAlign: "left", width: "100%" }}>
-						<Typography
-							variant="h6"
-							sx={{
-								fontWeight: "bold",
-								marginBottom: "8px",
-								color: "#333",
-							}}
-						>
-							Complete Your Profile
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: "14px",
-								marginBottom: "12px",
-								color: "#666",
-							}}
-						>
-							Make sure others can understand who you are by completing your
-							profile.
-						</Typography>
-						<Link
-							href={{
-								pathname: "/personal-details",
-								query: { step: "complete-profile" },
-							}}
-							passHref
-						>
-							<Button
-								variant="contained"
-								className="custom-next-button"
+							<Typography
+								variant="h6"
 								sx={{
-									minWidth: "150px",
-									padding: "var(--spacing-small) var(--spacing-medium)",
-									whiteSpace: "nowrap",
-									fontFamily: "var(--font-family-outfit)",
-									alignItems: "center",
+									fontWeight: "bold",
+									marginBottom: "8px",
+									color: "#333",
 								}}
 							>
-								Complete Profile
-							</Button>
-						</Link>
-					</Box>)}
-					
+								Complete Your Profile
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: "14px",
+									marginBottom: "12px",
+									color: "#666",
+								}}
+							>
+								Make sure others can understand who you are by completing your
+								profile.
+							</Typography>
+							<Link
+								href={{
+									pathname: "/personal-details",
+									query: { step: "complete-profile" },
+								}}
+								passHref
+							>
+								<Button
+									variant="contained"
+									className="custom-next-button"
+									sx={{
+										minWidth: "150px",
+										padding: "var(--spacing-small) var(--spacing-medium)",
+										whiteSpace: "nowrap",
+										fontFamily: "var(--font-family-outfit)",
+										alignItems: "center",
+									}}
+								>
+									Complete Profile
+								</Button>
+							</Link>
+						</Box>
+					)}
 
 					{/* Step 2 */}
 					{!isProjectComplete && (
 						<Box sx={{ textAlign: "left", width: "100%" }}>
-						<Typography
-							variant="h6"
-							sx={{
-								fontWeight: "bold",
-								marginBottom: "8px",
-								color: "#333",
-							}}
-						>
-							Share Your Project Idea
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: "14px",
-								marginBottom: "12px",
-								color: "#666",
-							}}
-						>
-							Share your innovative ideas by adding a new project to your
-							portfolio.
-						</Typography>
-						<Link href="/new_project_idea" passHref>
-							<Button
-								variant="contained"
-								className="custom-next-button"
+							<Typography
+								variant="h6"
 								sx={{
-									minWidth: "150px",
-									padding: "var(--spacing-small) var(--spacing-medium)",
-									whiteSpace: "nowrap",
-									fontFamily: "var(--font-family-outfit)",
-									alignItems: "center",
+									fontWeight: "bold",
+									marginBottom: "8px",
+									color: "#333",
 								}}
 							>
-								Add a Project
-							</Button>
-						</Link>
-					</Box>
+								Share Your Project Idea
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: "14px",
+									marginBottom: "12px",
+									color: "#666",
+								}}
+							>
+								Share your innovative ideas by adding a new project to your
+								portfolio.
+							</Typography>
+							<Link href="/new_project_idea" passHref>
+								<Button
+									variant="contained"
+									className="custom-next-button"
+									sx={{
+										minWidth: "150px",
+										padding: "var(--spacing-small) var(--spacing-medium)",
+										whiteSpace: "nowrap",
+										fontFamily: "var(--font-family-outfit)",
+										alignItems: "center",
+									}}
+								>
+									Add a Project
+								</Button>
+							</Link>
+						</Box>
 					)}
-					
 
 					{/* Step 3 */}
 					<Box sx={{ textAlign: "left", width: "100%" }}>
@@ -239,6 +236,6 @@ const Onboarding: React.FC<OnboardingProps> = ({
 			</Box>
 		</Box>
 	);
-}
+};
 
-export default Onboarding   // Add this line to export the component;
+export default Onboarding; // Add this line to export the component;
