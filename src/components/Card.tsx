@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Box, Button, Typography, Chip } from "@mui/material";
+import { Box, Button, Typography, Chip, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import useMobile from "~/utils/useMobile";
 
 interface CardProps {
@@ -11,6 +12,9 @@ interface CardProps {
 	headline: string;
 	tags?: string[]; // Tags prop
 	onExploreMore: () => void;
+	buttonLabel?: string;
+	isDeletable?: boolean;
+	onDelete?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -20,6 +24,9 @@ const Card: React.FC<CardProps> = ({
 	headline,
 	tags = [], // Default empty array
 	onExploreMore,
+	buttonLabel = "Explore More",
+	isDeletable = false,
+	onDelete,
 }) => {
 	// Define darker colors for tags
 	const tagColors: Record<string, string> = {
@@ -35,6 +42,7 @@ const Card: React.FC<CardProps> = ({
 	return (
 		<Box
 			sx={{
+				position: "relative",
 				width: `${isMobile ? "90%" : "65%"}`,
 				backgroundColor: "var(--color-background-paper)",
 				padding: `${isMobile ? "var(--spacing-medium)" : "var(--spacing-large)"}`,
@@ -51,6 +59,8 @@ const Card: React.FC<CardProps> = ({
 				flexGrow: 1,
 				margin: "0 auto",
 				textAlign: "center",
+				transition: "transform 0.2s",
+				"&:hover": { transform: "scale(1.02)" },
 			}}
 		>
 			{/* Top Section: Headline on Left, Name and Date on Right */}
@@ -63,7 +73,7 @@ const Card: React.FC<CardProps> = ({
 					width: "100%",
 				}}
 			>
-				{/* Headline (Upper Left) */}
+				{/* Headline Upper left*/}
 				<Typography
 					variant="h5"
 					sx={{
@@ -74,23 +84,15 @@ const Card: React.FC<CardProps> = ({
 					{headline}
 				</Typography>
 
-				{/* Name and Date (Upper Right) */}
+				{/* Date */}
 				<Box
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						alignItems: "flex-end", // Align items to the right
-						gap: "4px", // Small gap between name and date
+						alignItems: "flex-end",
+						gap: "4px",
 					}}
 				>
-					{/* <Typography
-						variant="body1"
-						sx={{
-							color: "var(--color-text-secondary)",
-						}}
-					>
-						{name}
-					</Typography> */}
 					<Typography
 						variant="body1"
 						sx={{
@@ -152,6 +154,7 @@ const Card: React.FC<CardProps> = ({
 					/>
 				))}
 			</Box>
+
 			{/* Bottom Section: Button */}
 			<Box
 				sx={{
@@ -172,8 +175,24 @@ const Card: React.FC<CardProps> = ({
 					}}
 					onClick={onExploreMore}
 				>
-					Explore More
+					{buttonLabel} {/* Dynamic button text */}
 				</Button>
+
+				{/* Delete Button*/}
+				{isDeletable && (
+					<IconButton
+						onClick={onDelete}
+						sx={{
+							position: "absolute",
+							bottom: "12px",
+							right: "12px",
+							color: "#FF6F61",
+						}}
+						aria-label="delete"
+					>
+						<DeleteIcon />
+					</IconButton>
+				)}
 			</Box>
 		</Box>
 	);

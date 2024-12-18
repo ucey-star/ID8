@@ -2,6 +2,10 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
+
+	"deno.enablePaths": ["supabase/functions"],
+	"deno.lint": true,
+	"deno.unstable": true,
 	"editor.formatOnSave": true,
 	"eslint.rules.customizations": [{ "rule": "*", "Severity": "warn" }]
 }

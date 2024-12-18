@@ -35,6 +35,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 			const userIds = [
 				...new Set((comments ?? []).map((comment) => comment.user_id)),
 			];
+			console.log("User IDs:", userIds);
 
 			const { data: userProfiles, error: userProfilesError } =
 				await supabaseClient
