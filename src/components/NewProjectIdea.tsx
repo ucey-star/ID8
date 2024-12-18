@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	Container,
@@ -15,6 +14,7 @@ import {
 	Snackbar,
 	Alert,
 	InputLabel,
+	Chip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
@@ -39,6 +39,21 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+	// Updated error states to include projectDescription
+	const [errors, setErrors] = useState({
+		projectName: false,
+		tagline: false,
+		projectDescription: false, // Added projectDescription
+	});
+
+	// Updated touched states to include projectDescription
+	const [touched, setTouched] = useState({
+		projectName: false,
+		tagline: false,
+		projectDescription: false, // Added projectDescription
+	});
+
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -51,10 +66,38 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 
 	const isMobile = useMobile();
 
+	// Updated validateForm to include projectDescription
+	const validateForm = () => {
+		const newErrors = {
+			projectName: projectName.trim() === "",
+			tagline: tagline.trim() === "",
+			projectDescription: projectDescription.trim() === "", // Added validation for projectDescription
+		};
+
+		setErrors(newErrors);
+		return !Object.values(newErrors).some((error) => error);
+	};
+
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
 	const handleSaveNewProject = async () => {
+		// Updated touched states to include projectDescription
+		setTouched({
+			projectName: true,
+			tagline: true,
+			projectDescription: true, // Added projectDescription
+		});
+
+		if (!validateForm()) {
+			setSnackbar({
+				open: true,
+				message: "Please fill in all required fields.",
+				severity: "error",
+			});
+			return;
+		}
+
 		if (!user) {
 			setSnackbar({
 				open: true,
@@ -76,11 +119,9 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 		};
 
 		try {
-			// Insert new project
 			const { error } = await supabaseClient
 				.from("Projects")
 				.insert([formData]);
-
 			if (error) throw error;
 
 			setSnackbar({
@@ -89,7 +130,6 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 				severity: "success",
 			});
 
-			// Redirect after saving
 			setTimeout(() => {
 				window.location.href = redirectTo ?? "/home";
 			}, 1000);
@@ -106,6 +146,11 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 	const handleTagChange = (event: SelectChangeEvent<string[]>) => {
 		const value = event.target.value as unknown as string[];
 		setSelectedTags(value);
+		setTouched((prev) => ({ ...prev, tags: true }));
+	};
+
+	const handleBlur = (field: keyof typeof touched) => {
+		setTouched((prev) => ({ ...prev, [field]: true }));
 	};
 
 	return (
@@ -154,11 +199,18 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 					}}
 				>
 					<TextField
+						required
 						fullWidth
-						multiline
-						label="Project name*"
+						label="Project name"
 						value={projectName}
 						onChange={(e) => setProjectName(e.target.value)}
+						onBlur={() => handleBlur("projectName")}
+						error={touched.projectName && errors.projectName}
+						helperText={
+							touched.projectName && errors.projectName
+								? "Project name is required"
+								: ""
+						}
 						variant="outlined"
 					/>
 
@@ -170,14 +222,19 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 						}}
 					>
 						<TextField
+							required
 							fullWidth
-							multiline
-							label="Describe what your project does in 150 characters or less.*"
+							label="Describe what your project does in 150 characters or less"
 							value={tagline}
 							onChange={(e) => {
 								setTagline(e.target.value);
 								setCharacterCounter(e.target.value.length);
 							}}
+							onBlur={() => handleBlur("tagline")}
+							error={touched.tagline && errors.tagline}
+							helperText={
+								touched.tagline && errors.tagline ? "Tagline is required" : ""
+							}
 							variant="outlined"
 							inputProps={{ maxLength: 150 }}
 						/>
@@ -185,26 +242,36 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 							Character Counter: {characterCounter}
 						</span>
 					</Box>
+
 					<TextField
 						fullWidth
-						multiline
-						label="Please provide a link to the project, if any."
+						label="Please provide a link to the project, if any"
 						value={projectLink}
 						onChange={(e) => setProjectLink(e.target.value)}
 						variant="outlined"
 					/>
+
 					<TextField
 						fullWidth
-						label="If you have a demo, link it below."
+						label="If you have a demo, link it below"
 						value={demoLink}
 						onChange={(e) => setDemoLink(e.target.value)}
 						variant="outlined"
 					/>
+
 					<TextField
+						required
 						fullWidth
-						label="What is your project going to do? Please describe your product and what it does or will do."
+						label="Project Description"
 						value={projectDescription}
 						onChange={(e) => setProjectDescription(e.target.value)}
+						onBlur={() => handleBlur("projectDescription")}
+						error={touched.projectDescription && errors.projectDescription}
+						helperText={
+							touched.projectDescription && errors.projectDescription
+								? "Project description is required"
+								: "Please describe what your project does or will do"
+						}
 						variant="outlined"
 						multiline
 						rows={3}
@@ -212,11 +279,11 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 
 					<TextField
 						fullWidth
-						multiline
 						label="Feedback Question: What aspect of the project idea needs feedback?"
 						value={feedbackQuestion}
 						onChange={(e) => setFeedbackQuestion(e.target.value)}
 						variant="outlined"
+						multiline
 					/>
 
 					<FormControl fullWidth>
@@ -227,7 +294,25 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 							multiple
 							value={selectedTags}
 							onChange={handleTagChange}
-							renderValue={(selected) => selected.join(", ")}
+							label="What are some tags you would associate with your project idea?*"
+							renderValue={(selected) => (
+								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+									{selected.map((value) => (
+										<Chip
+											key={value}
+											label={value}
+											sx={{
+												backgroundColor: "#f0f0f0",
+												borderRadius: "4px",
+												m: "2px",
+												"& .MuiChip-label": {
+													color: "#000000",
+												},
+											}}
+										/>
+									))}
+								</Box>
+							)}
 							variant="outlined"
 						>
 							{[
@@ -266,7 +351,6 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 						</Link>
 					</Box>
 
-					{/* Snackbar for notifications */}
 					<Snackbar
 						open={snackbar.open}
 						autoHideDuration={snackbar.severity === "error" ? 6000 : 2000}
