@@ -12,128 +12,52 @@ interface FeedbackData {
 	feedback: string | null;
 }
 
-interface CardProps {
-	id: string;
-}
-
 interface FeedbackProps {
 	projectId: string;
 	userId: string | null;
-	userProjects: CardProps[];
 }
 
-const Feedback: React.FC<FeedbackProps> = ({
-	projectId,
-	userId,
-	userProjects,
-}) => {
+const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 	const [comment, setComment] = useState("");
 	const [feedbackData, setFeedbackData] = useState<FeedbackData[]>([]);
 
-	let UsersProject = false;
-
-	userProjects.map((project) => {
-		if (project.id === projectId) {
-			UsersProject = true;
-		}
-		return null;
-	});
-
-	useEffect(() => {
-		const fetchComments = async () => {
-			if (!projectId) {
-				console.error("Project ID is undefined or null.");
-				return;
-			}
-			console.log("Fetching comments for project ID:", projectId);
-			try {
-				const { data: comments, error } = await supabaseClient
-					.from("Comments")
-					.select(
-						`
-                        comment_id,
-                        content,
-                        created_at,
-						project_id
-
-                    `,
-					)
-					.eq("project_id", projectId)
-					.order("created_at", { ascending: false });
-
-				if (error) throw error;
-
-				const mappedComments = comments.map((comment) => ({
-					id: comment.comment_id,
-					name: "Anonymous",
-					timeAgo: new Date(comment.created_at).toLocaleString(),
-					feedback: comment.content,
-				}));
-
-				setFeedbackData(mappedComments);
-			} catch (error) {
-				console.error("Error fetching comments:", error);
-				alert("Failed to load comments. Please try again.");
-			}
-		};
-
-		void fetchComments();
-	}, [projectId]);
-
-	const handleAddComment = async () => {
-		if (!comment.trim()) {
-			alert("Comment cannot be empty!");
-			return;
-		}
-		try {
-			// Insert the new comment into the database
-			const { data: newComment, error } = await supabaseClient
-				.from("Comments")
-				.insert({
-					project_id: projectId,
-					user_id: userId,
-					content: comment,
-					owner: UsersProject,
-				})
-				.select("*")
-				.single();
-
-			if (error) throw error;
-
-			console.log("New comment added:", newComment);
-
-			// Map the new comment to FeedbackData format
-			const newFeedbackItem: FeedbackData = {
-				id: newComment.comment_id,
-				name: "Anonymous", // You can replace this with actual user information if available
-				timeAgo: "Just now",
-				feedback: newComment.content,
-			};
-
-			// Update the feedback data with the new comment
-			setFeedbackData((prev) => [newFeedbackItem, ...prev]);
-
-			// Clear the input field
-			setComment("");
-		} catch (error) {
-			console.error("Error adding comment:", error);
-			alert("Failed to add comment. Please try again.");
-		}
-
+	// Reusable function for fetching and mapping comments
+	const fetchAndMapComments = async () => {
 		try {
 			const { data: comments, error } = await supabaseClient
 				.from("Comments")
-				.select("comment_id, content, created_at, project_id, user_id")
+				.select("comment_id, content, created_at, user_id, project_id")
 				.eq("project_id", projectId)
 				.order("created_at", { ascending: false });
 
 			if (error) throw error;
 
-			console.log("Fetched comments:", comments);
+			const userIds = [
+				...new Set((comments ?? []).map((comment) => comment.user_id)),
+			];
+			console.log("User IDs:", userIds);
+
+			const { data: userProfiles, error: userProfilesError } =
+				await supabaseClient
+					.from("User_Profile")
+					.select("user_id, username")
+					.in("user_id", userIds);
+
+			if (userProfilesError) throw userProfilesError;
+
+			const userMap = userProfiles.reduce<Record<string, string>>(
+				(map, user) => {
+					map[user.user_id] = user.username ?? "Anonymous";
+					return map;
+				},
+				{},
+			);
 
 			const mappedComments = comments.map((comment) => ({
 				id: comment.comment_id,
-				name: "Anonymous", // You can replace this with user data if needed
+				name: comment.user_id
+					? (userMap[comment.user_id] ?? "Anonymous")
+					: "Anonymous",
 				timeAgo: new Date(comment.created_at).toLocaleString(),
 				feedback: comment.content,
 			}));
@@ -142,6 +66,46 @@ const Feedback: React.FC<FeedbackProps> = ({
 		} catch (error) {
 			console.error("Error fetching comments:", error);
 			alert("Failed to load comments. Please try again.");
+		}
+	};
+
+	useEffect(() => {
+		void (async () => {
+			try {
+				if (projectId) {
+					await fetchAndMapComments();
+				}
+			} catch (error) {
+				console.error("Error in useEffect:", error);
+			}
+		})();
+	}, [projectId]);
+
+	const handleAddComment = async () => {
+		if (!comment.trim()) {
+			alert("Comment cannot be empty!");
+			return;
+		}
+		try {
+			const { data: newComment, error } = await supabaseClient
+				.from("Comments")
+				.insert({
+					project_id: projectId,
+					user_id: userId,
+					content: comment,
+				})
+				.select("*")
+				.single();
+
+			if (error) throw error;
+
+			console.log("New comment added:", newComment);
+
+			setComment("");
+			await fetchAndMapComments(); // Reuse the same function
+		} catch (error) {
+			console.error("Error adding comment:", error);
+			alert("Failed to add comment. Please try again.");
 		}
 	};
 

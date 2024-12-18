@@ -252,11 +252,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				selectedCard && (
 					<>
 						<ExploreMore data={selectedCard} onBack={handleBackToCards} />
-						<Feedback
-							projectId={selectedCard.id}
-							userId={user?.id ?? null}
-							userProjects={myProjects}
-						/>
+						<Feedback projectId={selectedCard.id} userId={user?.id ?? null} />
 					</>
 				)
 			)}
