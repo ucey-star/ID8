@@ -10,6 +10,7 @@ interface FeedbackData {
 	name: string;
 	timeAgo: string;
 	feedback: string | null;
+	userId: string | null;
 }
 
 interface FeedbackProps {
@@ -60,6 +61,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 					: "Anonymous",
 				timeAgo: new Date(comment.created_at).toLocaleString(),
 				feedback: comment.content,
+				userId: comment.user_id,
 			}));
 
 			setFeedbackData(mappedComments);
@@ -106,6 +108,31 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 		} catch (error) {
 			console.error("Error adding comment:", error);
 			alert("Failed to add comment. Please try again.");
+		}
+	};
+
+	const handleEditComment = async (
+		commentId: string | null,
+		content: string,
+	) => {
+		if (!commentId) return;
+
+		try {
+			const { error } = await supabaseClient
+				.from("Comments")
+				.update({ content })
+				.eq("comment_id", commentId);
+
+			if (error) throw error;
+
+			setFeedbackData((prevData) =>
+				prevData.map((item) =>
+					item.id === commentId ? { ...item, feedback: content } : item,
+				),
+			);
+		} catch (error) {
+			console.error("Error editing comment:", error);
+			alert("Failed to edit comment. Please try again.");
 		}
 	};
 
@@ -157,10 +184,14 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				{feedbackData.length > 0 ? (
 					feedbackData.map((item) => (
 						<FeedbackItem
+							id={item.id}
 							key={item.id}
 							name={item.name}
 							timeAgo={item.timeAgo}
 							feedback={item.feedback}
+							userId={item.userId}
+							currentUserId={userId}
+							onEditComment={handleEditComment}
 						/>
 					))
 				) : (
