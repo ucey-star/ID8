@@ -14,9 +14,7 @@ import {
 	ListItemText,
 	Snackbar,
 	Alert,
-	InputLabel,
 	Tooltip,
-	Chip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
@@ -257,37 +255,82 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					}}
 				>
 					Fill out as much detail as possible to help others understand your
-					project.
+					project. You can view the example entry{" "}
+					<a
+						href="https://id8.guru/home?id=50e834ba-12d5-466e-8734-42a54487f5a7"
+						target="_blank"
+						style={{ color: "#9450e0" }}
+					>
+						here
+					</a>
+					, along with the type of feedback you can expect.
 				</Typography>
 				<Box
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						gap: "40px",
+						gap: "24px",
 						marginBottom: "32px",
 						padding: "8px",
 					}}
 				>
-					<TextField
-						fullWidth
-						multiline
-						label="Project name*"
-						value={projectName}
-						onChange={(e) => setProjectName(e.target.value)}
-						variant="outlined"
-					/>
-
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "2px",
-						}}
-					>
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Project Name*
+							</Typography>
+							<Tooltip
+								title="What's the name you want people to remember your project by? Keep it short and memorable."
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<TextField
+							fullWidth
+							placeholder="e.g., Seat Magician"
+							value={projectName}
+							onChange={(e) => setProjectName(e.target.value)}
+							variant="outlined"
+						/>
+					</Box>
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Quick Pitch*
+							</Typography>
+							<Tooltip
+								title="How would you describe your project to someone in an elevator? Focus on the main problem it solves. The limit is 150 characters."
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
 						<TextField
 							fullWidth
 							multiline
-							label="Describe what your project does in 150 characters or less.*"
 							value={tagline}
 							onChange={(e) => {
 								setTagline(e.target.value);
@@ -296,6 +339,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 								}
 							}}
 							variant="outlined"
+							placeholder="e.g., A web app that helps couples create perfect seating charts for their wedding reception"
 							inputProps={{ maxLength: 150 }}
 							error={!!taglineError}
 							helperText={
@@ -310,102 +354,217 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 								},
 							}}
 						/>
+						<span
+							style={{
+								alignSelf: "flex-end",
+								color: "#6C6C80",
+								fontSize: "14px",
+								marginTop: "4px",
+							}}
+						></span>
 					</Box>
-					<TextField
-						fullWidth
-						multiline
-						label="Please provide a link to the project, if any."
-						value={projectLink}
-						onChange={(e) => setProjectLink(e.target.value)}
-						variant="outlined"
-					/>
-					<TextField
-						fullWidth
-						label="If you have a demo, link it below."
-						value={demoLink}
-						onChange={(e) => setDemoLink(e.target.value)}
-						variant="outlined"
-					/>
-					<TextField
-						fullWidth
-						label="What is your project going to do? Please describe your product and what it does or will do.*"
-						value={projectDescription}
-						onChange={(e) => {
-							setProjectDescription(e.target.value);
-							if (e.target.value.length >= 300) {
-								setDescriptionError("");
-							}
-						}}
-						variant="outlined"
-						multiline
-						rows={3}
-						error={!!descriptionError}
-						helperText={
-							descriptionError ||
-							`${projectDescription.length}/300 characters minimum`
-						}
-						FormHelperTextProps={{
-							sx: {
-								color: projectDescription.length >= 300 ? "#2E7D32" : "#666666",
-								fontFamily: "'Outfit', sans-serif",
-								fontSize: "0.875rem",
-								marginTop: "8px",
-							},
-						}}
-					/>
-
-					<TextField
-						fullWidth
-						multiline
-						label="Feedback Question: What aspect of the project idea needs feedback?"
-						value={feedbackQuestion}
-						onChange={(e) => setFeedbackQuestion(e.target.value)}
-						variant="outlined"
-					/>
-
-					<FormControl fullWidth>
-						<InputLabel>
-							What are some tags you would associate with your project idea?*
-						</InputLabel>
-						<Select
-							multiple
-							value={selectedTags}
-							onChange={handleTagChange}
-							label="What are some tags you would associate with your project idea?*"
-							renderValue={(selected) => (
-								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-									{selected.map((value) => (
-										<Chip
-											key={value}
-											label={value}
-											sx={{
-												backgroundColor: "#f0f0f0",
-												borderRadius: "4px",
-												m: "2px",
-												"& .MuiChip-label": {
-													color: "#000000",
-												},
-											}}
-										/>
-									))}
-								</Box>
-							)}
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Project URL
+							</Typography>
+							<Tooltip
+								title="Where can people find your project online? Include your website, GitHub repository, or any other relevant links."
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<TextField
+							fullWidth
+							placeholder="e.g., https://www.seatmagician.com"
+							value={projectLink}
+							onChange={(e) => setProjectLink(e.target.value)}
 							variant="outlined"
-						>
-							{[
-								"Computer Science (CS)",
-								"Social Sciences (SS)",
-								"Arts and Humanities (AH)",
-								"Natural Sciences (NS)",
-								"Business (B)",
-							].map((tag) => (
-								<MenuItem key={tag} value={tag}>
-									<Checkbox checked={selectedTags.includes(tag)} />
-									<ListItemText primary={tag} />
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
+						/>
+					</Box>
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Demo Link
+							</Typography>
+							<Tooltip
+								title="Share a video or interactive demo that shows your project in action. Loom videos work great!"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<TextField
+							fullWidth
+							placeholder="e.g., https://www.loom.com/share/your-demo"
+							value={demoLink}
+							onChange={(e) => setDemoLink(e.target.value)}
+							variant="outlined"
+						/>
+					</Box>
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Detailed Description
+							</Typography>
+							<Tooltip
+								title="What problem does your project solve? Who is it for? How does it work? Include your motivation and technical approach."
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<TextField
+							fullWidth
+							placeholder="e.g., Seat Magician simplifies wedding planning by automating seating arrangements. It considers relationships, preferences, and table constraints to create optimal seating charts..."
+							value={projectDescription}
+							onChange={(e) => {
+								setProjectDescription(e.target.value);
+								if (e.target.value.length >= 300) {
+									setDescriptionError("");
+								}
+							}}
+							variant="outlined"
+							multiline
+							rows={3}
+							error={!!descriptionError}
+							helperText={
+								descriptionError ||
+								`${projectDescription.length}/300 characters minimum`
+							}
+							FormHelperTextProps={{
+								sx: {
+									color:
+										projectDescription.length >= 300 ? "#2E7D32" : "#666666",
+									fontFamily: "'Outfit', sans-serif",
+									fontSize: "0.875rem",
+									marginTop: "8px",
+								},
+							}}
+						/>
+					</Box>
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Feedback Request
+							</Typography>
+							<Tooltip
+								title="What specific aspects of your project would you like feedback on? Technical implementation? User experience? Business model?"
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<TextField
+							fullWidth
+							placeholder="e.g., I'm looking for ideas on how to incorporate statistical analysis..."
+							value={feedbackQuestion}
+							onChange={(e) => setFeedbackQuestion(e.target.value)}
+							variant="outlined"
+						/>
+					</Box>
+
+					<Box sx={{ textAlign: "left" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									fontWeight: 500,
+									marginBottom: "8px",
+									marginTop: "8px",
+									color: "#2D2D2D",
+									fontFamily: "'Outfit', sans-serif",
+								}}
+							>
+								Project Categories*
+							</Typography>
+							<Tooltip
+								title="Select all academic disciplines that your project relates to. This helps match you with relevant feedback."
+								placement="right"
+							>
+								<InfoOutlinedIcon
+									sx={{ fontSize: 16, color: "#6C6C80", cursor: "help" }}
+								/>
+							</Tooltip>
+						</Box>
+						<FormControl fullWidth>
+							<Select
+								multiple
+								value={selectedTags}
+								onChange={handleTagChange}
+								displayEmpty
+								renderValue={(selected) => {
+									if (selected.length === 0) {
+										return (
+											<p style={{ color: "rgba(0, 0, 0, 0.38)" }}>
+												Select project categories
+											</p>
+										);
+									}
+									return selected.join(", ");
+								}}
+								variant="outlined"
+							>
+								{[
+									"Computer Science (CS)",
+									"Social Sciences (SS)",
+									"Arts and Humanities (AH)",
+									"Natural Sciences (NS)",
+									"Business (B)",
+								].map((tag) => (
+									<MenuItem key={tag} value={tag}>
+										<Checkbox checked={selectedTags.includes(tag)} />
+										<ListItemText primary={tag} />
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					</Box>
 
 					<Box
 						sx={{
