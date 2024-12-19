@@ -123,7 +123,9 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const handleSaveProject = async () => {
 		// Validate description and tagline length
 		if (projectDescription.length < 75) {
-			setDescriptionError("Project description must be at least 75 characters long");
+			setDescriptionError(
+				"Project description must be at least 75 characters long",
+			);
 			setSnackbar({
 				open: true,
 				message: "Project description must be at least 75 characters long",
@@ -296,14 +298,16 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 							variant="outlined"
 							inputProps={{ maxLength: 150 }}
 							error={!!taglineError}
-							helperText={taglineError || `${tagline.length}/150 characters (minimum 75)`}
+							helperText={
+								taglineError || `${tagline.length}/150 characters (minimum 75)`
+							}
 							FormHelperTextProps={{
 								sx: {
-									color: tagline.length >= 75 ? '#2E7D32' : '#666666',
+									color: tagline.length >= 75 ? "#2E7D32" : "#666666",
 									fontFamily: "'Outfit', sans-serif",
-									fontSize: '0.875rem',
-									marginTop: '8px'
-								}
+									fontSize: "0.875rem",
+									marginTop: "8px",
+								},
 							}}
 						/>
 					</Box>
@@ -336,14 +340,17 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						multiline
 						rows={3}
 						error={!!descriptionError}
-						helperText={descriptionError || `${projectDescription.length}/75 characters minimum`}
+						helperText={
+							descriptionError ||
+							`${projectDescription.length}/75 characters minimum`
+						}
 						FormHelperTextProps={{
 							sx: {
-								color: projectDescription.length >= 75 ? '#2E7D32' : '#666666',
+								color: projectDescription.length >= 75 ? "#2E7D32" : "#666666",
 								fontFamily: "'Outfit', sans-serif",
-								fontSize: '0.875rem',
-								marginTop: '8px'
-							}
+								fontSize: "0.875rem",
+								marginTop: "8px",
+							},
 						}}
 					/>
 
