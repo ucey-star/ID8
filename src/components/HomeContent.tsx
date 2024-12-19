@@ -8,7 +8,7 @@ import Feedback from "../components/Feedback";
 import { type User } from "@supabase/supabase-js";
 import supabaseClient from "~/api/supabaseConfig";
 import useMobile from "~/utils/useMobile";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 interface HomeContentProps {
 	user: User | null;
@@ -43,7 +43,6 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	const [loading, setLoading] = useState(true);
 	const isMobile = useMobile();
 	const searchParams = useSearchParams();
-	const router = useRouter();
 
 	const handleExploreMore = (card: CardData) => {
 		setSelectedCard(card);
