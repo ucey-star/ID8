@@ -2,7 +2,7 @@ import React from "react";
 import PersonalDetailsForm from "../../components/PersonalDetailsForm";
 import { createClient } from "~/api/supabaseServerClient";
 
-export default async function PersonalDetailsScreen({
+export default async function OnboardingScreen({
 	searchParams,
 }: {
 	searchParams: { step?: string };
