@@ -24,7 +24,7 @@ const AddProjectCard: React.FC = () => {
 				alignItems: "center",
 				margin: "0 auto",
 				textAlign: "center",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 				color: "#4F46E5",
 				fontWeight: "600",
 				fontSize: "1.25rem",

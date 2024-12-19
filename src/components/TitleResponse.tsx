@@ -20,7 +20,7 @@ const TitleResponse: React.FC<TitleResponseProps> = ({
 					color: "#000000",
 					fontWeight: 400,
 					fontSize: "20px",
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					marginBottom: "4px",
 				}}
 			>
@@ -38,7 +38,7 @@ const TitleResponse: React.FC<TitleResponseProps> = ({
 						textDecoration: "underline",
 						fontSize: "20px",
 						fontWeight: 400,
-						fontFamily: "var(--font-family-outfit)",
+						fontFamily: "Outfit, sans-serif",
 					}}
 				>
 					{response}
@@ -49,7 +49,7 @@ const TitleResponse: React.FC<TitleResponseProps> = ({
 						color: "#807F7F",
 						fontSize: "20px",
 						fontWeight: 400,
-						fontFamily: "var(--font-family-outfit)",
+						fontFamily: "Outfit, sans-serif",
 					}}
 				>
 					{response}

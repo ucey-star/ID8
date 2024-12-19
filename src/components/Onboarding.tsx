@@ -106,7 +106,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 										minWidth: "150px",
 										padding: "var(--spacing-small) var(--spacing-medium)",
 										whiteSpace: "nowrap",
-										fontFamily: "var(--font-family-outfit)",
+										fontFamily: "Outfit, sans-serif",
 										alignItems: "center",
 									}}
 								>
@@ -147,7 +147,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 										minWidth: "150px",
 										padding: "var(--spacing-small) var(--spacing-medium)",
 										whiteSpace: "nowrap",
-										fontFamily: "var(--font-family-outfit)",
+										fontFamily: "Outfit, sans-serif",
 										alignItems: "center",
 									}}
 								>
@@ -186,7 +186,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 									minWidth: "150px",
 									padding: "var(--spacing-small) var(--spacing-medium)",
 									whiteSpace: "nowrap",
-									fontFamily: "var(--font-family-outfit)",
+									fontFamily: "Outfit, sans-serif",
 									alignItems: "center",
 								}}
 							>
@@ -224,7 +224,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 									minWidth: "150px",
 									padding: "var(--spacing-small) var(--spacing-medium)",
 									whiteSpace: "nowrap",
-									fontFamily: "var(--font-family-outfit)",
+									fontFamily: "Outfit, sans-serif",
 									alignItems: "center",
 								}}
 							>

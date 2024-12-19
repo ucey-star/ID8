@@ -20,7 +20,7 @@ const Comments = ({ comments }: { comments: number }) => {
 				sx={{
 					fontSize: "14px",
 					color: "var(--color-text-primary)",
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 				}}
 			>
 				{comments}
