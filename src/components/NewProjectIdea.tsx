@@ -393,7 +393,7 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 					>
 						<GradientButton
 							onClick={handleSaveNewProject}
-							content="Save"
+							content="Publish"
 							className="w-1/2"
 						/>
 						<Link

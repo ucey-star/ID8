@@ -416,7 +416,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					>
 						<GradientButton
 							onClick={handleSaveProject}
-							content="Save"
+							content="Save Updates"
 							className="w-1/2"
 						/>
 						<Link
