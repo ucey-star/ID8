@@ -405,7 +405,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						Would you like to share any photos or videos?*
 					</Box>
 					<Box sx={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-						{[...Array(3)].map((_, index) => (
+						{Array.from({ length: 3 }, (_, index) => (
 							<Box
 								key={index}
 								sx={{
