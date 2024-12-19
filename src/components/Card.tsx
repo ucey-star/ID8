@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { Box, Button, Typography, Chip, IconButton } from "@mui/material";
+import { Box, Typography, Chip, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import GradientButton from "../components/GradientButton";
 import useMobile from "~/utils/useMobile";
 
 interface CardProps {
@@ -167,20 +168,11 @@ const Card: React.FC<CardProps> = ({
 					justifyContent: "center", // Center the button
 				}}
 			>
-				<Button
-					variant="contained"
-					className="custom-next-button"
-					sx={{
-						minWidth: "150px",
-						padding: "var(--spacing-small) var(--spacing-medium)",
-						whiteSpace: "nowrap",
-						fontFamily: "Outfit, sans-serif",
-						alignItems: "center",
-					}}
+				<GradientButton
 					onClick={onExploreMore}
-				>
-					{buttonLabel} {/* Dynamic button text */}
-				</Button>
+					content={buttonLabel}
+					className="w-full" // Adjust width as needed
+				/>
 
 				{/* Delete Button*/}
 				{isDeletable && (
