@@ -127,24 +127,22 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 
 					// Fetch files dynamically
 					console.log("Project ID 1:", projectId);
-					const { data: folders} =
-						await supabaseClient.storage
-							.from("project-files")
-							.list(projectId!, {
-								offset: 0,
-							});
-					
+					const { data: folders } = await supabaseClient.storage
+						.from("project-files")
+						.list(projectId!, {
+							offset: 0,
+						});
+
 					if (folders) {
 						const publicUrls = folders.map((folder) => {
-							const {data:fileURI} = supabaseClient.storage.from(
-								"project-files"
-							).getPublicUrl(`${projectId}/${folder.name}`)
+							const { data: fileURI } = supabaseClient.storage
+								.from("project-files")
+								.getPublicUrl(`${projectId}/${folder.name}`);
 							return fileURI.publicUrl;
 						});
 
 						setImageUrls(publicUrls);
 					}
-
 				}
 			} catch (error) {
 				console.error("Error loading project:", error);
@@ -158,7 +156,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				alert("Error fetching project details. Please try again."),
 			);
 		}
-	}, [projectId,user]);
+	}, [projectId, user]);
 
 	useEffect(() => {
 		setCharacterCounter(tagline.length);
@@ -432,149 +430,155 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						}}
 					/>
 
-			<TextField
-				fullWidth
-				multiline
-				label="Feedback Question: What aspect of the project idea needs feedback?*"
-				value={feedbackQuestion}
-				onChange={(e) => setFeedbackQuestion(e.target.value)}
-				variant="outlined"
-			/>
+					<TextField
+						fullWidth
+						multiline
+						label="Feedback Question: What aspect of the project idea needs feedback?*"
+						value={feedbackQuestion}
+						onChange={(e) => setFeedbackQuestion(e.target.value)}
+						variant="outlined"
+					/>
 
-			<FormControl fullWidth>
-				<Box
-					sx={{
-						display: "flex",
-						flexDirection: "column",
-						gap: "16px",
-						marginTop: "16px",
-					}}
-				>
-					<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
-						Would you like to share any photos or videos?*
-					</Box>
-					<Box sx={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-						{Array.from({ length: 3 }, (_, index) => (
+					<FormControl fullWidth>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "16px",
+								marginTop: "16px",
+							}}
+						>
+							<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+								Would you like to share any photos or videos?*
+							</Box>
 							<Box
-								key={index}
-								sx={{
-									width: "100px",
-									height: "100px",
-									border: "1px dashed #ccc",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									cursor: "pointer",
-									borderRadius: "8px",
-									backgroundSize: "cover",
-									backgroundPosition: "center",
-									backgroundImage: photosVideos[index]
-										? `url(${URL.createObjectURL(photosVideos[index])})`
-										: "none",
-								}}
-								component="label"
+								sx={{ display: "flex", gap: "16px", justifyContent: "center" }}
 							>
-								{!photosVideos[index] && (
-									<AddCircleOutline sx={{ color: "#666", fontSize: "24px" }} />
-								)}
-								<input
-									type="file"
-									accept="image/*,video/*"
-									onChange={(e) => {
-										const files = e.target.files;
-										if (files) {
-											const fileList = Array.from(files);
-											setPhotosVideos((prev) => {
-												const updated = [...prev];
-												if (fileList[0]) {
-													updated[index] = fileList[0];
+								{Array.from({ length: 3 }, (_, index) => (
+									<Box
+										key={index}
+										sx={{
+											width: "100px",
+											height: "100px",
+											border: "1px dashed #ccc",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center",
+											cursor: "pointer",
+											borderRadius: "8px",
+											backgroundSize: "cover",
+											backgroundPosition: "center",
+											backgroundImage: photosVideos[index]
+												? `url(${URL.createObjectURL(photosVideos[index])})`
+												: "none",
+										}}
+										component="label"
+									>
+										{!photosVideos[index] && (
+											<AddCircleOutline
+												sx={{ color: "#666", fontSize: "24px" }}
+											/>
+										)}
+										<input
+											type="file"
+											accept="image/*,video/*"
+											onChange={(e) => {
+												const files = e.target.files;
+												if (files) {
+													const fileList = Array.from(files);
+													setPhotosVideos((prev) => {
+														const updated = [...prev];
+														if (fileList[0]) {
+															updated[index] = fileList[0];
+														}
+														return updated;
+													});
 												}
-												return updated;
-											});
-										}
-									}}
-									style={{ display: "none" }}
-								/>
+											}}
+											style={{ display: "none" }}
+										/>
+									</Box>
+								))}
 							</Box>
-						))}
-					</Box>
-				</Box>
-			</FormControl>
-			{/* Existing "Would you like to share any photos or videos?" section */}
-			{/* ... */}
+						</Box>
+					</FormControl>
+					{/* Existing "Would you like to share any photos or videos?" section */}
+					{/* ... */}
 
-			{/* New "Uploaded Files" section */}
-			<Box sx={{ marginTop: "24px" }}>
-				{uploadedFiles.length > 0 ? (
-					<Box
-						sx={{
-							display: "flex",
-							flexWrap: "wrap",
-							gap: "16px",
-							marginTop: "16px",
-						}}
-					>
-						{uploadedFiles.map((fileName, index) => (
+					{/* New "Uploaded Files" section */}
+					<Box sx={{ marginTop: "24px" }}>
+						{uploadedFiles.length > 0 ? (
 							<Box
-								key={index}
 								sx={{
-									padding: "8px 16px",
-									border: "1px solid #ccc",
-									borderRadius: "4px",
 									display: "flex",
-									alignItems: "center",
-									gap: "8px",
+									flexWrap: "wrap",
+									gap: "16px",
+									marginTop: "16px",
 								}}
 							>
-								{fileName}
+								{uploadedFiles.map((fileName, index) => (
+									<Box
+										key={index}
+										sx={{
+											padding: "8px 16px",
+											border: "1px solid #ccc",
+											borderRadius: "4px",
+											display: "flex",
+											alignItems: "center",
+											gap: "8px",
+										}}
+									>
+										{fileName}
+									</Box>
+								))}
 							</Box>
-						))}
-					</Box>
-				) : null}
+						) : null}
 
-				{/* Conditional rendering for imageUrls */}
-				{(!imageUrls || imageUrls.length === 0) &&
-					uploadedFiles.length === 0 && (
-						<Box sx={{ marginTop: "8px", color: "#666" }}>
-							No files have been uploaded yet.
+						{/* Conditional rendering for imageUrls */}
+						{(!imageUrls || imageUrls.length === 0) &&
+							uploadedFiles.length === 0 && (
+								<Box sx={{ marginTop: "8px", color: "#666" }}>
+									No files have been uploaded yet.
+								</Box>
+							)}
+					</Box>
+					<Box sx={{ marginTop: "5px" }}>
+						<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+							Project Assets
 						</Box>
-					)}
-			</Box>
-			<Box sx={{ marginTop: "5px" }}>
-				<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
-					Project Assets
-				</Box>
-				{imageUrls.length > 0 ? (
-					<Box
-						sx={{
-							display: "flex",
-							flexWrap: "wrap",
-							justifyContent: "center", // Center-align the items horizontally
-							gap: "16px",
-							marginTop: "16px",
-						}}
-					>
-						{imageUrls.map((url, index) => (
+						{imageUrls.length > 0 ? (
 							<Box
-								key={index}
 								sx={{
-									width: "150px",
-									height: "150px",
-									backgroundImage: `url(${url})`,
-									backgroundSize: "cover",
-									backgroundPosition: "center",
-									borderRadius: "8px",
-									flex: "0 1 auto", // Allow the item to shrink or grow as needed
+									display: "flex",
+									flexWrap: "wrap",
+									justifyContent: "center", // Center-align the items horizontally
+									gap: "16px",
+									marginTop: "16px",
 								}}
-							/>
-						))}
+							>
+								{imageUrls.map((url, index) => (
+									<Box
+										key={index}
+										sx={{
+											width: "150px",
+											height: "150px",
+											backgroundImage: `url(${url})`,
+											backgroundSize: "cover",
+											backgroundPosition: "center",
+											borderRadius: "8px",
+											flex: "0 1 auto", // Allow the item to shrink or grow as needed
+										}}
+									/>
+								))}
+							</Box>
+						) : (
+							<Box
+								sx={{ marginTop: "8px", color: "#666", textAlign: "center" }}
+							>
+								No assets available.
+							</Box>
+						)}
 					</Box>
-				) : (
-					<Box sx={{ marginTop: "8px", color: "#666", textAlign: "center" }}>
-						No assets available.
-					</Box>
-				)}
-			</Box>
 
 					<FormControl fullWidth>
 						<InputLabel>
