@@ -16,6 +16,7 @@ import {
 	Alert,
 	InputLabel,
 	Tooltip,
+	Chip,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
@@ -322,7 +323,24 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 							value={selectedTags}
 							onChange={handleTagChange}
 							label="What are some tags you would associate with your project idea?*"
-							renderValue={(selected) => selected.join(", ")}
+							renderValue={(selected) => (
+								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+									{selected.map((value) => (
+										<Chip
+											key={value}
+											label={value}
+											sx={{
+												backgroundColor: "#f0f0f0",
+												borderRadius: "4px",
+												m: "2px",
+												"& .MuiChip-label": {
+													color: "#000000",
+												},
+											}}
+										/>
+									))}
+								</Box>
+							)}
 							variant="outlined"
 						>
 							{[
