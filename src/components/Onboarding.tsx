@@ -205,7 +205,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
 								color: "#333",
 							}}
 						>
-							Step 4: Go to Feed
+							Go to Feed
 						</Typography>
 						<Typography
 							sx={{
