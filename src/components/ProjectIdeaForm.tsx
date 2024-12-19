@@ -46,6 +46,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
 	const [projectLink, setProjectLink] = useState("");
+	const [imageUrls, setImageUrls] = useState<string[]>([]);
 	const [demoLink, setDemoLink] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
@@ -90,90 +91,77 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			);
 		}
 	};
-	
 
 	useEffect(() => {
 		const fetchProjectDetails = async () => {
-		  if (!user) {
-			console.warn("User is not logged in.");
-			setLoading(false);
-			return;
-		  }
-	  
-		  try {
-			setLoading(true);
-			const { data, error } = await supabaseClient
-			  .from("Projects")
-			  .select("*")
-			  .eq("user_id", user?.id)
-			  .single();
-	  
-			if (error && error.code !== "PGRST116") {
-			  console.error("Error fetching project details:", error);
-			  throw error;
+			if (!user) {
+				console.warn("User is not logged in.");
+				setLoading(false);
+				return;
 			}
-	  
-			if (data) {
-			  // Populate fields with existing project data
-			  setProjectId(data.project_id);
-			  console.log("Project ID:", data.project_id);
-			  setProjectName(data.project_name ?? "");
-			  setTagline(data.tagline ?? "");
-			  setProjectLink(data.project_url ?? "");
-			  setDemoLink(data.demo_link ?? "");
-			  setProjectDescription(data.project_description ?? "");
-			  setFeedbackQuestion(data.feedback_question ?? "");
-			  setSelectedTags(data.tags ?? []);
-	  
-			  // Fetch files dynamically
-			  const { data: folders, error: foldersError } = await supabaseClient
-				.storage
-				.from("project-files")
-				.list(projectId?.trim(),{
-					offset: 0,
-				  })
 
-			console.log("folders", folders)
-		
+			try {
+				setLoading(true);
+				const { data, error } = await supabaseClient
+					.from("Projects")
+					.select("*")
+					.eq("user_id", user?.id)
+					.single();
 
-	  
-			  if (foldersError) {
-				console.error("Error fetching folders:", foldersError);
-			  } else {
-				console.log("Folders:", folders.map((folder) => folder.name));
-				console.log("Project ID:", projectId?.trim());
-
-	  
-				// Find the folder matching the project ID
-				const folder = folders.find((folder) => folder.name === projectId?.trim());
-				if (folder) {
-				  const { data: filesData, error: filesError } = await supabaseClient
-					.storage
-					.from("project-files")
-					.list(projectId?.trim(), { limit: 100, offset: 0 });
-	  
-				  if (filesError) {
-					console.error("Error fetching files:", filesError);
-				  } else {
-					console.log("Fetched files:", filesData);
-					setUploadedFiles(filesData.map((file) => file.name));
-				  }
-				} else {
-				  console.warn(`No folder matches projectId: ${data.project_id}`);
+				if (error && error.code !== "PGRST116") {
+					console.error("Error fetching project details:", error);
+					throw error;
 				}
-			  }
+
+				if (data) {
+					// Populate fields with existing project data
+					setProjectId(data.project_id);
+					setProjectName(data.project_name ?? "");
+					setTagline(data.tagline ?? "");
+					setProjectLink(data.project_url ?? "");
+					setDemoLink(data.demo_link ?? "");
+					setProjectDescription(data.project_description ?? "");
+					setFeedbackQuestion(data.feedback_question ?? "");
+					setSelectedTags(data.tags ?? []);
+
+					// Fetch files dynamically
+					console.log("Project ID 1:", projectId);
+					const { data: folders} =
+						await supabaseClient.storage
+							.from("project-files")
+							.list(projectId!, {
+								offset: 0,
+							});
+					
+					if (folders) {
+						const publicUrls = folders.map((folder) => {
+							const {data:fileURI} = supabaseClient.storage.from(
+								"project-files"
+							).getPublicUrl(`${projectId}/${folder.name}`)
+							return fileURI.publicUrl;
+						});
+
+						setImageUrls(publicUrls);
+					}
+
+				}
+			} catch (error) {
+				console.error("Error loading project:", error);
+			} finally {
+				setLoading(false);
 			}
-		  } catch (error) {
-			console.error("Error loading project:", error);
-		  } finally {
-			setLoading(false);
-		  }
 		};
 
-		fetchProjectDetails().catch((err) =>
-			console.error("Unexpected error:", err),
-		);
-	}, [user, projectId]);
+		if (user) {
+			fetchProjectDetails().catch((_) =>
+				alert("Error fetching project details. Please try again."),
+			);
+		}
+	}, [projectId,user]);
+
+	useEffect(() => {
+		setCharacterCounter(tagline.length);
+	}, [tagline]);
 
 	const handleSaveProject = async () => {
 		// Validate description and tagline length
@@ -515,35 +503,77 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			{/* ... */}
 
 			{/* New "Uploaded Files" section */}
-			<Box sx={{ marginTop: '24px' }}>
-			<Box component="label" sx={{ fontSize: '16px', fontWeight: 500 }}>
-				Uploaded Files
-			</Box>
-			{uploadedFiles.length > 0 ? (
-				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
-				{uploadedFiles.map((fileName, index) => (
+			<Box sx={{ marginTop: "24px" }}>
+				{uploadedFiles.length > 0 ? (
 					<Box
-					key={index}
-					sx={{
-						padding: '8px 16px',
-						border: '1px solid #ccc',
-						borderRadius: '4px',
-						display: 'flex',
-						alignItems: 'center',
-						gap: '8px'
-					}}
+						sx={{
+							display: "flex",
+							flexWrap: "wrap",
+							gap: "16px",
+							marginTop: "16px",
+						}}
 					>
-					{fileName}
+						{uploadedFiles.map((fileName, index) => (
+							<Box
+								key={index}
+								sx={{
+									padding: "8px 16px",
+									border: "1px solid #ccc",
+									borderRadius: "4px",
+									display: "flex",
+									alignItems: "center",
+									gap: "8px",
+								}}
+							>
+								{fileName}
+							</Box>
+						))}
 					</Box>
-				))}
-				</Box>
-			) : (
-				<Box sx={{ marginTop: '8px', color: '#666' }}>
-				No files have been uploaded yet.
-				</Box>
-			)}
-			</Box>
+				) : null}
 
+				{/* Conditional rendering for imageUrls */}
+				{(!imageUrls || imageUrls.length === 0) &&
+					uploadedFiles.length === 0 && (
+						<Box sx={{ marginTop: "8px", color: "#666" }}>
+							No files have been uploaded yet.
+						</Box>
+					)}
+			</Box>
+			<Box sx={{ marginTop: "5px" }}>
+				<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+					Project Assets
+				</Box>
+				{imageUrls.length > 0 ? (
+					<Box
+						sx={{
+							display: "flex",
+							flexWrap: "wrap",
+							justifyContent: "center", // Center-align the items horizontally
+							gap: "16px",
+							marginTop: "16px",
+						}}
+					>
+						{imageUrls.map((url, index) => (
+							<Box
+								key={index}
+								sx={{
+									width: "150px",
+									height: "150px",
+									backgroundImage: `url(${url})`,
+									backgroundSize: "cover",
+									backgroundPosition: "center",
+									borderRadius: "8px",
+									flex: "0 1 auto", // Allow the item to shrink or grow as needed
+								}}
+							/>
+						))}
+					</Box>
+				) : (
+					<Box sx={{ marginTop: "8px", color: "#666", textAlign: "center" }}>
+						No assets available.
+					</Box>
+				)}
+			</Box>
 
 					<FormControl fullWidth>
 						<InputLabel>
