@@ -40,7 +40,6 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("projectId");
 	const router = useRouter();
-	const [characterCounter, setCharacterCounter] = useState(0);
 	const [projectIdState, setProjectId] = useState<string | null>(null);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
@@ -59,6 +58,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		message: "",
 		severity: "success",
 	});
+	const [descriptionError, setDescriptionError] = useState<string>("");
+	const [taglineError, setTaglineError] = useState<string>("");
 
 	const isMobile = useMobile();
 
@@ -119,11 +120,28 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 		);
 	}, [user, projectId]);
 
-	useEffect(() => {
-		setCharacterCounter(tagline.length);
-	}, [tagline]);
-
 	const handleSaveProject = async () => {
+		// Validate description and tagline length
+		if (projectDescription.length < 75) {
+			setDescriptionError("Project description must be at least 75 characters long");
+			setSnackbar({
+				open: true,
+				message: "Project description must be at least 75 characters long",
+				severity: "error",
+			});
+			return;
+		}
+
+		if (tagline.length < 75) {
+			setTaglineError("Short description must be at least 75 characters long");
+			setSnackbar({
+				open: true,
+				message: "Short description must be at least 75 characters long",
+				severity: "error",
+			});
+			return;
+		}
+
 		const formData: Database["public"]["Tables"]["Projects"]["Insert"] = {
 			user_id: user?.id,
 			project_name: projectName,
@@ -271,14 +289,23 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 							value={tagline}
 							onChange={(e) => {
 								setTagline(e.target.value);
-								setCharacterCounter(e.target.value.length);
+								if (e.target.value.length >= 75) {
+									setTaglineError("");
+								}
 							}}
 							variant="outlined"
 							inputProps={{ maxLength: 150 }}
+							error={!!taglineError}
+							helperText={taglineError || `${tagline.length}/150 characters (minimum 75)`}
+							FormHelperTextProps={{
+								sx: {
+									color: tagline.length >= 75 ? '#2E7D32' : '#666666',
+									fontFamily: "'Outfit', sans-serif",
+									fontSize: '0.875rem',
+									marginTop: '8px'
+								}
+							}}
 						/>
-						<span style={{ alignSelf: "flex-end", color: "#666" }}>
-							Character Counter: {characterCounter}
-						</span>
 					</Box>
 					<TextField
 						fullWidth
@@ -297,12 +324,27 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					/>
 					<TextField
 						fullWidth
-						label="What is your project going to do? Please describe your product and what it does or will do."
+						label="What is your project going to do? Please describe your product and what it does or will do.*"
 						value={projectDescription}
-						onChange={(e) => setProjectDescription(e.target.value)}
+						onChange={(e) => {
+							setProjectDescription(e.target.value);
+							if (e.target.value.length >= 75) {
+								setDescriptionError("");
+							}
+						}}
 						variant="outlined"
 						multiline
 						rows={3}
+						error={!!descriptionError}
+						helperText={descriptionError || `${projectDescription.length}/75 characters minimum`}
+						FormHelperTextProps={{
+							sx: {
+								color: projectDescription.length >= 75 ? '#2E7D32' : '#666666',
+								fontFamily: "'Outfit', sans-serif",
+								fontSize: '0.875rem',
+								marginTop: '8px'
+							}
+						}}
 					/>
 
 					<TextField

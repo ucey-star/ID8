@@ -31,7 +31,6 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 	user,
 	redirectTo,
 }) => {
-	const [characterCounter, setCharacterCounter] = useState(0);
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
 	const [projectLink, setProjectLink] = useState("");
@@ -81,12 +80,38 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
+	// Add new state variables for errors at the top with other states
+	const [descriptionError, setDescriptionError] = useState<string>("");
+	const [taglineError, setTaglineError] = useState<string>("");
+
+	// Modify handleSaveNewProject to include the length validation
 	const handleSaveNewProject = async () => {
+		// Validate description and tagline length
+		if (projectDescription.length < 75) {
+			setDescriptionError("Project description must be at least 75 characters long");
+			setSnackbar({
+				open: true,
+				message: "Project description must be at least 75 characters long",
+				severity: "error",
+			});
+			return;
+		}
+
+		if (tagline.length < 75) {
+			setTaglineError("Short description must be at least 75 characters long");
+			setSnackbar({
+				open: true,
+				message: "Short description must be at least 75 characters long",
+				severity: "error",
+			});
+			return;
+		}
+
 		// Updated touched states to include projectDescription
 		setTouched({
 			projectName: true,
 			tagline: true,
-			projectDescription: true, // Added projectDescription
+			projectDescription: true,
 		});
 
 		if (!validateForm()) {
@@ -224,23 +249,33 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 						<TextField
 							required
 							fullWidth
-							label="Describe what your project does in 150 characters or less"
+							label="Describe what your project does in 150 characters or less.*"
 							value={tagline}
 							onChange={(e) => {
 								setTagline(e.target.value);
-								setCharacterCounter(e.target.value.length);
+								if (e.target.value.length >= 75) {
+									setTaglineError("");
+								}
 							}}
 							onBlur={() => handleBlur("tagline")}
-							error={touched.tagline && errors.tagline}
+							error={!!taglineError || (touched.tagline && errors.tagline)}
 							helperText={
-								touched.tagline && errors.tagline ? "Tagline is required" : ""
+								taglineError ||
+								(touched.tagline && errors.tagline ?
+									"Tagline is required" :
+									`${tagline.length}/150 characters (minimum 75)`)
 							}
+							FormHelperTextProps={{
+								sx: {
+									color: tagline.length >= 75 ? '#2E7D32' : '#666666',
+									fontFamily: "'Outfit', sans-serif",
+									fontSize: '0.875rem',
+									marginTop: '8px'
+								}
+							}}
 							variant="outlined"
 							inputProps={{ maxLength: 150 }}
 						/>
-						<span style={{ alignSelf: "flex-end", color: "#666" }}>
-							Character Counter: {characterCounter}
-						</span>
 					</Box>
 
 					<TextField
@@ -262,16 +297,30 @@ const NewProjectIdea: React.FC<NewProjectIdeaProps> = ({
 					<TextField
 						required
 						fullWidth
-						label="Project Description"
+						label="What is your project going to do? Please describe your product and what it does or will do.*"
 						value={projectDescription}
-						onChange={(e) => setProjectDescription(e.target.value)}
+						onChange={(e) => {
+							setProjectDescription(e.target.value);
+							if (e.target.value.length >= 75) {
+								setDescriptionError("");
+							}
+						}}
 						onBlur={() => handleBlur("projectDescription")}
-						error={touched.projectDescription && errors.projectDescription}
+						error={!!descriptionError || (touched.projectDescription && errors.projectDescription)}
 						helperText={
-							touched.projectDescription && errors.projectDescription
-								? "Project description is required"
-								: "Please describe what your project does or will do"
+							descriptionError ||
+							(touched.projectDescription && errors.projectDescription ?
+								"Project description is required" :
+								`${projectDescription.length}/75 characters minimum`)
 						}
+						FormHelperTextProps={{
+							sx: {
+								color: projectDescription.length >= 75 ? '#2E7D32' : '#666666',
+								fontFamily: "'Outfit', sans-serif",
+								fontSize: '0.875rem',
+								marginTop: '8px'
+							}
+						}}
 						variant="outlined"
 						multiline
 						rows={3}
