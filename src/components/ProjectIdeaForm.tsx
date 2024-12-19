@@ -380,14 +380,76 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 						}}
 					/>
 
-					<TextField
-						fullWidth
-						multiline
-						label="Feedback Question: What aspect of the project idea needs feedback?"
-						value={feedbackQuestion}
-						onChange={(e) => setFeedbackQuestion(e.target.value)}
-						variant="outlined"
-					/>
+			<TextField
+				fullWidth
+				multiline
+				label="Feedback Question: What aspect of the project idea needs feedback?*"
+				value={feedbackQuestion}
+				onChange={(e) => setFeedbackQuestion(e.target.value)}
+				variant="outlined"
+			/>
+
+			{/* New Additional Question Section */}
+
+			{/* Photos and Videos Section*/}
+			<FormControl fullWidth>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "16px",
+						marginTop: "16px",
+					}}
+				>
+					<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+						Would you like to share any photos or videos?*
+					</Box>
+					<Box sx={{ display: "flex", gap: "16px", justifyContent: "center" }}>
+						{[...Array(3)].map((_, index) => (
+							<Box
+								key={index}
+								sx={{
+									width: "100px",
+									height: "100px",
+									border: "1px dashed #ccc",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									cursor: "pointer",
+									borderRadius: "8px",
+									backgroundSize: "cover",
+									backgroundPosition: "center",
+									backgroundImage: photosVideos[index]
+										? `url(${URL.createObjectURL(photosVideos[index])})`
+										: "none",
+								}}
+								component="label"
+							>
+								{!photosVideos[index] && (
+									<AddCircleOutline sx={{ color: "#666", fontSize: "24px" }} />
+								)}
+								<input
+									type="file"
+									accept="image/*,video/*"
+									onChange={(e) => {
+										const files = e.target.files;
+										if (files) {
+											const fileList = Array.from(files);
+											// Update the specific square with the uploaded file
+											setPhotosVideos((prev) => {
+												const updated = [...prev];
+												updated[index] = fileList[0];
+												return updated;
+											});
+										}
+									}}
+									style={{ display: "none" }}
+								/>
+							</Box>
+						))}
+					</Box>
+				</Box>
+			</FormControl>
 
 					<FormControl fullWidth>
 						<InputLabel>
