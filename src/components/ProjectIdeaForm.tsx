@@ -17,7 +17,9 @@ import {
 	InputLabel,
 	Tooltip,
 	Chip,
+	IconButton,
 } from "@mui/material";
+import { AddCircleOutline } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
 import type { User } from "@supabase/supabase-js";
@@ -48,6 +50,10 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [generalQuestion, setGeneralQuestion] = useState("");
+	const [uploads, setUploads] = useState<File[]>([]);
+	const [additionalQuestion, setAdditionalQuestion] = useState("");
+	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
@@ -66,8 +72,28 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
-	// Fetch project details if they exist
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setUploads((prevUploads) => [...prevUploads, ...fileList].slice(0, 3));
+		}
+	};
+
+	const handlePhotosVideosChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setPhotosVideos((prevPhotosVideos) =>
+				[...prevPhotosVideos, ...fileList].slice(0, 3),
+			);
+		}
+	};
+
 	useEffect(() => {
+		// Fetch project details if they exist
 		const fetchProjectDetails = async () => {
 			if (!user) {
 				console.warn("User is not logged in.");
@@ -148,8 +174,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			user_id: user?.id,
 			project_name: projectName,
 			tagline: tagline,
-			project_url: projectLink,
-			demo_link: demoLink,
+			project_url: projectLink || null,
+			demo_link: demoLink || null,
 			project_description: projectDescription,
 			tags: selectedTags,
 			feedback_question: feedbackQuestion,
@@ -161,7 +187,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				const { error: updateError } = await supabaseClient
 					.from("Projects")
 					.update(formData)
-					.eq("project_id", projectId); // Use project_id for updates
+					.eq("project_id", projectId);
 
 				if (updateError) throw updateError;
 
@@ -171,15 +197,15 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					severity: "success",
 				});
 			} else {
-				// Insert new project if none exists
+				// Insert new project
 				const { data, error } = await supabaseClient
 					.from("Projects")
 					.insert([formData])
-					.select(); // Get the created project data
+					.select();
 
 				if (error) throw error;
 
-				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
+				setProjectId(data[0]?.project_id ?? null);
 				setSnackbar({
 					open: true,
 					message: "Project created successfully!",
