@@ -50,9 +50,9 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
-	const [generalQuestion, setGeneralQuestion] = useState("");
+	// const [generalQuestion, setGeneralQuestion] = useState("");
 	const [uploads, setUploads] = useState<File[]>([]);
-	const [additionalQuestion, setAdditionalQuestion] = useState("");
+	// const [additionalQuestion, setAdditionalQuestion] = useState("");
 	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbar, setSnackbar] = useState<{
@@ -438,7 +438,9 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 											// Update the specific square with the uploaded file
 											setPhotosVideos((prev) => {
 												const updated = [...prev];
-												updated[index] = fileList[0];
+												if (fileList[0]) {
+													updated[index] = fileList[0];
+												}
 												return updated;
 											});
 										}
