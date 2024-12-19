@@ -17,7 +17,9 @@ import {
 	InputLabel,
 	Tooltip,
 	Chip,
+	IconButton,
 } from "@mui/material";
+import { AddCircleOutline } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import GradientButton from "../components/GradientButton";
 import type { User } from "@supabase/supabase-js";
@@ -44,11 +46,16 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [projectName, setProjectName] = useState("");
 	const [tagline, setTagline] = useState("");
 	const [projectLink, setProjectLink] = useState("");
+	const [imageUrls, setImageUrls] = useState<string[]>([]);
 	const [demoLink, setDemoLink] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
 	const [feedbackQuestion, setFeedbackQuestion] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [uploads, setUploads] = useState<File[]>([]);
+	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+	const [characterCounter, setCharacterCounter] = useState<number>(0);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -66,7 +73,26 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const handleCloseSnackbar = () =>
 		setSnackbar((prev) => ({ ...prev, open: false }));
 
-	// Fetch project details if they exist
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setUploads((prevUploads) => [...prevUploads, ...fileList].slice(0, 3));
+		}
+	};
+
+	const handlePhotosVideosChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const files = event.target.files;
+		if (files) {
+			const fileList = Array.from(files);
+			setPhotosVideos((prevPhotosVideos) =>
+				[...prevPhotosVideos, ...fileList].slice(0, 3),
+			);
+		}
+	};
+
 	useEffect(() => {
 		const fetchProjectDetails = async () => {
 			if (!user) {
@@ -75,30 +101,21 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				return;
 			}
 
-			if (!projectId) {
-				console.warn("No projectId provided in query parameters.");
-				setLoading(false);
-				return;
-			}
-
 			try {
 				setLoading(true);
-				console.log("Fetching project with project_id:", projectId);
-
 				const { data, error } = await supabaseClient
 					.from("Projects")
 					.select("*")
-					.eq("project_id", projectId)
+					.eq("user_id", user?.id)
 					.single();
 
-				console.log("Fetched Project Data:", data);
-				console.log("Fetch Error:", error);
-
-				if (error) throw error;
+				if (error && error.code !== "PGRST116") {
+					console.error("Error fetching project details:", error);
+					throw error;
+				}
 
 				if (data) {
 					// Populate fields with existing project data
-					console.log("Populating state with:", data);
 					setProjectId(data.project_id);
 					setProjectName(data.project_name ?? "");
 					setTagline(data.tagline ?? "");
@@ -107,6 +124,25 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					setProjectDescription(data.project_description ?? "");
 					setFeedbackQuestion(data.feedback_question ?? "");
 					setSelectedTags(data.tags ?? []);
+
+					// Fetch files dynamically
+					console.log("Project ID 1:", projectId);
+					const { data: folders } = await supabaseClient.storage
+						.from("project-files")
+						.list(projectId!, {
+							offset: 0,
+						});
+
+					if (folders) {
+						const publicUrls = folders.map((folder) => {
+							const { data: fileURI } = supabaseClient.storage
+								.from("project-files")
+								.getPublicUrl(`${projectId}/${folder.name}`);
+							return fileURI.publicUrl;
+						});
+
+						setImageUrls(publicUrls);
+					}
 				}
 			} catch (error) {
 				console.error("Error loading project:", error);
@@ -115,10 +151,16 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			}
 		};
 
-		fetchProjectDetails().catch((err) =>
-			console.error("Unexpected error:", err),
-		);
-	}, [user, projectId]);
+		if (user) {
+			fetchProjectDetails().catch((_) =>
+				alert("Error fetching project details. Please try again."),
+			);
+		}
+	}, [projectId, user]);
+
+	useEffect(() => {
+		setCharacterCounter(tagline.length);
+	}, [tagline]);
 
 	const handleSaveProject = async () => {
 		// Validate description and tagline length
@@ -148,8 +190,8 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			user_id: user?.id,
 			project_name: projectName,
 			tagline: tagline,
-			project_url: projectLink,
-			demo_link: demoLink,
+			project_url: projectLink || null,
+			demo_link: demoLink || null,
 			project_description: projectDescription,
 			tags: selectedTags,
 			feedback_question: feedbackQuestion,
@@ -161,7 +203,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 				const { error: updateError } = await supabaseClient
 					.from("Projects")
 					.update(formData)
-					.eq("project_id", projectId); // Use project_id for updates
+					.eq("project_id", projectId);
 
 				if (updateError) throw updateError;
 
@@ -170,16 +212,50 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					message: "Project updated successfully!",
 					severity: "success",
 				});
+
+				// Upload files for existing project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${projectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
 			} else {
-				// Insert new project if none exists
+				// Insert new project
 				const { data, error } = await supabaseClient
 					.from("Projects")
 					.insert([formData])
-					.select(); // Get the created project data
+					.select();
 
 				if (error) throw error;
 
-				setProjectId(data[0]?.project_id ?? null); // Save the new project ID for future updates
+				const newProjectId = data?.[0]?.project_id;
+				if (!newProjectId) {
+					throw new Error("No project ID returned from insert");
+				}
+
+				// Upload files for the newly created project
+				if (photosVideos.length > 0) {
+					const promises = photosVideos.map(async (file) => {
+						const { error: uploadError } = await supabaseClient.storage
+							.from("project-files")
+							.upload(`${newProjectId}/${file.name}`, file);
+						if (uploadError) {
+							console.error("Error uploading file:", uploadError);
+						}
+					});
+
+					await Promise.all(promises);
+				}
+
+				setProjectId(newProjectId);
+
 				setSnackbar({
 					open: true,
 					message: "Project created successfully!",
@@ -357,11 +433,152 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					<TextField
 						fullWidth
 						multiline
-						label="Feedback Question: What aspect of the project idea needs feedback?"
+						label="Feedback Question: What aspect of the project idea needs feedback?*"
 						value={feedbackQuestion}
 						onChange={(e) => setFeedbackQuestion(e.target.value)}
 						variant="outlined"
 					/>
+
+					<FormControl fullWidth>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "16px",
+								marginTop: "16px",
+							}}
+						>
+							<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+								Would you like to share any photos or videos?*
+							</Box>
+							<Box
+								sx={{ display: "flex", gap: "16px", justifyContent: "center" }}
+							>
+								{Array.from({ length: 3 }, (_, index) => (
+									<Box
+										key={index}
+										sx={{
+											width: "100px",
+											height: "100px",
+											border: "1px dashed #ccc",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center",
+											cursor: "pointer",
+											borderRadius: "8px",
+											backgroundSize: "cover",
+											backgroundPosition: "center",
+											backgroundImage: photosVideos[index]
+												? `url(${URL.createObjectURL(photosVideos[index])})`
+												: "none",
+										}}
+										component="label"
+									>
+										{!photosVideos[index] && (
+											<AddCircleOutline
+												sx={{ color: "#666", fontSize: "24px" }}
+											/>
+										)}
+										<input
+											type="file"
+											accept="image/*,video/*"
+											onChange={(e) => {
+												const files = e.target.files;
+												if (files) {
+													const fileList = Array.from(files);
+													setPhotosVideos((prev) => {
+														const updated = [...prev];
+														if (fileList[0]) {
+															updated[index] = fileList[0];
+														}
+														return updated;
+													});
+												}
+											}}
+											style={{ display: "none" }}
+										/>
+									</Box>
+								))}
+							</Box>
+						</Box>
+					</FormControl>
+					{/* Existing "Would you like to share any photos or videos?" section */}
+					{/* ... */}
+
+					{/* New "Uploaded Files" section */}
+					<Box sx={{ marginTop: "24px" }}>
+						{uploadedFiles.length > 0 ? (
+							<Box
+								sx={{
+									display: "flex",
+									flexWrap: "wrap",
+									gap: "16px",
+									marginTop: "16px",
+								}}
+							>
+								{uploadedFiles.map((fileName, index) => (
+									<Box
+										key={index}
+										sx={{
+											padding: "8px 16px",
+											border: "1px solid #ccc",
+											borderRadius: "4px",
+											display: "flex",
+											alignItems: "center",
+											gap: "8px",
+										}}
+									>
+										{fileName}
+									</Box>
+								))}
+							</Box>
+						) : null}
+
+						{/* Conditional rendering for imageUrls */}
+						{(!imageUrls || imageUrls.length === 0) &&
+							uploadedFiles.length === 0 && (
+								<Box sx={{ marginTop: "8px", color: "#666" }}>
+									No files have been uploaded yet.
+								</Box>
+							)}
+					</Box>
+					<Box sx={{ marginTop: "5px" }}>
+						<Box component="label" sx={{ fontSize: "16px", fontWeight: 500 }}>
+							Project Assets
+						</Box>
+						{imageUrls.length > 0 ? (
+							<Box
+								sx={{
+									display: "flex",
+									flexWrap: "wrap",
+									justifyContent: "center", // Center-align the items horizontally
+									gap: "16px",
+									marginTop: "16px",
+								}}
+							>
+								{imageUrls.map((url, index) => (
+									<Box
+										key={index}
+										sx={{
+											width: "150px",
+											height: "150px",
+											backgroundImage: `url(${url})`,
+											backgroundSize: "cover",
+											backgroundPosition: "center",
+											borderRadius: "8px",
+											flex: "0 1 auto", // Allow the item to shrink or grow as needed
+										}}
+									/>
+								))}
+							</Box>
+						) : (
+							<Box
+								sx={{ marginTop: "8px", color: "#666", textAlign: "center" }}
+							>
+								No assets available.
+							</Box>
+						)}
+					</Box>
 
 					<FormControl fullWidth>
 						<InputLabel>

@@ -7,5 +7,10 @@
 	"deno.lint": true,
 	"deno.unstable": true,
 	"editor.formatOnSave": true,
-	"eslint.rules.customizations": [{ "rule": "*", "Severity": "warn" }]
+	"eslint.rules.customizations": [
+		{
+			"rule": "*",
+			"Severity": "warn"
+		}
+	]
 }
