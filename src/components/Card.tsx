@@ -54,7 +54,7 @@ const Card: React.FC<CardProps> = ({
 				justifyContent: "flex-start",
 				alignItems: "stretch",
 				gap: "var(--spacing-medium)",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 				minHeight: "200px",
 				flexGrow: 1,
 				margin: "0 auto",
@@ -79,6 +79,7 @@ const Card: React.FC<CardProps> = ({
 					sx={{
 						fontWeight: "var(--font-weight-bold)",
 						color: "var(--color-text-primary)",
+						fontFamily: "Outfit, sans-serif",
 					}}
 				>
 					{headline}
@@ -98,6 +99,7 @@ const Card: React.FC<CardProps> = ({
 						sx={{
 							fontWeight: "var(--font-weight-bold)",
 							color: "var(--color-text-primary)",
+							fontFamily: "Outfit, sans-serif",
 						}}
 					>
 						{date}
@@ -121,6 +123,7 @@ const Card: React.FC<CardProps> = ({
 						color: "var(--color-text-secondary)",
 						fontStyle: "italic",
 						fontWeight: "var(--font-weight-medium)",
+						fontFamily: "Outfit, sans-serif",
 					}}
 				>
 					{descriptionShort}
@@ -150,6 +153,7 @@ const Card: React.FC<CardProps> = ({
 							height: "22px", // Reduced height for smaller tags
 							padding: "2px 6px", // Smaller padding inside the chip
 							fontWeight: "500", // Maintain readability
+							fontFamily: "Outfit, sans-serif",
 						}}
 					/>
 				))}
@@ -170,7 +174,7 @@ const Card: React.FC<CardProps> = ({
 						minWidth: "150px",
 						padding: "var(--spacing-small) var(--spacing-medium)",
 						whiteSpace: "nowrap",
-						fontFamily: "var(--font-family-outfit)",
+						fontFamily: "Outfit, sans-serif",
 						alignItems: "center",
 					}}
 					onClick={onExploreMore}

@@ -145,7 +145,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 	}, [user]);
 
 	if (loading) {
-		return <Typography>Loading...</Typography>;
+		return (
+			<Typography sx={{ fontFamily: "Outfit, sans-serif" }}>
+				Loading...
+			</Typography>
+		);
 	}
 
 	return (
@@ -158,7 +162,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 				alignItems: "center",
 				background:
 					"linear-gradient(135deg, var(--color-background-primary), #E3E7FF, #DCE0FF)",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 				padding: isMobile ? "var(--spacing-small)" : "var(--spacing-large)",
 				paddingTop: "90px",
 			}}
@@ -186,6 +190,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							sx={{
 								marginBottom: "16px",
 								fontSize: isMobile ? "1.5rem" : "2rem",
+								fontFamily: "Outfit, sans-serif",
 							}}
 						>
 							My Project
@@ -203,7 +208,9 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 								/>
 							))
 						) : (
-							<Typography>No projects found.</Typography>
+							<Typography sx={{ fontFamily: "Outfit, sans-serif" }}>
+								No projects found.
+							</Typography>
 						)}
 					</Container>
 
@@ -227,6 +234,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 							sx={{
 								marginBottom: "16px",
 								fontSize: isMobile ? "1.5rem" : "2rem",
+								fontFamily: "Outfit, sans-serif",
 							}}
 						>
 							Other Projects
@@ -244,7 +252,9 @@ const HomeContent: React.FC<HomeContentProps> = ({ user }) => {
 								/>
 							))
 						) : (
-							<Typography>No other projects found.</Typography>
+							<Typography sx={{ fontFamily: "Outfit, sans-serif" }}>
+								No other projects found.
+							</Typography>
 						)}
 					</Container>
 				</>

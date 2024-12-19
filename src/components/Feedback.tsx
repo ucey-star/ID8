@@ -150,12 +150,12 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				flexDirection: "column",
 				gap: "var(--spacing-medium)",
 				alignItems: "center",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 			}}
 		>
 			<Typography
 				sx={{
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					fontSize: "28px",
 					fontWeight: 600,
 					lineHeight: "36px",
@@ -206,7 +206,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				value={comment}
 				onChange={(e) => setComment(e.target.value)}
 				sx={{
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					fontSize: "16px",
 					marginBottom: "var(--spacing-small)",
 				}}
@@ -222,7 +222,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 					padding: "var(--spacing-small) var(--spacing-medium)",
 					whiteSpace: "nowrap",
 					flexShrink: 0,
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					fontSize: "14px",
 					color: "#FFFFFF",
 				}}
