@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import FeedbackItem from "./FeedbackItem";
 import supabaseClient from "~/api/supabaseConfig";
+import GradientButton from "../components/GradientButton";
 
 interface FeedbackData {
 	id: string;
@@ -212,23 +213,11 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				}}
 			/>
 
-			<Button
-				variant="contained"
-				className="custom-next-button"
+			<GradientButton
 				onClick={handleAddComment}
-				sx={{
-					width: "fit-content",
-					minWidth: "120px",
-					padding: "var(--spacing-small) var(--spacing-medium)",
-					whiteSpace: "nowrap",
-					flexShrink: 0,
-					fontFamily: "Outfit, sans-serif",
-					fontSize: "14px",
-					color: "#FFFFFF",
-				}}
-			>
-				Send
-			</Button>
+				content="SEND"
+				className="w-full"
+			/>
 		</Box>
 	);
 };
