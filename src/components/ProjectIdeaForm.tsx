@@ -55,6 +55,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+	const [characterCounter, setCharacterCounter] = useState<number>(0);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
