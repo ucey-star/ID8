@@ -53,6 +53,7 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 	const [uploads, setUploads] = useState<File[]>([]);
 	const [photosVideos, setPhotosVideos] = useState<File[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 	const [snackbar, setSnackbar] = useState<{
 		open: boolean;
 		message: string;
@@ -89,52 +90,84 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 			);
 		}
 	};
+	
 
 	useEffect(() => {
 		const fetchProjectDetails = async () => {
-			if (!user) {
-				console.warn("User is not logged in.");
-				setLoading(false);
-				return;
+		  if (!user) {
+			console.warn("User is not logged in.");
+			setLoading(false);
+			return;
+		  }
+	  
+		  try {
+			setLoading(true);
+			const { data, error } = await supabaseClient
+			  .from("Projects")
+			  .select("*")
+			  .eq("user_id", user?.id)
+			  .single();
+	  
+			if (error && error.code !== "PGRST116") {
+			  console.error("Error fetching project details:", error);
+			  throw error;
 			}
+	  
+			if (data) {
+			  // Populate fields with existing project data
+			  setProjectId(data.project_id);
+			  console.log("Project ID:", data.project_id);
+			  setProjectName(data.project_name ?? "");
+			  setTagline(data.tagline ?? "");
+			  setProjectLink(data.project_url ?? "");
+			  setDemoLink(data.demo_link ?? "");
+			  setProjectDescription(data.project_description ?? "");
+			  setFeedbackQuestion(data.feedback_question ?? "");
+			  setSelectedTags(data.tags ?? []);
+	  
+			  // Fetch files dynamically
+			  const { data: folders, error: foldersError } = await supabaseClient
+				.storage
+				.from("project-files")
+				.list(projectId?.trim(),{
+					offset: 0,
+				  })
 
-			if (!projectId) {
-				console.warn("No projectId provided in query parameters.");
-				setLoading(false);
-				return;
-			}
+			console.log("folders", folders)
+		
 
-			try {
-				setLoading(true);
-				console.log("Fetching project with project_id:", projectId);
+	  
+			  if (foldersError) {
+				console.error("Error fetching folders:", foldersError);
+			  } else {
+				console.log("Folders:", folders.map((folder) => folder.name));
+				console.log("Project ID:", projectId?.trim());
 
-				const { data, error } = await supabaseClient
-					.from("Projects")
-					.select("*")
-					.eq("project_id", projectId)
-					.single();
-
-				console.log("Fetched Project Data:", data);
-				console.log("Fetch Error:", error);
-
-				if (error) throw error;
-
-				if (data) {
-					// Populate fields with existing project data
-					setProjectId(data.project_id);
-					setProjectName(data.project_name ?? "");
-					setTagline(data.tagline ?? "");
-					setProjectLink(data.project_url ?? "");
-					setDemoLink(data.demo_link ?? "");
-					setProjectDescription(data.project_description ?? "");
-					setFeedbackQuestion(data.feedback_question ?? "");
-					setSelectedTags(data.tags ?? []);
+	  
+				// Find the folder matching the project ID
+				const folder = folders.find((folder) => folder.name === projectId?.trim());
+				if (folder) {
+				  const { data: filesData, error: filesError } = await supabaseClient
+					.storage
+					.from("project-files")
+					.list(projectId?.trim(), { limit: 100, offset: 0 });
+	  
+				  if (filesError) {
+					console.error("Error fetching files:", filesError);
+				  } else {
+					console.log("Fetched files:", filesData);
+					setUploadedFiles(filesData.map((file) => file.name));
+				  }
+				} else {
+				  console.warn(`No folder matches projectId: ${data.project_id}`);
 				}
-			} catch (error) {
-				console.error("Error loading project:", error);
-			} finally {
-				setLoading(false);
+			  }
 			}
+		  } catch (error) {
+			console.error("Error loading project:", error);
+		  } finally {
+			setLoading(false);
+		  }
 		};
 
 		fetchProjectDetails().catch((err) =>
@@ -478,6 +511,39 @@ const ProjectIdeaForm: React.FC<ProjectIdeaFormProps> = ({
 					</Box>
 				</Box>
 			</FormControl>
+			{/* Existing "Would you like to share any photos or videos?" section */}
+			{/* ... */}
+
+			{/* New "Uploaded Files" section */}
+			<Box sx={{ marginTop: '24px' }}>
+			<Box component="label" sx={{ fontSize: '16px', fontWeight: 500 }}>
+				Uploaded Files
+			</Box>
+			{uploadedFiles.length > 0 ? (
+				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
+				{uploadedFiles.map((fileName, index) => (
+					<Box
+					key={index}
+					sx={{
+						padding: '8px 16px',
+						border: '1px solid #ccc',
+						borderRadius: '4px',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '8px'
+					}}
+					>
+					{fileName}
+					</Box>
+				))}
+				</Box>
+			) : (
+				<Box sx={{ marginTop: '8px', color: '#666' }}>
+				No files have been uploaded yet.
+				</Box>
+			)}
+			</Box>
+
 
 					<FormControl fullWidth>
 						<InputLabel>
