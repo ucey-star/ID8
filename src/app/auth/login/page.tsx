@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import GoogleButton from "../../../components/GoogleButton";
 // import InputField from "../../../components/InputField";
 // import GradientButton from "../../../components/GradientButton";
@@ -11,18 +11,18 @@ import id8Logo from "../../../../public/logo/id8.png";
 import useMobile from "~/utils/useMobile";
 
 function SignUp() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
-	const handlePasswordClick = () => {
-		setShowPassword(!showPassword);
-	};
+	// const [email, setEmail] = useState("");
+	// const [password, setPassword] = useState("");
+	// const [showPassword, setShowPassword] = useState(false);
+	// const handlePasswordClick = () => {
+	// 	setShowPassword(!showPassword);
+	// };
 
 	const isMobile = useMobile();
 
-	const handleLogin = async () => {
-		console.log("login");
-	};
+	// const handleLogin = async () => {
+	// 	console.log("login");
+	// };
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#F7F7F8] via-[#E3E7FF] to-[#DCE0FF] p-4">
 			<div className="w-full max-w-md rounded-lg border border-solid border-[#5370F7] bg-white px-16 py-12 shadow-xl md:px-20">

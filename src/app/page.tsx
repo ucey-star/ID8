@@ -1,54 +1,211 @@
-import React from "react";
-import Onboarding from "~/components/Onboarding";
-import { createClient } from "~/api/supabaseServerClient";
-import { redirect } from "next/navigation";
+"use client";
+
+import { useEffect } from "react";
+import Image from "next/image";
+import { Play, User } from "lucide-react";
+import LandingButton from "~/components/LandingButton";
+import Logo from "~/../public/logo/id8.png";
+import { useRouter, usePathname } from "next/navigation";
 import supabaseClient from "~/api/supabaseConfig";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { useState } from "react";
 
-export default async function OnboardingScreen() {
-	const supabaseServer = createClient();
+export default function Home() {
+	const router = useRouter();
+	const pathname = usePathname();
+	const [user, setUser] = useState<SupabaseUser | null>(null);
+	const [userName, setUserName] = useState<string>("");
 
-	// Fetch the current user
-	const {
-		data: { user },
-	} = await (await supabaseServer).auth.getUser();
+	const getCurrentUser = async () => {
+		console.log("Checking authentication state...");
 
-	// Redirect to login if no user
-	if (!user) {
-		redirect("/auth/login");
-	}
+		const {
+			data: { user },
+			error: authError,
+		} = await supabaseClient.auth.getUser();
 
-	// Check user progress: Fetch profile and project details
-	const { data: userProfile } = await supabaseClient
-		.from("User_Profile")
-		.select("username, bio")
-		.eq("user_id", user.id)
-		.single();
+		if (authError) {
+			console.log("Auth error:", authError);
+			return;
+		}
 
-	const { data: project } = await supabaseClient
-		.from("Projects")
-		.select("project_name, project_description")
-		.eq("user_id", user.id)
-		.single();
+		console.log("Auth state:", user ? "Logged in" : "Not logged in");
+		console.log("User data:", user);
 
-	// Determine if onboarding is complete
-	const isProfileComplete = !!(userProfile?.username && userProfile?.bio);
-	const isProjectComplete = !!(
-		project?.project_name && project?.project_description
-	);
+		if (user) {
+			console.log("Fetching user profile...");
+			setUser(user);
+			// Fetch user profile to get the name
+			const { data: profile, error: profileError } = await supabaseClient
+				.from("User_Profile")
+				.select("username")
+				.eq("user_id", user.id)
+				.single();
 
-	// Redirect to home if onboarding is complete
-	if (isProfileComplete && isProjectComplete) {
-		redirect("/home");
-	}
+			if (profileError) {
+				console.log("Profile fetch error: ", profileError);
+				return;
+			}
 
-	// Show Onboarding page if onboarding is not complete
+			if (profile?.username) {
+				setUserName(profile.username);
+				console.log("Username set to:", profile.username);
+			} else {
+				console.log("No username found in profile, using email fallback");
+			}
+		}
+	};
+
+	void getCurrentUser();
+
+	// Function to handle navigation
+	const handleNavigation = (path: string) => {
+		if (pathname !== path) {
+			void router.push(path);
+		}
+	};
 	return (
-		<>
-			<Onboarding
-				user={user}
-				isProfileComplete={isProfileComplete}
-				isProjectComplete={isProjectComplete}
-			/>
-		</>
+		<main className="min-h-screen">
+			{/* Navigation */}
+			<nav className="fixed z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+				<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+					<Image
+						src={Logo}
+						alt="ID8 Logo"
+						width={40}
+						height={40}
+						style={{ height: "auto", width: "auto" }}
+					/>
+					{user ? (
+						<div className="flex items-center gap-3">
+							<span className="text-sm font-medium text-gray-700">
+								{userName || user.email?.split("@")[0]}
+							</span>
+							<div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors hover:bg-blue-200">
+								<User className="h-5 w-5" />
+							</div>
+						</div>
+					) : (
+						<LandingButton
+							content="Sign In"
+							variant="secondary"
+							onClick={() => handleNavigation("/auth/login")}
+						/>
+					)}
+				</div>
+			</nav>
+
+			{/* Hero Section */}
+			<section className="px-4 pb-16 pt-32">
+				<div className="mx-auto max-w-4xl text-center">
+					<h1 className="mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">
+						Get Honest Feedback from Founders Like You
+					</h1>
+					<p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-lg">
+						Join a community where founders help founders grow. Give feedback,
+						earn credits, and get expert insights on your next big idea.
+					</p>
+					<LandingButton
+						content="Get Started"
+						variant="primary"
+						onClick={() => handleNavigation("/onboarding")}
+					/>
+				</div>
+
+				{/* Video Section */}
+				<div className="group mx-auto mt-16 flex aspect-video max-w-4xl cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-colors hover:bg-black/10">
+					<div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-110">
+						<Play className="text-primary ml-1 h-8 w-8" />
+					</div>
+				</div>
+			</section>
+
+			{/* Features Section */}
+			<section className="bg-secondary/50 py-24">
+				<div className="mx-auto max-w-7xl px-4">
+					<h2 className="mb-16 text-center text-4xl font-semibold antialiased">
+						Our offerings
+					</h2>
+
+					<div className="grid gap-12 md:grid-cols-3">
+						<div className="group space-y-4">
+							<div className="aspect-square overflow-hidden rounded-lg">
+								<Image
+									src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80"
+									alt="Real Reciprocity"
+									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+									width={800}
+									height={800}
+									priority
+								/>
+							</div>
+							<h3 className="text-xl font-semibold">Real Reciprocity</h3>
+							<p className="text-muted-foreground">
+								Give and get feedback—it&apos;s a balanced exchange
+							</p>
+						</div>
+
+						<div className="group space-y-4">
+							<div className="aspect-square overflow-hidden rounded-lg">
+								<Image
+									src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80"
+									alt="No Noise, Just Value"
+									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+									width={800}
+									height={800}
+								/>
+							</div>
+							<h3 className="text-xl font-semibold">No Noise, Just Value</h3>
+							<p className="text-muted-foreground">
+								Every piece of feedback counts, with no upvotes or fluff.
+							</p>
+						</div>
+
+						<div className="group space-y-4">
+							<div className="aspect-square overflow-hidden rounded-lg">
+								<Image
+									src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80"
+									alt="Grow Together"
+									className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+									width={800}
+									height={800}
+								/>
+							</div>
+							<h3 className="text-xl font-semibold">Grow Together</h3>
+							<p className="text-muted-foreground">
+								A trusted community of startup leaders all working toward
+								success.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* CTA Section */}
+			<section className="py-8">
+				<div className="mx-auto max-w-3xl px-4 text-center">
+					<h2 className="mb-6 text-3xl font-bold">Join Us</h2>
+					<p className="text-muted-foreground mb-8">
+						ID8 is now available to the public! Be one of the first to share
+						your project and gain exclusive access to our team&apos;s expertise.
+					</p>
+					<LandingButton
+						content="Jump In"
+						variant="primary"
+						onClick={() => handleNavigation("/project_idea?step=start-project")}
+					/>
+				</div>
+			</section>
+
+			{/* Footer */}
+			<footer className="bg-[#1E1E1E] py-8">
+				<div className="mx-auto max-w-7xl px-4 text-center text-white">
+					<div className="mb-4 text-xl font-bold">ID8</div>
+					<p className="text-muted-foreground text-sm">
+						© 2024 ID8. All rights reserved.
+					</p>
+				</div>
+			</footer>
+		</main>
 	);
 }

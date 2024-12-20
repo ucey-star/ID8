@@ -20,7 +20,7 @@ export async function login(formData: FormData) {
 		return { error: error.message + " or User doesn't exist" };
 	} else {
 		revalidatePath("/", "layout");
-		redirect("/");
+		redirect("/onboarding");
 	}
 }
 
@@ -38,7 +38,7 @@ export async function signUp(formData: FormData) {
 		return { error: error.message };
 	} else {
 		revalidatePath("/", "layout");
-		redirect("/");
+		redirect("/onboarding");
 	}
 }
 
