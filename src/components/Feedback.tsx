@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import FeedbackItem from "./FeedbackItem";
 import supabaseClient from "~/api/supabaseConfig";
+import GradientButton from "../components/GradientButton";
 
 interface FeedbackData {
 	id: string;
 	name: string;
 	timeAgo: string;
 	feedback: string | null;
+	userId: string | null;
 }
 
 interface FeedbackProps {
@@ -59,6 +61,7 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 					: "Anonymous",
 				timeAgo: new Date(comment.created_at).toLocaleString(),
 				feedback: comment.content,
+				userId: comment.user_id,
 			}));
 
 			setFeedbackData(mappedComments);
@@ -106,6 +109,31 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 		}
 	};
 
+	const handleEditComment = async (
+		commentId: string | null,
+		content: string,
+	) => {
+		if (!commentId) return;
+
+		try {
+			const { error } = await supabaseClient
+				.from("Comments")
+				.update({ content })
+				.eq("comment_id", commentId);
+
+			if (error) throw error;
+
+			setFeedbackData((prevData) =>
+				prevData.map((item) =>
+					item.id === commentId ? { ...item, feedback: content } : item,
+				),
+			);
+		} catch (error) {
+			console.error("Error editing comment:", error);
+			alert("Failed to edit comment. Please try again.");
+		}
+	};
+
 	return (
 		<Box
 			sx={{
@@ -120,12 +148,12 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				flexDirection: "column",
 				gap: "var(--spacing-medium)",
 				alignItems: "center",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 			}}
 		>
 			<Typography
 				sx={{
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					fontSize: "28px",
 					fontWeight: 600,
 					lineHeight: "36px",
@@ -154,10 +182,14 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				{feedbackData.length > 0 ? (
 					feedbackData.map((item) => (
 						<FeedbackItem
+							id={item.id}
 							key={item.id}
 							name={item.name}
 							timeAgo={item.timeAgo}
 							feedback={item.feedback}
+							userId={item.userId}
+							currentUserId={userId}
+							onEditComment={handleEditComment}
 						/>
 					))
 				) : (
@@ -172,29 +204,17 @@ const Feedback: React.FC<FeedbackProps> = ({ projectId, userId }) => {
 				value={comment}
 				onChange={(e) => setComment(e.target.value)}
 				sx={{
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 					fontSize: "16px",
 					marginBottom: "var(--spacing-small)",
 				}}
 			/>
 
-			<Button
-				variant="contained"
-				className="custom-next-button"
+			<GradientButton
 				onClick={handleAddComment}
-				sx={{
-					width: "fit-content",
-					minWidth: "120px",
-					padding: "var(--spacing-small) var(--spacing-medium)",
-					whiteSpace: "nowrap",
-					flexShrink: 0,
-					fontFamily: "var(--font-family-outfit)",
-					fontSize: "14px",
-					color: "#FFFFFF",
-				}}
-			>
-				Send
-			</Button>
+				content="SEND"
+				className="w-full"
+			/>
 		</Box>
 	);
 };

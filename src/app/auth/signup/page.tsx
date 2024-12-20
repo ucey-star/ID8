@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import GoogleButton from "~/components/GoogleButton";
 // import InputField from "~/components/InputField";
 // import GradientButton from "~/components/GradientButton";
@@ -11,15 +11,15 @@ import Link from "next/link";
 import useMobile from "~/utils/useMobile";
 
 function SignUp() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
-	const handlePasswordClick = () => {
-		setShowPassword(!showPassword);
-	};
-	const handleSignup = () => {
-		// supabase func for signup
-	};
+	// const [email, setEmail] = useState("");
+	// const [password, setPassword] = useState("");
+	// const [showPassword, setShowPassword] = useState(false);
+	// const handlePasswordClick = () => {
+	// 	setShowPassword(!showPassword);
+	// };
+	// const handleSignup = () => {
+	// 	// supabase func for signup
+	// };
 
 	const isMobile = useMobile();
 

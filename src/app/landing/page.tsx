@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Play } from "lucide-react";
 import LandingButton from "~/components/LandingButton";
 import Logo from "~/../public/logo/id8.png";
 import { useRouter, usePathname } from "next/navigation";
@@ -8,50 +9,6 @@ import { useRouter, usePathname } from "next/navigation";
 export default function Home() {
 	const router = useRouter();
 	const pathname = usePathname();
-	// const [user, setUser] = useState<SupabaseUser | null>(null);
-	// const [userName, setUserName] = useState<string>("");
-
-	// const getCurrentUser = async () => {
-	// 	console.log("Checking authentication state...");
-
-	// 	const {
-	// 		data: { user },
-	// 		error: authError,
-	// 	} = await supabaseClient.auth.getUser();
-
-	// 	if (authError) {
-	// 		console.log("Auth error:", authError);
-	// 		return;
-	// 	}
-
-	// 	console.log("Auth state:", user ? "Logged in" : "Not logged in");
-	// 	console.log("User data:", user);
-
-	// 	if (user) {
-	// 		console.log("Fetching user profile...");
-	// 		setUser(user);
-	// 		// Fetch user profile to get the name
-	// 		const { data: profile, error: profileError } = await supabaseClient
-	// 			.from("User_Profile")
-	// 			.select("username")
-	// 			.eq("user_id", user.id)
-	// 			.single();
-
-	// 		if (profileError) {
-	// 			console.log("Profile fetch error: ", profileError);
-	// 			return;
-	// 		}
-
-	// 		if (profile?.username) {
-	// 			setUserName(profile.username);
-	// 			console.log("Username set to:", profile.username);
-	// 		} else {
-	// 			console.log("No username found in profile, using email fallback");
-	// 		}
-	// 	}
-	// };
-
-	// void getCurrentUser();
 
 	// Function to handle navigation
 	const handleNavigation = (path: string) => {
@@ -64,13 +21,7 @@ export default function Home() {
 			{/* Navigation */}
 			<nav className="fixed z-50 w-full border-b bg-white/80 backdrop-blur-sm">
 				<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-					<Image
-						src={Logo}
-						alt="ID8 Logo"
-						width={40}
-						height={40}
-						style={{ height: "auto", width: "auto" }}
-					/>
+					<Image src={Logo} alt="ID8 Logo" width={40} height={40} />
 					<LandingButton
 						content="Sign In"
 						variant="secondary"
@@ -92,17 +43,15 @@ export default function Home() {
 					<LandingButton
 						content="Get Started"
 						variant="primary"
-						onClick={() => handleNavigation("/onboarding")}
+						onClick={() => handleNavigation("/auth/login")}
 					/>
 				</div>
 
 				{/* Video Section */}
-				<div className="group mx-auto mt-16 flex aspect-video max-w-4xl cursor-pointer items-center justify-center rounded-lg">
-					<iframe
-						className="aspect-video w-full rounded-lg"
-						src="https://www.youtube.com/embed/99PSfSGZo9s"
-						allowFullScreen
-					/>
+				<div className="group mx-auto mt-16 flex aspect-video max-w-4xl cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-colors hover:bg-black/10">
+					<div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-110">
+						<Play className="text-primary ml-1 h-8 w-8" />
+					</div>
 				</div>
 			</section>
 

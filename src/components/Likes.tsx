@@ -20,7 +20,7 @@ const Likes = ({ likes }: { likes: number }) => {
 				sx={{
 					fontSize: "14px",
 					color: "var(--color-text-primary)",
-					fontFamily: "var(--font-family-outfit)",
+					fontFamily: "Outfit, sans-serif",
 				}}
 			>
 				{likes}
