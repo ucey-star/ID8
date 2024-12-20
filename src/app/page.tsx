@@ -1,62 +1,58 @@
 "use client";
 
-import { useEffect } from "react";
 import Image from "next/image";
-import { Play, User } from "lucide-react";
+import { Play } from "lucide-react";
 import LandingButton from "~/components/LandingButton";
 import Logo from "~/../public/logo/id8.png";
 import { useRouter, usePathname } from "next/navigation";
-import supabaseClient from "~/api/supabaseConfig";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
-import { useState } from "react";
 
 export default function Home() {
 	const router = useRouter();
 	const pathname = usePathname();
-	const [user, setUser] = useState<SupabaseUser | null>(null);
-	const [userName, setUserName] = useState<string>("");
+	// const [user, setUser] = useState<SupabaseUser | null>(null);
+	// const [userName, setUserName] = useState<string>("");
 
-	const getCurrentUser = async () => {
-		console.log("Checking authentication state...");
+	// const getCurrentUser = async () => {
+	// 	console.log("Checking authentication state...");
 
-		const {
-			data: { user },
-			error: authError,
-		} = await supabaseClient.auth.getUser();
+	// 	const {
+	// 		data: { user },
+	// 		error: authError,
+	// 	} = await supabaseClient.auth.getUser();
 
-		if (authError) {
-			console.log("Auth error:", authError);
-			return;
-		}
+	// 	if (authError) {
+	// 		console.log("Auth error:", authError);
+	// 		return;
+	// 	}
 
-		console.log("Auth state:", user ? "Logged in" : "Not logged in");
-		console.log("User data:", user);
+	// 	console.log("Auth state:", user ? "Logged in" : "Not logged in");
+	// 	console.log("User data:", user);
 
-		if (user) {
-			console.log("Fetching user profile...");
-			setUser(user);
-			// Fetch user profile to get the name
-			const { data: profile, error: profileError } = await supabaseClient
-				.from("User_Profile")
-				.select("username")
-				.eq("user_id", user.id)
-				.single();
+	// 	if (user) {
+	// 		console.log("Fetching user profile...");
+	// 		setUser(user);
+	// 		// Fetch user profile to get the name
+	// 		const { data: profile, error: profileError } = await supabaseClient
+	// 			.from("User_Profile")
+	// 			.select("username")
+	// 			.eq("user_id", user.id)
+	// 			.single();
 
-			if (profileError) {
-				console.log("Profile fetch error: ", profileError);
-				return;
-			}
+	// 		if (profileError) {
+	// 			console.log("Profile fetch error: ", profileError);
+	// 			return;
+	// 		}
 
-			if (profile?.username) {
-				setUserName(profile.username);
-				console.log("Username set to:", profile.username);
-			} else {
-				console.log("No username found in profile, using email fallback");
-			}
-		}
-	};
+	// 		if (profile?.username) {
+	// 			setUserName(profile.username);
+	// 			console.log("Username set to:", profile.username);
+	// 		} else {
+	// 			console.log("No username found in profile, using email fallback");
+	// 		}
+	// 	}
+	// };
 
-	void getCurrentUser();
+	// void getCurrentUser();
 
 	// Function to handle navigation
 	const handleNavigation = (path: string) => {
@@ -76,22 +72,11 @@ export default function Home() {
 						height={40}
 						style={{ height: "auto", width: "auto" }}
 					/>
-					{user ? (
-						<div className="flex items-center gap-3">
-							<span className="text-sm font-medium text-gray-700">
-								{userName || user.email?.split("@")[0]}
-							</span>
-							<div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors hover:bg-blue-200">
-								<User className="h-5 w-5" />
-							</div>
-						</div>
-					) : (
-						<LandingButton
-							content="Sign In"
-							variant="secondary"
-							onClick={() => handleNavigation("/auth/login")}
-						/>
-					)}
+					<LandingButton
+						content="Sign In"
+						variant="secondary"
+						onClick={() => handleNavigation("/auth/login")}
+					/>
 				</div>
 			</nav>
 
@@ -113,10 +98,12 @@ export default function Home() {
 				</div>
 
 				{/* Video Section */}
-				<div className="group mx-auto mt-16 flex aspect-video max-w-4xl cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-colors hover:bg-black/10">
-					<div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-110">
-						<Play className="text-primary ml-1 h-8 w-8" />
-					</div>
+				<div className="group mx-auto mt-16 flex aspect-video max-w-4xl cursor-pointer items-center justify-center rounded-lg">
+					<iframe
+						className="aspect-video w-full rounded-lg"
+						src="https://www.youtube.com/embed/99PSfSGZo9s"
+						allowFullScreen
+					/>
 				</div>
 			</section>
 

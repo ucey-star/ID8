@@ -55,7 +55,7 @@ export async function signInWIthGoogle() {
 				access_type: "offline",
 				prompt: "consent",
 			},
-			redirectTo: `${origin}/auth/callback`,
+			redirectTo: `${origin}/auth/callback?next=/onboarding`,
 		},
 	});
 

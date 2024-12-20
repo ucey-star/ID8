@@ -10,7 +10,7 @@ import Image from "next/image";
 import id8Logo from "../../../../public/logo/id8.png";
 import useMobile from "~/utils/useMobile";
 
-function SignUp() {
+function SignIn() {
 	// const [email, setEmail] = useState("");
 	// const [password, setPassword] = useState("");
 	// const [showPassword, setShowPassword] = useState(false);
@@ -76,4 +76,4 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default SignIn;
