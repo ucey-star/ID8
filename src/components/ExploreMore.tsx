@@ -33,7 +33,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 				flexDirection: "column",
 				gap: "var(--spacing-medium)",
 				alignItems: "center",
-				fontFamily: "var(--font-family-outfit)",
+				fontFamily: "Outfit, sans-serif",
 				marginBottom: "12px",
 			}}
 		>
@@ -58,7 +58,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ data, onBack }) => {
 				/>
 				<Typography
 					sx={{
-						fontFamily: "var(--font-family-outfit)",
+						fontFamily: "Outfit, sans-serif",
 						fontSize: "32px",
 						fontWeight: 600,
 						lineHeight: "40.32px",
