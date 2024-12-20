@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Play } from "lucide-react";
 import LandingButton from "~/components/LandingButton";
 import Logo from "~/../public/logo/id8.png";
 import { useRouter, usePathname } from "next/navigation";
