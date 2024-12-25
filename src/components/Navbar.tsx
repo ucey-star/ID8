@@ -4,14 +4,24 @@ import React from "react";
 import { User, Home, LogOut, Folder } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import supabaseClient from "~/api/supabaseConfig";
 import useMobile from "~/utils/useMobile";
+import { Snackbar, Alert } from "@mui/material";
 
 const Navbar: React.FC = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const isMobile = useMobile();
+	const [snackbar, setSnackbar] = useState<{
+		open: boolean;
+		message: string;
+		severity: "success" | "error" | "info" | "warning";
+	}>({
+		open: false,
+		message: "",
+		severity: "success",
+	});
 
 	// Function to handle navigation
 	const handleNavigation = (path: string) => {
@@ -26,11 +36,14 @@ const Navbar: React.FC = () => {
 			const { error } = await supabaseClient.auth.signOut();
 			if (error) throw error;
 			void router.push("/auth/login");
-		} catch (error) {
-			console.error("Error logging out:", error);
+		} catch {
+			setSnackbar({
+				open: true,
+				message: "Error logging out. Please try again.",
+				severity: "error",
+			});
 		}
 	};
-
 	// Prefetch routes for faster navigation
 	useEffect(() => {
 		void router.prefetch("/my_projects");
@@ -46,66 +59,81 @@ const Navbar: React.FC = () => {
 		} text-indigo-600`;
 
 	return (
-		<nav
-			className={`flex ${isMobile ? "justify-between space-x-10 px-6" : "justify-center space-x-16"} bg-transparent ${isMobile ? "py-4" : "py-8"}`}
-		>
-			<div
-				onClick={() => handleNavigation("/my_projects")}
-				className={linkClasses("/my_projects")}
+		<>
+			<nav
+				className={`flex ${isMobile ? "justify-between space-x-10 px-6" : "justify-center space-x-16"} bg-transparent ${isMobile ? "py-4" : "py-8"}`}
 			>
 				<div
-					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					onClick={() => handleNavigation("/my_projects")}
+					className={linkClasses("/my_projects")}
 				>
-					<Folder
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
-						aria-label="My Projects"
-					/>
+					<div
+						className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					>
+						<Folder
+							className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+							aria-label="My Projects"
+						/>
+					</div>
+					{!isMobile && <p>My Projects</p>}
 				</div>
-				{!isMobile && <p>My Projects</p>}
-			</div>
-			<div
-				onClick={() => handleNavigation("/home")}
-				className={linkClasses("/home")}
-			>
 				<div
-					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					onClick={() => handleNavigation("/home")}
+					className={linkClasses("/home")}
 				>
-					<Home
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
-						aria-label="Home"
-					/>
+					<div
+						className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					>
+						<Home
+							className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+							aria-label="Home"
+						/>
+					</div>
+					{!isMobile && <p>Home</p>}
 				</div>
-				{!isMobile && <p>Home</p>}
-			</div>
-			<div
-				onClick={() => handleNavigation("/personal-details")}
-				className={linkClasses("/personal-details")}
-			>
 				<div
-					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					onClick={() => handleNavigation("/personal-details")}
+					className={linkClasses("/personal-details")}
 				>
-					<User
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
-						aria-label="Profile"
-					/>
+					<div
+						className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					>
+						<User
+							className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+							aria-label="Profile"
+						/>
+					</div>
+					{!isMobile && <p>Profile</p>}
 				</div>
-				{!isMobile && <p>Profile</p>}
-			</div>
-			<div
-				onClick={handleLogout}
-				className={`flex cursor-pointer ${isMobile ? "flex-col items-center" : "flex-col items-center hover:cursor-pointer"} text-indigo-600`}
-			>
 				<div
-					className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					onClick={handleLogout}
+					className={`flex cursor-pointer ${isMobile ? "flex-col items-center" : "flex-col items-center hover:cursor-pointer"} text-indigo-600`}
 				>
-					<LogOut
-						className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
-						aria-label="Logout"
-					/>
+					<div
+						className={`group flex ${isMobile ? "h-12 w-12" : "h-14 w-14"} items-center justify-center rounded-lg transition-all duration-200 hover:border-2 hover:border-indigo-600`}
+					>
+						<LogOut
+							className={`${isMobile ? "h-7 w-7" : "h-8 w-8"} text-indigo-600`}
+							aria-label="Logout"
+						/>
+					</div>
+					{!isMobile && <p>Logout</p>}
 				</div>
-				{!isMobile && <p>Logout</p>}
-			</div>
-		</nav>
+			</nav>
+			<Snackbar
+				open={snackbar.open}
+				autoHideDuration={3000}
+				onClose={() => setSnackbar({ ...snackbar, open: false })}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			>
+				<Alert
+					severity={snackbar.severity}
+					onClose={() => setSnackbar({ ...snackbar, open: false })}
+				>
+					{snackbar.message}
+				</Alert>
+			</Snackbar>
+		</>
 	);
 };
 

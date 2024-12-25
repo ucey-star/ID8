@@ -57,7 +57,6 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			if (!user) {
-				console.warn("User is not logged in.");
 				setLoading(false);
 				return;
 			}
